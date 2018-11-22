@@ -1,0 +1,14 @@
+{
+  "SECRET_KEY": "ThisIsARandomStringWithLength=50!-----------------",
+  "DEBUG": true,
+  "IGNORE_WECHAT_SIGNATURE": true,
+  "WECHAT_TOKEN": "ThisIsAWeChatToken",
+  "WECHAT_APPID": "wx00c7dcf61bfa893c",
+  "WECHAT_SECRET": "a52f865317099c91816ad7e778281543",
+  "DB_NAME": "comment",
+  "DB_USER": "root",
+  "DB_PASS": "123456",
+  "DB_HOST": "127.0.0.1",
+  "DB_PORT": "3306",
+  "SITE_DOMAIN": "http://2240y0r795.iask.in/"
+}
