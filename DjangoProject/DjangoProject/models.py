@@ -4,13 +4,14 @@ from django.contrib.auth.models import User
 import django.utils.timezone as timezone
 import os
 import pandas as pd
+import logging
 
 class Activity(models.Model):
 	id = models.AutoField(primary_key=True)
-	
 	def getPath(self):
 		return os.path.join('images', self.id)
-	
+	name = models.CharField(max_length=100)
+	place = models.CharField(max_length=100)
 	organizer = models.ForeignKey(User, on_delete=models.CASCADE)
 	description = models.CharField(max_length=300)
 	pic_url = models.ImageField(upload_to=getPath(), max_length=255)
@@ -46,7 +47,7 @@ class Activity(models.Model):
 		try:
 			activity = Activity.objects.get(id=id)
 		except Exception as e:
-			print(e)
+			logging.error(e)
 			return None
 		return activity
 	
@@ -84,7 +85,7 @@ class Programe(models.Model):
 		try:
 			pro = Programe.objects.get(id)
 		except Exception as e:
-			print(e)
+			logging.error(e)
 			return None
 		return pro
 	
@@ -133,7 +134,14 @@ class Programe(models.Model):
 class ActivityUser(models.Model):
 	open_id = models.CharField(max_length=100)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
-	status = models.IntegerField()#禁言状态
+	status = models.IntegerField()#禁言状态,关注状态，签到状态
+	NO_SPEAKING  = 1
+	FOLLOW = 2
+	SIGN = 3
+	
+	def __init__(self):
+		self.status = self.FOLLOW
+	
 	@staticmethod
 	def insertActivityUser(open_id,activity):
 		if activity is None:
@@ -144,20 +152,80 @@ class ActivityUser(models.Model):
 		actuser = ActivityUser(open_id=open_id,activity=activity)
 		actuser.save()
 		return True
+	
+	def onSign(self):
+		if self.status != self.NO_SPEAKING:
+			self.status = self.SIGN
+			return True
+		else:
+			return False
 
-
-class Comment(models.Model):
+class Barrage(models.Model):
 	id = models.AutoField(primary_key=True)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
 	# user = models.ForeignKey(ActivityUser,on_delete=models.CASCADE)
 	open_id = models.CharFiled(max_length=100)
 	status = models.IntegerField()
+	time = models.DateTimeField(default=timezone.now())
+	OK = 1
+	NOT_OK = 2
+	class Meta:
+		abstract = True
+		
+		
+	
+
+class Comment(Barrage):
 	content = models.CharField(max_length=100)
 	color = models.IntegerField()
 	bolt = models.BooleanField()
-	unerline = models.BooleanField()
+	underline = models.BooleanField()
 	incline = models.BooleanField()
-	time = models.DateTimeField(default=timezone.now())
+	
+	@staticmethod
+	def insertComment(user, content, color, bolt, underline, incline, time, status=Barrage.OK):
+		comment = Comment(user=user, color=color, content=content, bolt=bolt, underline=underline, incline=incline,
+		                  time=time, status=status)
+		comment.save()
+	
+	@staticmethod
+	def selectById(id):
+		try:
+			comment = Comment.objects.get(id=id)
+		except Exception as e:
+			logging.error(e)
+			return None
+		return comment
+	
+	@staticmethod
+	def selectByActivityAndId(activity, id):
+		comments = Comment.objects.filter(activity=activity).filter(id__gt=id)
+		return comments
+	
+	
+
+class Picture(Barrage):
+	pic_url = models.ImageField(upload_to='',max_length=255)
+	
+	@staticmethod
+	def insertComment(user, pic_url, time, status=Barrage.OK):
+		pic = Picture(user=user,pic_url=pic_url,
+		                  time=time, status=status)
+		pic.save()
+	
+	@staticmethod
+	def selectById(id):
+		try:
+			pic = Picture.objects.get(id=id)
+		except Exception as e:
+			logging.error(e)
+			return None
+		return pic
+	
+	@staticmethod
+	def selectByActivityAndId(activity, id):
+		pics = Picture.objects.filter(activity=activity).filter(id__gt=id)
+		return pics
 
 
 class Lottery(models.Model):
@@ -202,6 +270,9 @@ class Lottery(models.Model):
 			to_add.save()
 		self.status = self.FINISH
 		return True
+	
+	def getResult(self):
+		pass
 
 
 class LotteryResult(models.Model):
