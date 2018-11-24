@@ -25,9 +25,9 @@ class Activity(models.Model):
 	DELETE = 3
 	
 	@staticmethod
-	def insertActivity(organizer, description, pic_url, start_time, end_time, bg_pic_url, status):
+	def insertActivity(organizer, description, pic_url, start_time, end_time, bg_pic_url, status, place, name):
 		activity = Activity(organizer=organizer, description=description, pic_url=pic_url, start_time=start_time,
-		                    end_time=end_time, bg_pic_url=bg_pic_url, status=status)
+		                    end_time=end_time, bg_pic_url=bg_pic_url, status=status, place=place ,name=name)
 		activity.save()
 	
 	@staticmethod
@@ -42,6 +42,7 @@ class Activity(models.Model):
 		activities = Activity.objects.filter(organizer=organizer).order_by('start_time')
 		return activities
 	
+
 	@staticmethod
 	def selectById(id):
 		try:
@@ -52,7 +53,7 @@ class Activity(models.Model):
 		return activity
 	
 	@staticmethod
-	def updateActivity(id, organizer, description, pic_url, start_time, end_time, bg_pic_url, status):
+	def updateActivity(id, organizer, description, pic_url, start_time, end_time, bg_pic_url, status, place , name):
 		activity = Activity.selectById(id)
 		if activity is None:
 			return False
@@ -63,9 +64,11 @@ class Activity(models.Model):
 		activity.end_time = end_time
 		activity.bg_pic_url = bg_pic_url
 		activity.status = status
+		activity.place = place
+		activity.name = name
 		activity.save()
+		
 		return True
-
 
 class Programe(models.Model):
 	id = models.AutoField(primary_key=True)
