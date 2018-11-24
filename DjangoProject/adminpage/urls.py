@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^register/?$',Register.as_view()),
     url(r'^activity/bgpic/?$', ImageUpload.as_view()),
     url(r'^activity/status/?$', ActivityStatus.as_view()),
-    url(r'^activity/delete/?$', ActivityDelete.as_view()),
+    url(r'^activity/delete/?$', Activityelete.as_view()),
     url(r'^activity/create/?$', ActivityCreate.as_view()),
     url(r'^activity/detail/?$', ActivityDetail.as_view()),
     url(r'^activity/list/?$', ActivityList.as_view()),
