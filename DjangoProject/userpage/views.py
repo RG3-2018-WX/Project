@@ -8,21 +8,20 @@ import datetime
 import re
 
 class ActivityList(APIView):
-    def get(self):
-        activity_list = Activity.objects.filter(status=[0,1])
-        show_list=[]
-        for activity in activity_list:
-            show_list.append(
+ def get(self):
+        show_list = ActivityUser.activitySelcetedByUser(self.input['open_id'])
+        list = []
+        for i in show_list:
+            list.append(
                 {
-                    'name':activity.name,
-                    'description':activity.description,
-                    'place':activity.place,
-                    'startTime':activity.startTime,
-                    'endTime':activity.endTime
-
+                    'name': i.name,
+                    'description': i.description,
+                    'startTime':i.start_time,
+                    'place': i.place,
+                    'endTime':i.end_time
                 }
             )
-        return show_list
+        return list
 class ActivityDetail(APIView):
     def get(self):
         self.check_input('activityId')
