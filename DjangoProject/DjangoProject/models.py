@@ -162,6 +162,22 @@ class ActivityUser(models.Model):
 			return True
 		else:
 			return False
+	@staticmethod
+	def activitySelcetedByUser(open_id):
+		list = ActivityUser.objects.filter(open_id=open_id)
+		showlist = []
+		for i in list:
+			show_list.append(
+				{
+					'name': i.activity.name,
+					'description': i.activity.description,
+					'place': i.activity.place,
+					'startTime': i.activity.startTime,
+					'endTime': i.activity.endTime
+
+				}
+			)
+		return showlist
 
 
 class Barrage(models.Model):
@@ -173,7 +189,7 @@ class Barrage(models.Model):
 	time = models.DateTimeField(default=timezone.now())
 	OK = 1
 	NOT_OK = 2
-	
+	TOP = 3
 	class Meta:
 		abstract = True
 
@@ -186,8 +202,8 @@ class Comment(Barrage):
 	incline = models.BooleanField()
 	
 	@staticmethod
-	def insertComment(user, content, color, bolt, underline, incline, time, status=Barrage.OK):
-		comment = Comment(user=user, color=color, content=content, bolt=bolt, underline=underline, incline=incline,
+	def insertComment(activity,open_id, content, color, bolt, underline, incline, time, status=Barrage.OK):
+		comment = Comment(activity=activity,open_id=open_id, color=color, content=content, bolt=bolt, underline=underline, incline=incline,
 		                  time=time, status=status)
 		comment.save()
 	
@@ -210,9 +226,10 @@ class Picture(Barrage):
 	pic_url = models.ImageField(upload_to='', max_length=255)
 	
 	@staticmethod
-	def insertComment(user, pic_url, time, status=Barrage.OK):
-		pic = Picture(user=user, pic_url=pic_url,
-		              time=time, status=status)
+
+	def insertComment(activity,open_id, pic_url, time, status=Barrage.OK):
+		pic = Picture(activity=activity,open_id=open_id,pic_url=pic_url,
+		                  time=time, status=status)
 		pic.save()
 	
 	@staticmethod

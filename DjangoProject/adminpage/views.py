@@ -272,6 +272,7 @@ class LotteryStatus(APIView):
 		lottery = Lottery.objects.get(id=self.input[id])
 		if lottery:
 			lottery.status = self.input['status']
+			lottery.save()
 		else:
 			raise LogicError('no such activity')
 
