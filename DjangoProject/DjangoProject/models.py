@@ -6,10 +6,13 @@ import os
 import pandas as pd
 import logging
 
+
 class Activity(models.Model):
 	id = models.AutoField(primary_key=True)
+	
 	def getPath(self):
 		return os.path.join('images', self.id)
+	
 	name = models.CharField(max_length=100)
 	place = models.CharField(max_length=100)
 	organizer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -27,7 +30,7 @@ class Activity(models.Model):
 	@staticmethod
 	def insertActivity(organizer, description, pic_url, start_time, end_time, bg_pic_url, status, place, name):
 		activity = Activity(organizer=organizer, description=description, pic_url=pic_url, start_time=start_time,
-		                    end_time=end_time, bg_pic_url=bg_pic_url, status=status, place=place ,name=name)
+		                    end_time=end_time, bg_pic_url=bg_pic_url, status=status, place=place, name=name)
 		activity.save()
 	
 	@staticmethod
@@ -42,7 +45,6 @@ class Activity(models.Model):
 		activities = Activity.objects.filter(organizer=organizer).order_by('start_time')
 		return activities
 	
-
 	@staticmethod
 	def selectById(id):
 		try:
@@ -53,7 +55,7 @@ class Activity(models.Model):
 		return activity
 	
 	@staticmethod
-	def updateActivity(id, organizer, description, pic_url, start_time, end_time, bg_pic_url, status, place , name):
+	def updateActivity(id, organizer, description, pic_url, start_time, end_time, bg_pic_url, status, place, name):
 		activity = Activity.selectById(id)
 		if activity is None:
 			return False
@@ -70,6 +72,7 @@ class Activity(models.Model):
 		
 		return True
 
+
 class Programe(models.Model):
 	id = models.AutoField(primary_key=True)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
@@ -79,10 +82,10 @@ class Programe(models.Model):
 	actors = models.CharField(max_length=100, default='')
 	
 	@staticmethod
-	def insertPrograme(activity,name,description,sequence,actors):
-		programe = Programe(activity=activity,name=name,description=description,sequence=sequence,actors=actors)
+	def insertPrograme(activity, name, description, sequence, actors):
+		programe = Programe(activity=activity, name=name, description=description, sequence=sequence, actors=actors)
 		programe.save()
-		
+	
 	@staticmethod
 	def selectById(id):
 		try:
@@ -107,8 +110,6 @@ class Programe(models.Model):
 		pros = Programe.selectByActivity(activity)
 		for i in range(len(pros)):
 			pros[i].sequence = i
-			
-			
 	
 	@staticmethod
 	def deletePrograme(id):
@@ -117,28 +118,27 @@ class Programe(models.Model):
 			return False
 		else:
 			programe.delete()
-			
+	
 	@staticmethod
-	def updatePrograme(id,name = '',description = '',actors = '',sequence = -1):
+	def updatePrograme(id, name='', description='', actors='', sequence=-1):
 		pro = Programe.selectById(id)
 		if pro is None:
 			return False
 		if name != '':
 			pro.name = name
 		if description != '':
-			pro.description  = description
+			pro.description = description
 		if sequence != -1:
 			pro.sequence = sequence
 		pro.actors = actors
 		return True
-	
 
 
 class ActivityUser(models.Model):
 	open_id = models.CharField(max_length=100)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
-	status = models.IntegerField()#禁言状态,关注状态，签到状态
-	NO_SPEAKING  = 1
+	status = models.IntegerField()  # 禁言状态,关注状态，签到状态
+	NO_SPEAKING = 1
 	FOLLOW = 2
 	SIGN = 3
 	
@@ -146,13 +146,13 @@ class ActivityUser(models.Model):
 		self.status = self.FOLLOW
 	
 	@staticmethod
-	def insertActivityUser(open_id,activity):
+	def insertActivityUser(open_id, activity):
 		if activity is None:
 			return False
-		t = ActivityUser.objects.filter(activity=activity,open_id=open_id)
+		t = ActivityUser.objects.filter(activity=activity, open_id=open_id)
 		if len(t):
 			return False
-		actuser = ActivityUser(open_id=open_id,activity=activity)
+		actuser = ActivityUser(open_id=open_id, activity=activity)
 		actuser.save()
 		return True
 	
@@ -163,6 +163,7 @@ class ActivityUser(models.Model):
 		else:
 			return False
 
+
 class Barrage(models.Model):
 	id = models.AutoField(primary_key=True)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
@@ -172,11 +173,10 @@ class Barrage(models.Model):
 	time = models.DateTimeField(default=timezone.now())
 	OK = 1
 	NOT_OK = 2
+	
 	class Meta:
 		abstract = True
-		
-		
-	
+
 
 class Comment(Barrage):
 	content = models.CharField(max_length=100)
@@ -204,16 +204,15 @@ class Comment(Barrage):
 	def selectByActivityAndId(activity, id):
 		comments = Comment.objects.filter(activity=activity).filter(id__gt=id)
 		return comments
-	
-	
+
 
 class Picture(Barrage):
-	pic_url = models.ImageField(upload_to='',max_length=255)
+	pic_url = models.ImageField(upload_to='', max_length=255)
 	
 	@staticmethod
 	def insertComment(user, pic_url, time, status=Barrage.OK):
-		pic = Picture(user=user,pic_url=pic_url,
-		                  time=time, status=status)
+		pic = Picture(user=user, pic_url=pic_url,
+		              time=time, status=status)
 		pic.save()
 	
 	@staticmethod
@@ -246,6 +245,45 @@ class Lottery(models.Model):
 	FINISH = 2
 	DELETE = 3
 	
+	@staticmethod
+	def insertLottery(activity,name,description,first = 0,second = 0,third = 0,special = 0,status =PREPARING):
+		lottery = Lottery(activity=activity,name=name,description=description,first=first,second=second,third=third,special=special,status=status)
+		lottery.save()
+		
+	@staticmethod
+	def selectById(id):
+		try:
+			lottery = Lottery.objects.get(id=id)
+		except Exception as e:
+			logging.error(e)
+			return None
+		return lottery
+	
+	@staticmethod
+	def selectByActivity(activity):
+		activities = Lottery.objects.filter(activity=activity)
+		return activities
+	
+	@staticmethod
+	def updateLottery(id,name,description,first = 0,second = 0,third = 0,special = 0,status =PREPARING):
+		lottery = Lottery.selectById(id)
+		if lottery is None:
+			pass
+		lottery.name = name
+		lottery.description = description
+		lottery.first = first
+		lottery.second = second
+		lottery.third  = third
+		lottery.special = special
+		lottery.status = status
+		lottery.save()
+	
+	@staticmethod
+	def deleteLottery(id):
+		lottery = Lottery.selectById(id)
+		if lottery is not None:
+			lottery.status = Lottery.DELETE
+		
 	def running(self):
 		if self.status != self.PREPARING:
 			return False
@@ -257,7 +295,7 @@ class Lottery(models.Model):
 			lucky.append(users[0][indexs])
 		count = 0
 		for i in range(self.first):
-			to_add = LotteryResult(open_id=lucky[count + i].open_id,lottery=self,prize=LotteryResult.FIRST)
+			to_add = LotteryResult(open_id=lucky[count + i].open_id, lottery=self, prize=LotteryResult.FIRST)
 			to_add.save()
 		count += self.first
 		for i in range(self.second):
