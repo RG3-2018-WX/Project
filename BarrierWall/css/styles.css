@@ -26,11 +26,12 @@
 }
 
 #Tc {
+    left: 20%;
     top: 12%;
     float: right; 
     width: 80%; 
     overflow: hidden; 
-    height: 90%; 
+    height: 85%; 
     border-radius: 3px; 
     position: absolute;
 }
@@ -78,6 +79,10 @@ ul li{
 
 .con{
     padding: 10px;
+    word-wrap: break-word; 
+    word-break: normal;
+    table-layout: fixed;
+    overflow: auto; 
 }
 
 .con ul li{
@@ -97,6 +102,10 @@ ul li{
     color: #ff6700;
     display: block;
     font-size: 16px;
+    word-wrap: break-word; 
+    word-break: normal;
+    table-layout: fixed;
+    overflow: auto; 
 }
 
 .con ul li p{
@@ -157,6 +166,22 @@ body {
 }
 
 #danmu {
+    height: 42px;
+    float: left;
+    background: #ff6700;
+    color: #fff;
+    line-height: 40px;
+    border: 1px solid #ff6700;
+    border-radius: 0 3px 3px 0;
+    width: 100px;
+    margin-top: 10px;
+    display: block;
+    cursor: pointer;
+    font-size: 16px;
+    border-left: 1px solid #fff;
+}
+
+#picture {
     height: 42px;
     float: left;
     background: #ff6700;

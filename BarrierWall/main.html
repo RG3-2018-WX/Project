@@ -13,7 +13,9 @@
             </div>
 
 			<div id="Tc">
-				<div id="tc"></div>
+				<div id="tc">
+
+				</div>
 			</div>	
 
 			<div id="CON">
@@ -36,6 +38,7 @@
 				<input type="text" name="" id="text" v-model="newPerson.content" value="" placeholder="这里输入聊天内容"/>
 				<input type="submit" id="createPerson" @click="createPerson" value="发送"/>	
 				<input type="submit" id="danmu" @click="danmu" value="弹幕发送"/>		
+				<input type="submit" id="picture" @click="picture" value="图片发送"/>		
 			</div>
 		</div>
 	</body>
@@ -46,6 +49,7 @@
 	<script>
 	    var timer = null;
 	    function $(id) { return document.getElementById(id) };
+	    var linenumber = 5;
 
 	    new Vue({
 	        el: '#app',
@@ -54,7 +58,7 @@
 	            addressList: [],
 	            timer: null,
 	            newarr: [],
-	            contents: "欢迎参加",
+	            contents: "",
 	            newPerson: {
 	                person: '消息',
 	                content: '',
@@ -82,6 +86,37 @@
 	                }
 	            },
 
+	            picture: function () {
+	                if (this.newPerson.content != "") {
+	                    var _this = this;
+	                    // 添加完newPerson对象
+	                    this.addressList.push(this.newPerson);
+	                    // 添加完newPerson对象后，重置newPerson对象
+	                    this.newPerson = { person: '消息', content: '', headPortrait: 'images/1.jpg' };
+	                    setTimeout(function () {//延时改变滚动条高度
+	                        var div = document.getElementById('con');
+	                        var div1 = document.getElementById('con1');
+	                        div.scrollTop = div1.offsetHeight;
+	                    });
+
+	                    //danmu
+	                    var newarr = [];
+	                    clearInterval(timer);
+	                    var newnode = document.createElement("img");
+	                    newnode.innerHTML = text;
+	                    var num = parseInt((Math.random() * 10) % linenumber);
+	                    var num2 = parseInt(($("tc").offsetHeight) / linenumber);
+	                    newnode.style.background = "url(images/1.jpg)"
+	                    newnode.style.top = (num * num2) + "px";
+	                    newnode.style.height = num2 + "px";
+	                    newnode.style.left = "100%";
+	                    newnode.src = "images/1.jpg";
+	                    newnode.style.position = "relative";
+	                    $("tc").appendChild(newnode);
+	                    timer = setInterval(this.move2, 0.1);
+	                }
+	            },
+
 	            danmu: function () {
 	                if (this.newPerson.content != "") {
 	                    var _this = this;
@@ -100,27 +135,45 @@
 	                    clearInterval(timer);
 	                    var text = $("text").value;
 	                    var newnode = document.createElement("div");
-	                    newnode.innerHTML = "消息：" + text;
-	                    while (1) {
-	                        var num = Math.random() * ($("tc").offsetWidth - 20);
-	                        if (num <= ($("tc").offsetHeight))
-	                            break;
-	                    }
-	                    newnode.style.top = num + "px";
-
+	                    newnode.innerHTML = text;
+	                    var num = parseInt( (Math.random() * 10) % linenumber );
+	                    var num2 = parseInt( ($("tc").offsetHeight) / linenumber );
+	                    newnode.style.top = (num * num2) + "px";
+	                    newnode.style.height = num2 + "px";
+	                    newnode.style.fontSize = num2 + "px";
+	                    newnode.style.textAlign = "center";
+	                    newnode.style.lineHeight = "100%";
+	                    newnode.style.display = "flex";
 	                    newnode.style.left = "100%";
 	                    newnode.style.background = "#" + this.randomColor();
 	                    $("tc").appendChild(newnode);
-	                    timer = setInterval(this.move, 0.5);
+	                    timer = setInterval(this.move, 0.1);
 	                }
 	            },
 
 	            move: function () {
 	                var arr = $("tc").getElementsByTagName("div");
 	                for (var i = 0; i < arr.length; i++) {
-	                    var num = arr[i].offsetLeft - 1;
+	                    var num2 = ((($("tc").offsetWidth) + (2 * arr[i].offsetWidth)) / 2000);
+	                    if (num2 <= 1)
+	                        num2 = 1;
+	                    var num = arr[i].offsetLeft - num2;
 	                    arr[i].style.left = num + "px";
-	                    if (num < -100) {
+	                    if (num < -arr[i].offsetWidth) {
+	                        $("tc").removeChild(arr[i]);
+	                    }
+	                }
+	            },
+
+	            move2: function () {
+	                var arr = $("tc").getElementsByTagName("img");
+	                for (var i = 0; i < arr.length; i++) {
+	                    var num2 = ((($("tc").offsetWidth) + (2 * arr[i].offsetWidth)) / 2000);
+	                    if (num2 <= 1)
+	                        num2 = 1;
+	                    var num = arr[i].offsetLeft - num2;
+	                    arr[i].style.left = num + "px";
+	                    if (num < -arr[i].offsetWidth) {
 	                        $("tc").removeChild(arr[i]);
 	                    }
 	                }
