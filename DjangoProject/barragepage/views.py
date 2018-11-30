@@ -71,6 +71,7 @@ class SetPicture(APIView):
         for pic in pic_list:
             show_list.append(
                 {
+                    'id': pic.id,
                     'picUrl': pic.pic_url
                 }
             )
