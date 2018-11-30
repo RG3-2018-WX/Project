@@ -14,23 +14,13 @@ from WeChatTicket import settings
 import os
 
 class CommentLinenumber(APIView):
-    def post(self):
+    def get(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please Login First!")
         self.check_input('linenumber')
         return self.input['linenumber']
 
 class SetTop(APIView):
-
-    def post(self):
-        if not self.request.user.is_authenticated():
-            raise ValidateError("Please Login First!")
-        self.check_input('activityId')
-        old_top = Comment.objects.get(status = Barrage.TOP)
-        old_top.status = Barrage.NOT_OK
-        old_top.save()
-        Comment.insertComment(Activity.selectById(self.input['activityId']),self.request.user.username,self.input['color'],self.input['content'],
-            self.input['bolt'], self.input['underline'] ,self.input['incline'],timezone.now(),Barrage.TOP)
     def get(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please Login First!")
@@ -43,13 +33,11 @@ class SetTop(APIView):
             'underline': top.underline
         }
         return top_comment
-        pass
+
 class SetComment(APIView):
-    comment_id = 0
-    pic_id = 0
+
+
     def post(self):
-        if not self.request.user.is_authenticated():
-            raise ValidateError("Please Login First!")
         self.check_input('activityId')
         if self.check_input('comment'):
             Comment.insertComment(Activity.selectById(self.input['activityId']), self.input['openId'],
@@ -60,14 +48,13 @@ class SetComment(APIView):
             Picture.insertComment(Activity.selectById(self.input['activityId']), self.input['openId'],self.input['picUrl'],timezone.now(),
                                   Barrage.OK)
     def get(self):
-        if not self.request.user.is_authenticated():
-            raise ValidateError("Please Login First!")
-        self.check_input('activityId')
+        self.check_input('activityId','commentId')
         show_list=[]
-        comment_list = Comment.objects.filter(id__gt=SetComment.comment_id)
+        comment_list = Comment.objects.filter(time__lt=timezone.now().time.second-3).filter(id__gt=self.input['commentId'])
         for comment in comment_list:
             show_list.append(
                 {
+                    'id': comment.id,
                     'content': comment.content,
                     'color': comment.color,
                     'bolt': comment.bolt,
@@ -75,14 +62,18 @@ class SetComment(APIView):
                     'underline': comment.underline
                 }
             )
-            SetComment.comment_id=comment.id
-        pic_list = Picture.objects.filter(id__gt=SetComment.pic_id)
+        return show_list
+class SetPicture(APIView):
+    def get(self):
+        self.check_input('activityId', 'pictureId')
+        show_list = []
+        pic_list = Comment.objects.filter(time__lt=timezone.now().time.second - 3).filter(id__gt=self.input['pictureId'])
         for pic in pic_list:
             show_list.append(
                 {
-                    'picUrl':pic.pic_url
+                    'picUrl': pic.pic_url
                 }
             )
-            SetComment.pic_id = pic.id
+
         return show_list
 # Create your views here.
