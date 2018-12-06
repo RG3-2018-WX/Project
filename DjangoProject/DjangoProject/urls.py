@@ -18,4 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^api/u/', include('userpage.urls')),
+    url(r'^api/a/', include('adminpage.urls')),
+    url(r'^api/c/', include('barragepage.urls'))
 ]
