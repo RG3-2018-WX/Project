@@ -17,10 +17,10 @@ class Activity(models.Model):
 	place = models.CharField(max_length=100)
 	organizer = models.ForeignKey(User, on_delete=models.CASCADE)
 	description = models.CharField(max_length=300)
-	pic_url = models.ImageField(upload_to=getPath(), max_length=255)
+	pic_url = models.ImageField(max_length=255)
 	start_time = models.DateTimeField(default=timezone.now())
 	end_time = models.DateTimeField(default=timezone.now())
-	bg_pic_url = models.ImageField(upload_to=getPath(), max_length=255)
+	bg_pic_url = models.ImageField(max_length=255)
 	status = models.IntegerField()
 	PREPARING = 0
 	RUNNING = 1
@@ -184,7 +184,7 @@ class Barrage(models.Model):
 	id = models.AutoField(primary_key=True)
 	activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
 	# user = models.ForeignKey(ActivityUser,on_delete=models.CASCADE)
-	open_id = models.CharFiled(max_length=100)
+	open_id = models.CharField(max_length=100)
 	status = models.IntegerField()
 	time = models.DateTimeField(default=timezone.now())
 	OK = 1
@@ -255,7 +255,7 @@ class Lottery(models.Model):
 	first = models.IntegerField()
 	second = models.IntegerField()
 	third = models.IntegerField()
-	special = models.IntergerField()
+	special = models.IntegerField()
 	status = models.IntegerField()
 	PREPARING = 0
 	RUNNING = 1

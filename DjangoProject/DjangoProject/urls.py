@@ -15,10 +15,28 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from adminpage import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/u/', include('userpage.urls')),
-    url(r'^api/a/', include('adminpage.urls')),
-    url(r'^api/c/', include('barragepage.urls'))
+    url(r'^a/login/', views.login),
+    url(r'^a/logout/', views.Logout),
+    url(r'^a/register/', views.Register),
+    url(r'^a/activity/', views.ActivityList),
+    url(r'^a/lottery/', views.LotteryList),
+    url(r'^a/barrage/', views.SetComment),
+    url(r'^a/Lottery/create/', views.LotteryCreate),
+    url(r'^a/Lottery/edit/', views.LotteryDetail),
+    url(r'^a/Activity/create/', views.ActivityCreate),
+    url(r'^a/Activity/edit/', views.ActivityDetail),
+    url(r'^a/Activity/delete/', views.ActivityDelete),
+    url(r'^a/Barrage/left/', views.barrage_left_detele),
+    url(r'^a/Barrage/left_create/', views.barrage_left_create),
+    url(r'^a/Barrage/right_detail/', views.barrage_right_detele,
+    url(r'^a/Barrage/right_create/', views.barrage_right_create,
+    url(r'^a/Programe/delete/', views.ProgrameDelete),
+    url(r'^a/Programe/up/', views.ProgrameUp),
+    url(r'^a/Programe/down/', views.ProgrameDown),
+    url(r'^a/Programe/create/', views.ProgrameCreate),
+    url(r'^a/Programe/edit/', views.ProgrameDetail),
 ]
