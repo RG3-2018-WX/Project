@@ -22,10 +22,14 @@ class Activity(models.Model):
 	end_time = models.DateTimeField(default=timezone.now())
 	bg_pic_url = models.ImageField(upload_to=getPath(), max_length=255)
 	status = models.IntegerField()
+	sign = models.IntegerField()
 	PREPARING = 0
 	RUNNING = 1
 	FINISH = 2
 	DELETE = 3
+	
+	def __init__(self):
+		self.sign = random.randint(1000,9999)
 	
 	@staticmethod
 	def insertActivity(organizer, description, pic_url, start_time, end_time, bg_pic_url, status, place, name):

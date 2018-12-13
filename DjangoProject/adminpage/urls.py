@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^logout/?$', Logout.as_view()),
     url(r'^register/?$',Register.as_view()),
     url(r'^activity/status/?$', ActivityStatus.as_view()),
-    url(r'^activity/delete/?$', Activityelete.as_view()),
+    url(r'^activity/delete/?$', ActivityDelete.as_view()),
     url(r'^activity/create/?$', ActivityCreate.as_view()),
     url(r'^activity/detail/?$', ActivityDetail.as_view()),
     url(r'^activity/list/?$', ActivityList.as_view()),
