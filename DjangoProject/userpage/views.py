@@ -65,8 +65,7 @@ class LotteryInfo(APIView):
                     'name': i.lottery.name,
                     'prize':i.prize
                 })
-        else:
-            raise InputError('thank you for attendance')
+        return show_list
 class SetComment(APIView):
     def post(self):
         self.check_input('openId')
