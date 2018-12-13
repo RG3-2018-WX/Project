@@ -642,6 +642,8 @@ class barrage_left_detele(APIView):
 #左右两个添加不知道怎么实现，就是审核可以放到弹幕墙上面的弹幕
 class barrage_left_create(APIView):
     def get(self):
+        return
+
 
 
 class barrage_right_detele(APIView):
@@ -653,13 +655,20 @@ class barrage_right_detele(APIView):
 
 class barrage_right_create(APIView):
     def get(self):
+        return
 
 
 # 实现一下点击节目顺序往上
 class ProgrameUp(APIView):
+    def get(self):
+        return
 
+    
 
 # 实现一下点击节目顺序往下
 class ProgrameDown(APIView):
+    def get(self):
+        return
+
 
 # Create your views here.
