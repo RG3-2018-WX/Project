@@ -16,6 +16,8 @@ import uuid
 from DjangoProject import settings
 import os
 
+activityid = 0
+
 
 class Login(APIView):
     def get(self):
@@ -213,24 +215,11 @@ class ActivityDetail(APIView):
                     'organizer': activity.organizer,
                     'status': activity.status
                     }
-
-            #return data
-            program_list = Programe.selectByActivity(Activity.selectById(self.input['activityId']))
-            show_list = []
-            for program in program_list:
-                show_list.append(
-                    {
-                        'name': program.name,
-                        'sequence': program.sequence,
-                        'actor': program.actor,
-                        'id': program.id
-                    }
-                )
             
             return {'view': 13, 'Name': Activity.name, 'description': Activity.description,
                            'startTime': Activity.start_timeime.timestamp(), 'endTime': Activity.end_time.timestamp(),
                            'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
-                           'organizer': activity.organizer, 'status': activity.status, 'list': show_list}
+                           'organizer': activity.organizer, 'status': activity.status}
         else:
             raise InputError()
 
@@ -257,10 +246,6 @@ class ActivityDetail(APIView):
             activity.save()
             # return 0
             return {'view': 6}
-        
-        if 'create' in self.request.POST:
-            return {'view': 14}
-            #return redirect('/a/Programe/create/')
         
         if 'return' in self.request.POST:
             return {'view': 6}
@@ -427,16 +412,17 @@ class LotteryList(APIView):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         #self.check_input('activityId')
-        #lottery_list=Lottery.objects.filter(activity__id=self.input['activityId'])
-        #if not lottery_list:
-            #raise InputError('no such activity')
+        #lottery_list = Lottery.objects.filter(activity__id=self.input['activityId'])
+        lottery_list = Lottery.objects.filter(activityid)
+        if not lottery_list:
+            raise InputError('no such activity')
         list = []
-        #for lottery in lottery_list:
-            #list.append({
-                #'name': lottery.name,
-                #'status': lottery.status,
-                #'id': lottery.id
-            #})
+        for lottery in lottery_list:
+            list.append({
+                'name': lottery.name,
+                'status': lottery.status,
+                'id': lottery.id
+            })
         ##return list
         #return render(APIView, 'a/lottery.html', {'list': list})
         return {'view': 19, 'list': list}
@@ -461,8 +447,12 @@ class LotteryList(APIView):
     
 class ProgrameList(APIView):
     def get(self):
-        self.check_input('activityId')
-        program_list = Programe.selectByActivity(Activity.selectById(self.input['activityId']))
+        #self.check_input('activityId')
+        nid = self.request.GET.get('nid')
+        if nid is not None:
+            activityid = nid
+        #program_list = Programe.selectByActivity(Activity.selectById(self.input['activityId']))
+        program_list = Programe.selectByActivity(Activity.selectById(activityid))
         show_list = []
         for program in program_list:
             show_list.append(
@@ -472,7 +462,25 @@ class ProgrameList(APIView):
                     'actor': program.actor
                 }
             )
-        return show_list
+        show_list = []
+        return {'view': 25, 'list': show_list}
+        
+    def post(self):
+        if 'activity' in self.request.POST:
+            return {'view': 6}
+
+        if 'barrage' in self.request.POST:
+            return {'view': 9}
+
+        if 'lottery' in self.request.POST:
+            return {'view': 10}
+
+        if 'logout' in self.request.POST:
+            return {'view': 8}
+
+        if 'create' in self.request.POST:
+            #return redirect('/a/Activity/create/')
+            return {'view': 14}
 
 
 class ProgrameDelete(APIView):
@@ -491,8 +499,8 @@ class ProgrameDelete(APIView):
 
 class ProgrameCreate(APIView):
     def get(self):
-        nid = self.get().get('nid')
-        Programe.objects.filter(id=nid).delete()
+        #nid = self.get().get('nid')
+        #Programe.objects.filter(id=nid).delete()
         #return redirect('/a/Activity/edit/')
         return {'view': 22}
 
@@ -506,10 +514,10 @@ class ProgrameCreate(APIView):
             if not Activity.objects.get(self.input['name']):
                 raise LogicError('fail creat pragram')
             else:
-                return {'view': 21}
-            
-        if 'retrun' in self.request.POST:
-            return {'view': 21}
+                return {'view': 6}
+             
+        if 'return' in self.request.POST:
+            return {'view': 6}
 
 
 class ProgrameDetail(APIView):

@@ -100,7 +100,7 @@ class APIView(BaseView):
         
         #活动界面
         if result['view'] == 6:
-            return redirect('/a/activity/')
+            return redirect('/a/programe/')
         if result['view'] == 7:
             return render(self.request, 'a/activity.html', {'list': result['msg']})
         if result['view'] == 8:
@@ -117,15 +117,17 @@ class APIView(BaseView):
             return render(self.request, 'a/Activity/edit.html', {'Name': result['Name'], 'description': result['description'],
                            'startTime': result['startTime'], 'endTime': result['endTime'],
                            'place': result['place'], 'picUrl': result['picUrl'], 'bgPicUrl': result['bgPicUrl'],
-                           'organizer': result['organizer'], 'status': result['status'], 'list': result['list']})
+                           'organizer': result['organizer'], 'status': result['status']})
         if result['view'] == 18:
             return render(self.request, 'a/Activity/edit.html')
         
         #节目界面
+        if result['view'] == 25:
+            return render(self.request, 'a/programe.html', {'list': result['list']})
         if result['view'] == 14:
             return redirect('/a/Programe/create/')
         if result['view'] == 21:
-            return redirect('/a/Activity/edit/')
+            return redirect('/a/programe/')
         if result['view'] == 22:
             return render(self.request, 'a/Programe/create.html')
         if result['view'] == 23:

@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^a/activity/', views.ActivityList.as_view()),
     url(r'^a/lottery/', views.LotteryList.as_view()),
     url(r'^a/barrage/', views.SetComment.as_view()),
+    url(r'^a/programe/', views.ProgrameList.as_view()),
     url(r'^a/Lottery/create/', views.LotteryCreate.as_view()),
     url(r'^a/Lottery/edit/', views.LotteryDetail.as_view()),
     url(r'^a/Activity/create/', views.ActivityCreate.as_view()),
