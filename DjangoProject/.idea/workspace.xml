@@ -2,15 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9bc0cb76-eb5d-4c35-b267-7059a481f197" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../.travis.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/DjangoProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoProject/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/adminpage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminpage/views.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/DjangoProject/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoProject/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adminpage/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminpage/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/数据库格式.docx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/数据库格式.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/userpage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/userpage/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wechat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wechat/views.py" afterDir="false" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
@@ -54,33 +77,34 @@
     <session id="-1215517035">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
+          <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="2257" />
+          <entry key="py" value="2265" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2257" />
+          <entry key="Python" value="2265" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="json" value="1" />
-          <entry key="py" value="22" />
+          <entry key="json" value="2" />
+          <entry key="py" value="30" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JSON" value="1" />
-          <entry key="Python" value="22" />
+          <entry key="JSON" value="2" />
+          <entry key="Python" value="30" />
         </counts>
       </usages-collector>
     </session>
@@ -125,6 +149,7 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/DjangoProject/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="129">
@@ -155,11 +180,20 @@
                 <marker date="1544697663750" expanded="true" signature="24476:24518" ph="..." />
                 <marker date="1544697663750" expanded="true" signature="24476:24533" ph="..." />
                 <marker date="1544697663750" expanded="true" signature="24561:24598" ph="..." />
+=======
+        <entry file="file://$PROJECT_DIR$/codex/baseview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="51" column="31" lean-forward="true" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
+              <folding>
+                <element signature="e#26#37#0" expanded="true" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DjangoProject/settings.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -234,12 +268,26 @@
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#th#5;n#tr#0;n#table#0;n#form#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+=======
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DjangoProject/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-111">
+              <caret line="285" column="25" selection-start-line="285" selection-start-column="25" selection-end-line="285" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+                <marker date="1543462021031" expanded="true" signature="6376:6727" ph="..." />
+                <marker date="1543462021031" expanded="true" signature="7485:7740" ph="..." />
+                <marker date="1543462021031" expanded="true" signature="7659:7740" ph="..." />
+                <marker date="1543462021031" expanded="true" signature="8165:8266" ph="..." />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/templates/a/activity.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="456">
@@ -255,12 +303,20 @@
               <caret line="62" column="109" selection-start-line="62" selection-start-column="109" selection-end-line="62" selection-end-column="109" />
               <folding>
                 <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#0;n#form#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+=======
+        <entry file="file://$PROJECT_DIR$/wechat/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/templates/a/Barrage/left_create.html">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
@@ -270,6 +326,42 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="133">
               <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+=======
+        <entry file="file://$PROJECT_DIR$/wechat/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1140">
+              <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/userpage/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="4" column="54" selection-start-line="4" selection-start-column="54" selection-end-line="4" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DjangoProject/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="19" column="37" lean-forward="true" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/adminpage/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="15" column="58" lean-forward="true" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
             </state>
           </provider>
         </entry>
@@ -299,6 +391,7 @@
         <option value="$PROJECT_DIR$/DjangoProject/test.py" />
         <option value="$PROJECT_DIR$/wechat/wrapper.py" />
         <option value="$PROJECT_DIR$/wechat/tests.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/DjangoProject/models.py" />
         <option value="$PROJECT_DIR$/DjangoProject/settings.py" />
         <option value="$PROJECT_DIR$/adminpage/urls.py" />
@@ -315,6 +408,11 @@
         <option value="$PROJECT_DIR$/templates/a/barrage.html" />
         <option value="$PROJECT_DIR$/adminpage/views.py" />
         <option value="$PROJECT_DIR$/DjangoProject/urls.py" />
+=======
+        <option value="$PROJECT_DIR$/wechat/views.py" />
+        <option value="$PROJECT_DIR$/userpage/views.py" />
+        <option value="$PROJECT_DIR$/adminpage/urls.py" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
       </list>
     </option>
   </component>
@@ -324,11 +422,18 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+<<<<<<< HEAD
   <component name="ProjectFrameBounds">
     <option name="x" value="530" />
     <option name="y" value="105" />
     <option name="width" value="1215" />
     <option name="height" value="919" />
+=======
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-7" />
+    <option name="width" value="883" />
+    <option name="height" value="775" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -350,8 +455,12 @@
             </path>
             <path>
               <item name="DjangoProject" type="b2602c69:ProjectViewProjectNode" />
+<<<<<<< HEAD
               <item name="DjangoProject" type="462c0819:PsiDirectoryNode" />
+=======
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
               <item name="DjangoProject" type="462c0819:PsiDirectoryNode" />
+              <item name="wechat" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DjangoProject" type="b2602c69:ProjectViewProjectNode" />
@@ -462,16 +571,27 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="424" y="84" width="972" height="735" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20678337" />
+=======
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13388805" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29235882" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.49666667" />
+=======
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32923076" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -485,7 +605,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.2490887" />
       <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32980332" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -503,6 +623,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wechat/__init__.py">
+<<<<<<< HEAD
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/wechat/views.py">
@@ -544,6 +665,11 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/codex/baseview.py">
+=======
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat/wrapper.py">
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
           <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
@@ -568,6 +694,7 @@
     <entry file="file://$PROJECT_DIR$/templates/a/Activity/delete.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/templates/a/Programe/up.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -594,26 +721,79 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="13" column="24" lean-forward="true" selection-start-line="13" selection-start-column="24" selection-end-line="26" selection-end-column="14" />
-        </state>
-      </provider>
+=======
+    <entry file="file://$PROJECT_DIR$/DjangoProject/test.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/a/Lottery/create.html">
+    <entry file="file://$PROJECT_DIR$/wechat/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="130" column="14" lean-forward="true" selection-start-line="130" selection-start-column="14" selection-end-line="130" selection-end-column="14" />
+        <state relative-caret-position="247">
+          <caret line="24" column="42" lean-forward="true" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+          <folding>
+            <marker date="1543461143626" expanded="true" signature="1416:1497" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DjangoProject/models.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-111">
+          <caret line="285" column="25" selection-start-line="285" selection-start-column="25" selection-end-line="285" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <marker date="1543462021031" expanded="true" signature="6376:6727" ph="..." />
+            <marker date="1543462021031" expanded="true" signature="7485:7740" ph="..." />
+            <marker date="1543462021031" expanded="true" signature="7659:7740" ph="..." />
+            <marker date="1543462021031" expanded="true" signature="8165:8266" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="34" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="34" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/a/Lottery/create.html">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="459">
+          <caret line="130" column="14" lean-forward="true" selection-start-line="130" selection-start-column="14" selection-end-line="130" selection-end-column="14" />
+=======
+        <state relative-caret-position="570">
+          <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codex/baseview.py">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="1349">
           <caret line="77" column="12" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="12" />
+=======
+        <state relative-caret-position="570">
+          <caret line="51" column="31" lean-forward="true" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
+          <folding>
+            <element signature="e#26#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/templates/a/Programe/create.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
@@ -683,10 +863,36 @@
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#th#5;n#tr#0;n#table#0;n#form#0;n#div#2;n#div#0;n#!!top" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/DjangoProject/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/adminpage/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="15" column="58" lean-forward="true" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DjangoProject/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="19" column="37" lean-forward="true" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wechat/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1140">
+          <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/templates/a/activity.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
@@ -748,6 +954,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
           <caret line="43" column="30" lean-forward="true" selection-start-line="43" selection-start-column="30" selection-end-line="43" selection-end-column="30" />
+=======
+    <entry file="file://$PROJECT_DIR$/userpage/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="54" selection-start-line="4" selection-start-column="54" selection-end-line="4" selection-end-column="54" />
+>>>>>>> d0a0cf525ee025e2df2ff60de520b5f0d9eb8eb7
         </state>
       </provider>
     </entry>

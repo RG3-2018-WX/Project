@@ -1,0 +1,27 @@
+sudo: required
+language: python
+services:
+- mysql
+python:
+- 3.6
+before_install:
+#- sudo chmod 600 ~/.ssh/*
+#- sudo touch rg_rsa
+#- sudo apt-get install sshpass
+#- sudo openssl aes-256-cbc -K $encrypted_033a364aed3b_key -iv $encrypted_033a364aed3b_iv
+#  -in rg_rsa.enc -out rg_rsa -d
+- sudo mysql -e 'CREATE DATABASE comment;'
+install:
+- pip install -r requirements.txt
+- pip install uwsgi
+script:
+- cd DjangoProject
+- cp configs.example.json configs.json
+- python manage.py makemigrations
+- python manage.py migrate
+- python manage.py test
+#after_success:
+#- sudo chmod 600  ~/.ssh/rg_rsa
+#- sudo sshpass -p 'CtaHdF7namGhF' ssh ubuntu@139.199.124.92 "echo bash start;sudo bash /home/ubuntu/WeChatTicket/deploy.sh"
+#addons:
+ #ssh_konwn_hosts:139.199.124.92:22

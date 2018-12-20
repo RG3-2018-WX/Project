@@ -5,10 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth.models import User
 
 from DjangoProject import models
-from DjangoProject.models import Activity, Lottery, Programe,Barrage,Comment,Picture
+from DjangoProject.models import Activity, Lottery, Programe, Barrage, Comment, Picture
 from django.utils import timezone
 from wechat.views import CustomWeChatView
 import uuid
@@ -20,62 +21,71 @@ class Login(APIView):
     def get(self):
         print("Login Get")
         if not self.request.user.is_authenticated():
-            raise ValidateError("Please Login!")
+            #raise ValidateError("Please Login!")
+            return {'view': 0}
+
+        return {'view': 0}
 
     def post(self):
-        if 'login' in self.post():
+        if 'login' in self.request.POST:
             self.check_input('username', 'password')
             user = authenticate(username=self.input['username'], password=self.input['password'])
             if user is not None and user.is_active:
                 login(self.request, user)
-                return redirect('/a/activity/')
+                return {'view': 6}
             if not User.objects.filter(username=self.input['username']):
-                raise ValidateError("Username not exist")
+                #raise ValidateError("Username not exist")
+                return {'view': 2, 'msg': 'Username not exist'}
 
-            raise ValidateError("wrong password")
+            #raise ValidateError("wrong password")
+            return {'view': 2, 'msg': 'wrong password'}
         
-        else:
-            return redirect('/a/register/')
+        if 'register' in self.request.POST:
+            return {'view': 1}
 
 
 class Register(APIView):
+    def get(self):
+        print("Login Get")
+        if not self.request.user.is_authenticated():
+            #raise ValidateError("Please Login!")
+            return {'view': 3}
+        
+        return {'view': 3}
+    
     def post(self):
-        if 'register' in self.post():
+        if 'register' in self.request.POST:
             self.check_input('username', 'password')
-            if User.objects.get(username=self.input['username']):
-                raise ValidateError('The username has been occupied')
+            #if User.objects.get(username=self.input['username']):
+                #raise ValidateError('The username has been occupied')
+                #return {'view': 5, 'msg': 'The username has been occupied'}
+            #else:
+            user = User.objects.create_user(username=self.input['username'], password=self.input['password'])
+            if user is False:
+                #raise ValidateError('register failed')
+                return {'view': 5, 'msg': 'register failed'}
             else:
-                user = User.objects.create_user(username=self.input['username'], password=self.input['password'],
-                                                email='example@163.com')
-                user.save()
-            if not User.objects.get(self.input['username']):
-                raise ValidateError('register failed')
-            else:
-                return render(APIView, 'a/register.html', {
-                    'username': self.input['username'],
-                    'password': self.input['password'],
-                    'status': 'registration success'
-                })
+                return {'view': 5, 'msg': 'registration success'}
             
         else:
-            return redirect('/a/login/')
+            return {'view': 4}
 
 
 class Logout(APIView):
-
     def get(self):
         print("Log out Post")
-        if not self.request.user.is_authenticated():
-            raise LogicError('no user is online')
-        else:
-            logout(self.request)
-        return redirect('/a/login/')
+        #if not self.request.user.is_authenticated():
+            #raise LogicError('no user is online')
+        #else:
+        logout(self.request)
+        return {'view': 4}
 
 
 class ActivityList(APIView):
     def get(self):
-        if not self.request.user.is_authenticatedd():
-            raise ValidateError("Please Login First!")
+        print("Activity Get")
+        if not self.request.user.is_authenticated():
+            return {'view': 0}
         list = Activity.selectByOrganizer(self.request.user.username)
         output_list = []
         for i in list:
@@ -86,23 +96,27 @@ class ActivityList(APIView):
                 'endTime': i.end_time.timestamp(),
                 'place': i.place,
             })
-        return render(APIView, 'a/activity.html', {'list': output_list})
+        return {'view': 7, 'msg': output_list}
     
     def post(self):
-        if 'activity' in self.post():
-            return redirect('/a/activity/')
+        if 'activity' in self.request.POST:
+            #return redirect('/a/activity/')
+            return {'view': 6}
 
-        if 'barrage' in self.post():
-            return redirect('/a/barrage/')
+        if 'barrage' in self.request.POST:
+            #return redirect('/a/barrage/')
+            return {'view': 9}
 
-        if 'lottery' in self.post():
-            return redirect('/a/lottery/')
+        if 'lottery' in self.request.POST:
+            #return redirect('/a/lottery/')
+            return {'view': 10}
 
-        if 'create' in self.post():
-            return redirect('/a/Activity/create/')
+        if 'create' in self.request.POST:
+            #return redirect('/a/Activity/create/')
+            return {'view': 11}
 
-        if 'logout' in self.post():
-            return redirect('/a/logout/')
+        if 'logout' in self.request.POST:
+            return {'view': 8}
 
 
 class ActivityStatus(APIView):
@@ -124,16 +138,20 @@ class ActivityDelete(APIView):
             raise ValidateError("Please login!")
         nid = self.get().get('nid')
         Activity.objects.filter(activityId=nid)
-        return redirect('/a/activity/')
+        return {'view': 6}
 
 
 class ActivityCreate(APIView):
+    def get(self):
+        print("Activity Create Get")
+        if not self.request.user.is_authenticated():
+            return {'view': 0}
+        return {'view': 12}
 
     def post(self):
-
         if not self.request.user.is_authenticated():
             raise ValidateError("Please Login First!")
-        if 'create' in self.post():
+        if 'create' in self.request.POST:
             self.check_input("name", "place", "description", "picUrl", "bgPicUrl", "startTime",
                              "endTime", "status", "organizer")
             Activity.insertActivity(self.input['organizer'], self.input['description'], self.input['picUrl'],
@@ -142,10 +160,10 @@ class ActivityCreate(APIView):
             if not Activity.objects.get(self.input['name']):
                 raise LogicError()
             else:
-                return redirect('/a/activity/')
+                return {'view': 6}
             
-        if 'return' in self.post():
-            return redirect('/a/activity/')
+        if 'return' in self.request.POST:
+            return {'view': 6}
 
 
 class ImageUpload(APIView):
@@ -209,11 +227,10 @@ class ActivityDetail(APIView):
                     }
                 )
             
-            return render(APIView, 'a/Activity/edit.html',
-                          {'Name': Activity.name, 'description': Activity.description,
+            return {'view': 13, 'Name': Activity.name, 'description': Activity.description,
                            'startTime': Activity.start_timeime.timestamp(), 'endTime': Activity.end_time.timestamp(),
                            'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
-                           'organizer': activity.organizer, 'status': activity.status, 'list': show_list})
+                           'organizer': activity.organizer, 'status': activity.status, 'list': show_list}
         else:
             raise InputError()
 
@@ -221,7 +238,7 @@ class ActivityDetail(APIView):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         
-        if 'edit' in self.post():
+        if 'edit' in self.request.POST:
             self.check_input('activityId')
             activity = Activity.selectById['activityId']
             old_activity = activity
@@ -239,41 +256,48 @@ class ActivityDetail(APIView):
                 raise ValidateError('no such activity')
             activity.save()
             # return 0
-            return redirect('/a/activity/')
+            return {'view': 6}
         
-        if 'create' in self.post():
-            return redirect('/a/Programe/create/')
+        if 'create' in self.request.POST:
+            return {'view': 14}
+            #return redirect('/a/Programe/create/')
         
-        if 'return' in self.post():
-            return redirect('/a/activity/')
+        if 'return' in self.request.POST:
+            return {'view': 6}
         
-        if 'begin' in self.post():
+        if 'begin' in self.request.POST:
             Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
                                             self.input['picUrl'],
                                             self.input['startTime'], self.input['endTime'],
                                             self.input['bgPicUrl'], 1, self.input['palce'],
                                             self.input['name'])
-            return render(APIView, 'a/Activity/edit.html')
+            return {'view': 18}
         
-        if 'end' in self.post():
+        if 'end' in self.request.POST:
             Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
                                             self.input['picUrl'],
                                             self.input['startTime'], self.input['endTime'],
                                             self.input['bgPicUrl'], 2, self.input['palce'],
                                             self.input['name'])
-            return render(APIView, 'a/Activity/edit.html')
+            return {'view': 18}
         
-        if 'detail' in self.post():
+        if 'detail' in self.request.POST:
             nid = self.get().get('nid')
             Activity.objects.filter(activityId=nid)
-            return redirect('/a/activity/')
+            return {'view': 6}
 
 
 class LotteryCreate(APIView):
+    def get(self):
+        print("Activity Create Get")
+        if not self.request.user.is_authenticated():
+            return {'view': 0}
+        return {'view': 15}
+    
     def post(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
-        if 'create' in self.post():
+        if 'create' in self.request.POST:
             self.check_input("name", "description", "activityId", "first",
                             "second", "status", "speical", 'third')
             obj = Lottery(name=self.input['name'],
@@ -291,10 +315,10 @@ class LotteryCreate(APIView):
             if not Lottery.objects.get(self.input['name']):
                 raise LogicError('lottery creat failed')
             else:
-                return redirect('/a/lottery/')
+                return {'view': 10}
             
-        if 'return' in self.post():
-            return redirect('/a/lottery/')
+        if 'return' in self.request.POST:
+            return {'view': 10}
 
 
 class LotteryDetail(APIView):
@@ -316,14 +340,13 @@ class LotteryDetail(APIView):
                     }
 
             #return data
-            return render(APIView, 'a/Lottery/edit.html',
-                          {'name': lottery.name,
+            return {'view': 16, 'name': lottery.name,
                            'description': lottery.description,
                            'speical': lottery.special,
                            'first': lottery.first,
                            'second': lottery.second,
                            'third': lottery.third,
-                           'status': lottery.status})
+                           'status': lottery.status}
                           
         else:
             raise InputError()
@@ -331,7 +354,7 @@ class LotteryDetail(APIView):
     def post(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
-        if 'edit' in self.post():
+        if 'edit' in self.request.POST:
             self.check_input("name", "description", "activityId", "first",
                          "second", "status", "speical", 'third', 'id')
             lottery = Lottery.objects.get(id=self.input('id'))
@@ -353,25 +376,25 @@ class LotteryDetail(APIView):
                 raise ValidateError('no such lottery')
 
             lottery.save()
-            return redirect('/a/lottery/')
+            return {'view': 10}
         
-        if 'return' in self.post():
-            return redirect('/a/lottery/')
+        if 'return' in self.request.POST:
+            return {'view': 10}
         
-        if 'begin' in self.post():
+        if 'begin' in self.request.POST:
             nid = self.get().get('nid')
             Lottery.objects.filter(id=nid).update(Statue="1")
-            return render(APIView, 'a/Lottery/edit.html')
+            return {'view': 17}
         
-        if 'end' in self.post():
+        if 'end' in self.request.POST:
             nid = self.get().get('nid')
             Lottery.objects.filter(id=nid).update(Statue="2")
-            return render(APIView, 'a/Lottery/edit.html')
+            return {'view': 17}
         
-        if 'detail' in self.post():
+        if 'detail' in self.request.POST:
             nid = self.get().get('nid')
             Lottery.objects.filter(id=nid).delete()
-            return redirect('/a/lottery/')
+            return {'view': 10}
 
 
 class LotteryDelete(APIView):
@@ -403,38 +426,37 @@ class LotteryList(APIView):
     def get(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
-        self.check_input('activityId')
-        lottery_list=Lottery.objects.filter(activity__id=self.input['activityId'])
-        if not lottery_list:
-            raise InputError('no such activity')
+        #self.check_input('activityId')
+        #lottery_list=Lottery.objects.filter(activity__id=self.input['activityId'])
+        #if not lottery_list:
+            #raise InputError('no such activity')
         list = []
-        for lottery in lottery_list:
-            list.append({
-                'name': lottery.name,
-                'status': lottery.status,
-                'id': lottery.id
-            })
+        #for lottery in lottery_list:
+            #list.append({
+                #'name': lottery.name,
+                #'status': lottery.status,
+                #'id': lottery.id
+            #})
         ##return list
-        return render(APIView, 'a/lottery.html', {'list': list})
+        #return render(APIView, 'a/lottery.html', {'list': list})
+        return {'view': 19, 'list': list}
     
     def post(self):
-        if 'activity' in self.post():
-            return redirect('/a/activity/')
+        if 'activity' in self.request.POST:
+            return {'view': 6}
 
-        if 'barrage' in self.post():
-            return redirect('/a/barrage/')
+        if 'barrage' in self.request.POST:
+            return {'view': 9}
 
-        if 'lottery' in self.post():
-            return redirect('/a/lottery/')
+        if 'lottery' in self.request.POST:
+            return {'view': 10}
+        
+        if 'create' in self.request.POST:
+            #return redirect('/a/Lottery/create/')
+            return {'view': 20}
 
-        if 'create' in self.post():
-            return redirect('/a/Lottery/create/')
-
-        if 'edit' in self.post():
-            return redirect('/a/Lottery/edit/')
-
-        if 'logout' in self.post():
-            return redirect('/a/logout/')
+        if 'logout' in self.request.POST:
+            return {'view': 8}
     
     
 class ProgrameList(APIView):
@@ -457,7 +479,8 @@ class ProgrameDelete(APIView):
     def get(self):
         nid = self.get().get('nid')
         Programe.objects.filter(id=nid).delete()
-        return redirect('/a/Activity/edit/')
+        #return redirect('/a/Activity/edit/')
+        return {'view': 21}
     
     def post(self):
         if not self.request.user.is_authenticated():
@@ -467,22 +490,26 @@ class ProgrameDelete(APIView):
 
 
 class ProgrameCreate(APIView):
+    def get(self):
+        nid = self.get().get('nid')
+        Programe.objects.filter(id=nid).delete()
+        #return redirect('/a/Activity/edit/')
+        return {'view': 22}
 
     def post(self):
-
         if not self.request.user.is_authenticated():
             raise ValidateError("Please Login First!")
-        if 'create' in self.post():
+        if 'create' in self.request.POST:
             self.check_input('activityId', 'name', 'description', 'sequence', 'actors')
             Programe.insertPrograme(Activity.selectById(self.input['activityId']), self.input['name'],
                                     self.input['description'], self.input['sequence'], self.input['actors'])
             if not Activity.objects.get(self.input['name']):
                 raise LogicError('fail creat pragram')
             else:
-                return redirect('/a/Activity/edit/')
+                return {'view': 21}
             
-        if 'retrun' in self.post():
-            return redirect('/a/Activity/edit/')
+        if 'retrun' in self.request.POST:
+            return {'view': 21}
 
 
 class ProgrameDetail(APIView):
@@ -498,8 +525,7 @@ class ProgrameDetail(APIView):
                     'sequence': programe.sequence,
                     'actors': programe.actors
                     }
-            return render(APIView, 'a/Programe/edit.html',
-                          {'name': programe.name, 'description': programe.description, 'sequence': programe.sequence, 'actors': programe.actors})
+            return {'view': 23, 'name': programe.name, 'description': programe.description, 'sequence': programe.sequence, 'actors': programe.actors}
         else:
             raise InputError('no such programe')
 
@@ -507,7 +533,7 @@ class ProgrameDetail(APIView):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         #self.check_input('programId')
-        if 'edit' in self.post():
+        if 'edit' in self.request.POST:
             nid = self.get().get('nid')
             programe = Programe.selectById[nid]
             old_programe = programe
@@ -522,10 +548,10 @@ class ProgrameDetail(APIView):
             if old_programe == programe:
                 raise InputError('no change!')
             else:
-                return redirect('/a/Activity/edit/')
+                return {'view': 21}
             
-        if 'return' in self.post():
-            return redirect('/a/Activity/edit/')
+        if 'return' in self.request.POST:
+                return {'view': 21}
 
 
 class SetCommentLinenumber(APIView):
@@ -548,50 +574,51 @@ class SetTop(APIView):
 
 class SetComment(APIView):
     def get(self):
-        self.check_input('activityId', 'commentId')
+        #self.check_input('activityId', 'commentId')
         show_list=[]
-        comment_list = Comment.objects.filter(time__lt=timezone.now().time.second).filter(id__gt=self.input['commentId'])
-        for comment in comment_list:
-            show_list.append(
-                {
-                    'id': comment.id,
-                    'content': comment.content,
-                    'color': comment.color,
-                    'bolt': comment.bolt,
-                    'incline': comment.incline,
-                    'underline': comment.underline
-                }
-            )
+        #comment_list = Comment.objects.filter(time__lt=timezone.now().time.second).filter(id__gt=self.input['commentId'])
+        #for comment in comment_list:
+            #show_list.append(
+                #{
+                    #'id': comment.id,
+                    #'content': comment.content,
+                    #'color': comment.color,
+                    #'bolt': comment.bolt,
+                    #'incline': comment.incline,
+                    #'underline': comment.underline
+                #}
+            #)
             
         show_list2 = []
-        pic_list = Comment.objects.filter(time__lt=timezone.now().time.second ).filter(id__gt=self.input['pictureId'])
-        for pic in pic_list:
-            show_list2.append(
-                {
-                    'id': pic.id,
-                    'picUrl': pic.pic_url
-                }
-            )
-        return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
+        #pic_list = Comment.objects.filter(time__lt=timezone.now().time.second ).filter(id__gt=self.input['pictureId'])
+        #for pic in pic_list:
+            #show_list2.append(
+                #{
+                    #'id': pic.id,
+                    #'picUrl': pic.pic_url
+                #}
+            #)
+        #return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
+        return {'view': 24, 'commentLinenumber': "", 'list': show_list, 'list2': show_list2}
     
     def post(self):
-        if 'activity' in self.post():
-            return redirect('/a/activity/')
+        if 'activity' in self.request.POST:
+            return {'view': 6}
 
-        if 'barrage' in self.post():
-            return redirect('/a/barrage/')
+        if 'barrage' in self.request.POST:
+            return {'view': 9}
 
-        if 'lottery' in self.post():
-            return redirect('/a/lottery/')
+        if 'lottery' in self.request.POST:
+            return {'view': 10}
 
-        if 'logout' in self.post():
-            return redirect('/a/logout/')
+        if 'logout' in self.request.POST:
+            return {'view': 8}
         
-        if 'commentLinenumber' in self.post():
+        if 'commentLinenumber' in self.request.POST:
             self.check_input('commentLinenumber')
             return self.input['commentLinenumber']
         
-        if 'settop' in self.post():
+        if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')
             old_top = Comment.objects.get(status=Barrage.TOP)
             old_top.status = Barrage.NOT_OK
@@ -636,13 +663,13 @@ class barrage_left_detele(APIView):
     def get(self):
         nid = self.GET.get('nid')
         Barrage.objects.filter(id=nid).delete()
-        return redirect('/a/barrage/')
+        return {'view': 9}
 
 
 #左右两个添加不知道怎么实现，就是审核可以放到弹幕墙上面的弹幕
 class barrage_left_create(APIView):
     def get(self):
-        return
+        return {'view': 9}
 
 
 
@@ -650,25 +677,25 @@ class barrage_right_detele(APIView):
     def get(self):
         nid = self.GET.get('nid')
         Barrage.objects.filter(id=nid).delete()
-        return redirect('/a/barrage/')
+        return {'view': 9}
 
 
 class barrage_right_create(APIView):
     def get(self):
-        return
+        return {'view': 9}
 
 
 # 实现一下点击节目顺序往上
 class ProgrameUp(APIView):
     def get(self):
-        return
+        return {'view': 21}
 
     
 
 # 实现一下点击节目顺序往下
 class ProgrameDown(APIView):
     def get(self):
-        return
+        return {'view': 21}
 
 
-# Create your views here.
+# Create your views here

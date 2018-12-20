@@ -2,7 +2,7 @@ from django.shortcuts import render
 from codex.baseerror import *
 from codex.baseview import APIView
 from django.utils import timezone
-from DjangoProject.models import ActivityUser,Activity,Program,LotteryResult,Comment, Barrage, Picture
+from DjangoProject.models import ActivityUser,Activity,LotteryResult,Comment, Barrage, Picture
 import json
 import datetime
 import re
