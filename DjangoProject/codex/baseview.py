@@ -5,6 +5,7 @@ import logging
 
 from django.http import HttpResponse
 from django.views.generic import View
+from django.shortcuts import render, redirect
 
 from codex.baseerror import BaseError, InputError
 
@@ -81,6 +82,86 @@ class APIView(BaseView):
                 'msg': msg,
                 'data': None,
             })
+        #登入页面
+        if result['view'] == 0:
+            return render(self.request, 'a/login.html')
+        if result['view'] == 1:
+            return redirect('/a/register/')
+        if result['view'] == 2:
+            return render(self.request, 'a/login.html', {'status': result['msg']})
+        if result['view'] == 25:
+            return redirect('/a/activity/')
+        
+        #注册页面
+        if result['view'] == 3:
+            return render(self.request, 'a/register.html')
+        if result['view'] == 4:
+            return redirect('/a/login/')
+        if result['view'] == 5:
+            return render(self.request, 'a/register.html', {'status': result['msg']})
+        
+        #活动界面
+        if result['view'] == 6:
+            return redirect('/a/programe/')
+        if result['view'] == 7:
+            return render(self.request, 'a/activity.html', {'list': result['msg']})
+        if result['view'] == 8:
+            return redirect('/a/logout/')
+        if result['view'] == 9:
+            return redirect('/a/barrage/')
+        if result['view'] == 10:
+            return redirect('/a/lottery/')
+        if result['view'] == 11:
+            return redirect('/a/Activity/create/')
+        if result['view'] == 12:
+            return render(self.request, 'a/Activity/create.html')
+        if result['view'] == 13:
+            return render(self.request, 'a/Activity/edit.html', {'Name': result['Name'], 'description': result['description'],
+                           'startTime': result['startTime'], 'endTime': result['endTime'],
+                           'place': result['place'], 'picUrl': result['picUrl'], 'bgPicUrl': result['bgPicUrl'],
+                           'organizer': result['organizer'], 'status': result['status']})
+        if result['view'] == 18:
+            return render(self.request, 'a/Activity/edit.html')
+        
+        #节目界面
+        if result['view'] == 25:
+            return render(self.request, 'a/programe.html', {'list': result['list']})
+        if result['view'] == 14:
+            return redirect('/a/Programe/create/')
+        if result['view'] == 21:
+            return redirect('/a/programe/')
+        if result['view'] == 22:
+            return render(self.request, 'a/Programe/create.html')
+        if result['view'] == 23:
+            return render(APIView, 'a/Programe/edit.html', {'name': result['name'], 'description': result['description'], 'sequence': result['sequence'], 'actors': result['actors']})
+        
+        
+        #抽奖界面
+        if result['view'] == 15:
+            return render(self.request, 'a/Lottery/create.html')
+        if result['view'] == 16:
+            return render(self.request, 'a/Lottery/edit.html',{'name': result['name'],
+                           'description': result['description'],
+                           'speical': result['speical'],
+                           'first': result['first'],
+                           'second': result['second'],
+                           'third': result['third'],
+                           'status': result['status']})
+        if result['view'] == 17:
+            return render(self.request, 'a/Lottery/edit.html')
+        if result['view'] == 19:
+            return render(self.request, 'a/lottery.html', {'list': result['list']})
+        if result['view'] == 20:
+            return redirect('/a/Lottery/create/')
+        
+        #弹幕页面
+        if result['view'] == 24:
+            return render(self.request, 'a/barrage.html', {'commentLinenumber': "", 'list': result['list'], 'list2': result['list2']})
+        
+        #弹幕墙页面
+        if result['view'] == 30:
+            return render(self.request, 'b/1.html')
+        
         return HttpResponse(response, content_type='application/json')
 
     def check_input(self, *keys):

@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'userpage',
     'adminpage',
     'barragepage',
+    'DjangoProject',
+    'wechat',
 ]
 
 MIDDLEWARE_CLASSES = [

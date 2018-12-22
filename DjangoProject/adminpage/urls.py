@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-
+import re
 from django.conf.urls import url
 from adminpage.views import *
-
-
-
-
 
 urlpatterns = [
     url(r'^login/?$', Login.as_view()),
