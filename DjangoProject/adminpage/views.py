@@ -18,7 +18,6 @@ import os
 
 activityid = 0
 
-
 class Login(APIView):
     def get(self):
         print("Login Get")

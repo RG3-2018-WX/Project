@@ -6,12 +6,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 from DjangoProject import models
-from DjangoProject.models import Activity,Comment,Barrage,Picture
+from DjangoProject.models import Activity, Lottery, Programe, Barrage, Comment, Picture
 from django.utils import timezone
 from wechat.views import CustomWeChatView
 import uuid
-from WeChatTicket import settings
+#from WeChatTicket import settings
 import os
+
+
+class BarrierWall(APIView):
+    def get(self):
+        return {'view': 30}
+
 
 class CommentLinenumber(APIView):
     def get(self):
@@ -19,6 +25,7 @@ class CommentLinenumber(APIView):
             raise ValidateError("Please Login First!")
         self.check_input('linenumber')
         return self.input['linenumber']
+
 
 class SetTop(APIView):
     def get(self):
@@ -34,9 +41,8 @@ class SetTop(APIView):
         }
         return top_comment
 
+
 class SetComment(APIView):
-
-
     def post(self):
         self.check_input('activityId')
         if self.check_input('comment'):
@@ -47,8 +53,9 @@ class SetComment(APIView):
         elif self.check_input('picUrl'):
             Picture.insertComment(Activity.selectById(self.input['activityId']), self.input['openId'],self.input['picUrl'],timezone.now(),
                                   Barrage.OK)
+            
     def get(self):
-        self.check_input('activityId','commentId')
+        self.check_input('activityId', 'commentId')
         show_list=[]
         comment_list = Comment.objects.filter(time__lt=timezone.now().time.second-3).filter(id__gt=self.input['commentId'])
         for comment in comment_list:
@@ -63,6 +70,8 @@ class SetComment(APIView):
                 }
             )
         return show_list
+    
+    
 class SetPicture(APIView):
     def get(self):
         self.check_input('activityId', 'pictureId')
@@ -77,4 +86,6 @@ class SetPicture(APIView):
             )
 
         return show_list
+    
+    
 # Create your views here.

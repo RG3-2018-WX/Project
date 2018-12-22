@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from adminpage import views
+from barragepage import views as views2
+
 urlpatterns = [
     url(r'^a/login/', views.Login.as_view()),
     url(r'^a/logout/', views.Logout.as_view()),
@@ -38,4 +40,5 @@ urlpatterns = [
     url(r'^a/Programe/down/', views.ProgrameDown.as_view()),
     url(r'^a/Programe/create/', views.ProgrameCreate.as_view()),
     url(r'^a/Programe/edit/', views.ProgrameDetail.as_view()),
+    url(r'^b/1/', views2.BarrierWall.as_view()),\
 ]

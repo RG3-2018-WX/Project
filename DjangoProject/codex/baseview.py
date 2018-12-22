@@ -156,6 +156,10 @@ class APIView(BaseView):
         if result['view'] == 24:
             return render(self.request, 'a/barrage.html', {'commentLinenumber': "", 'list': result['list'], 'list2': result['list2']})
         
+        #弹幕墙页面
+        if result['view'] == 30:
+            return render(self.request, 'b/1.html')
+        
         return HttpResponse(response, content_type='application/json')
 
     def check_input(self, *keys):
