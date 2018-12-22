@@ -21,7 +21,7 @@ from barragepage import views as views2
 urlpatterns = [
     url(r'^a/login/', views.Login.as_view()),
     url(r'^a/logout/', views.Logout.as_view()),
-    url(r'^a/register/', views.Register.as_view()),
+    #url(r'^a/register/', views.Register.as_view()),
     url(r'^a/activity/', views.ActivityList.as_view()),
     url(r'^a/lottery/', views.LotteryList.as_view()),
     url(r'^a/barrage/', views.SetComment.as_view()),

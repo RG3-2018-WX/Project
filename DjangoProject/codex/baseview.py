@@ -88,8 +88,8 @@ class APIView(BaseView):
         if result['view'] == 1:
             return redirect('/a/register/')
         if result['view'] == 2:
-            return render(self.request, 'a/login.html', {'status': result['msg']})
-        if result['view'] == 25:
+            return render(self.request, 'a/login.html', {'username': result['username'], 'password': result['password']})
+        if result['view'] == 27:
             return redirect('/a/activity/')
         if result['view'] == 0:
             return redirect('/a/login/')
@@ -118,16 +118,18 @@ class APIView(BaseView):
         if result['view'] == 12:
             return render(self.request, 'a/Activity/create.html')
         if result['view'] == 13:
-            return render(self.request, 'a/Activity/edit.html', {'Name': result['Name'], 'description': result['description'],
+            return render(self.request, 'a/Activity/edit.html', {'name': result['name'], 'description': result['description'],
                            'startTime': result['startTime'], 'endTime': result['endTime'],
                            'place': result['place'], 'picUrl': result['picUrl'], 'bgPicUrl': result['bgPicUrl'],
-                           'organizer': result['organizer'], 'status': result['status']})
+                           'status': result['status']})
         if result['view'] == 18:
             return render(self.request, 'a/Activity/edit.html')
         
         #节目界面
         if result['view'] == 25:
-            return render(self.request, 'a/programe.html', {'list': result['list']})
+            r = render(self.request, 'a/programe.html', {'list': result['list']})
+            r.set_cookie('activityId', result['activityId'])
+            return r
         if result['view'] == 14:
             return redirect('/a/Programe/create/')
         if result['view'] == 21:
