@@ -33,7 +33,7 @@ class Login(APIView):
             user = authenticate(username=self.input['username'], password=self.input['password'])
             if user is not None and user.is_active:
                 login(self.request, user)
-                return {'view': 6}
+                return {'view': 25}
             if not User.objects.filter(username=self.input['username']):
                 #raise ValidateError("Username not exist")
                 return {'view': 2, 'msg': 'Username not exist'}
@@ -157,14 +157,14 @@ class ActivityCreate(APIView):
                              "endTime", "status", "organizer")
             Activity.insertActivity(self.input['organizer'], self.input['description'], self.input['picUrl'],
                                     self.input['startTime'], self.input['endTime'],
-                                    self.input['bgPicUrl'], self.input['status'], self.input['palce'], self.input['name'])
+                                    self.input['bgPicUrl'], self.input['status'], self.input['place'], self.input['name'])
             if not Activity.objects.get(self.input['name']):
                 raise LogicError()
             else:
-                return {'view': 6}
+                return {'view': 25}
             
         if 'return' in self.request.POST:
-            return {'view': 6}
+            return {'view': 25}
 
 
 class ImageUpload(APIView):
@@ -244,10 +244,10 @@ class ActivityDetail(APIView):
                 raise ValidateError('no such activity')
             activity.save()
             # return 0
-            return {'view': 6}
+            return {'view': 25}
         
         if 'return' in self.request.POST:
-            return {'view': 6}
+            return {'view': 25}
         
         if 'begin' in self.request.POST:
             Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
@@ -268,7 +268,7 @@ class ActivityDetail(APIView):
         if 'detail' in self.request.POST:
             nid = self.get().get('nid')
             Activity.objects.filter(activityId=nid)
-            return {'view': 6}
+            return {'view': 25}
 
 
 class LotteryCreate(APIView):
