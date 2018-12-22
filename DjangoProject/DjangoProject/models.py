@@ -18,8 +18,8 @@ class Activity(models.Model):
 	organizer = models.ForeignKey(User, on_delete=models.CASCADE)
 	description = models.CharField(max_length=300)
 	pic_url = models.ImageField(max_length=255)
-	start_time = models.DateTimeField(default=timezone.now())
-	end_time = models.DateTimeField(default=timezone.now())
+	start_time = models.DateTimeField(default=timezone.now)
+	end_time = models.DateTimeField(default=timezone.now)
 	bg_pic_url = models.ImageField(max_length=255)
 	status = models.IntegerField()
 	sign = models.IntegerField()
@@ -28,13 +28,11 @@ class Activity(models.Model):
 	FINISH = 2
 	DELETE = 3
 	
-	def __init__(self):
-		self.sign = random.randint(1000,9999)
-	
 	@staticmethod
 	def insertActivity(organizer, description, pic_url, start_time, end_time, bg_pic_url, status, place, name):
 		activity = Activity(organizer=organizer, description=description, pic_url=pic_url, start_time=start_time,
 		                    end_time=end_time, bg_pic_url=bg_pic_url, status=status, place=place, name=name)
+		activity.sign = random.randint(1000, 9999)
 		activity.save()
 	
 	@staticmethod
@@ -190,7 +188,7 @@ class Barrage(models.Model):
 	# user = models.ForeignKey(ActivityUser,on_delete=models.CASCADE)
 	open_id = models.CharField(max_length=100)
 	status = models.IntegerField()
-	time = models.DateTimeField(default=timezone.now())
+	time = models.DateTimeField(default=timezone.now)
 	OK = 1
 	NOT_OK = 2
 	TOP = 3

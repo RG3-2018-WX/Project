@@ -83,7 +83,7 @@ class APIView(BaseView):
                 'data': None,
             })
         #登入页面
-        if result['view'] == 0:
+        if result['view'] == 26:
             return render(self.request, 'a/login.html')
         if result['view'] == 1:
             return redirect('/a/register/')
@@ -91,6 +91,8 @@ class APIView(BaseView):
             return render(self.request, 'a/login.html', {'status': result['msg']})
         if result['view'] == 25:
             return redirect('/a/activity/')
+        if result['view'] == 0:
+            return redirect('/a/login/')
         
         #注册页面
         if result['view'] == 3:

@@ -15,6 +15,7 @@ from wechat.views import CustomWeChatView
 import uuid
 from DjangoProject import settings
 import os
+import time
 
 activityid = 0
 
@@ -23,9 +24,9 @@ class Login(APIView):
         print("Login Get")
         if not self.request.user.is_authenticated():
             #raise ValidateError("Please Login!")
-            return {'view': 0}
+            return {'view': 26}
 
-        return {'view': 0}
+        return {'view': 26}
 
     def post(self):
         if 'login' in self.request.POST:
@@ -69,7 +70,7 @@ class Register(APIView):
                 return {'view': 5, 'msg': 'registration success'}
             
         else:
-            return {'view': 4}
+            return {'view': 0}
 
 
 class Logout(APIView):
@@ -154,10 +155,11 @@ class ActivityCreate(APIView):
             raise ValidateError("Please Login First!")
         if 'create' in self.request.POST:
             self.check_input("name", "place", "description", "picUrl", "bgPicUrl", "startTime",
-                             "endTime", "status", "organizer")
-            Activity.insertActivity(self.input['organizer'], self.input['description'], self.input['picUrl'],
-                                    self.input['startTime'], self.input['endTime'],
-                                    self.input['bgPicUrl'], self.input['status'], self.input['place'], self.input['name'])
+                             "endTime", "status")
+            print(self.input['startTime'])
+            Activity.insertActivity(self.request.user, self.input['description'], self.input['picUrl'],
+                                    self.input['startTime'], self.input['endTime'], self.input['bgPicUrl'],
+                                    self.input['status'], self.input['place'], self.input['name'])
             if not Activity.objects.get(self.input['name']):
                 raise LogicError()
             else:
