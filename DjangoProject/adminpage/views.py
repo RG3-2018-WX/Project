@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 from DjangoProject import models
 from DjangoProject.models import Activity, Lottery, Programe, Barrage, Comment, Picture
@@ -15,17 +16,18 @@ from wechat.views import CustomWeChatView
 import uuid
 from DjangoProject import settings
 import os
+import time
 
-activityid = 0
+num = 0
 
 class Login(APIView):
     def get(self):
         print("Login Get")
         if not self.request.user.is_authenticated():
             #raise ValidateError("Please Login!")
-            return {'view': 0}
+            return {'view': 26}
 
-        return {'view': 0}
+        return {'view': 26}
 
     def post(self):
         if 'login' in self.request.POST:
@@ -33,16 +35,34 @@ class Login(APIView):
             user = authenticate(username=self.input['username'], password=self.input['password'])
             if user is not None and user.is_active:
                 login(self.request, user)
-                return {'view': 25}
+                return {'view': 27}
             if not User.objects.filter(username=self.input['username']):
                 #raise ValidateError("Username not exist")
-                return {'view': 2, 'msg': 'Username not exist'}
+                messages.success(self.request, "Username not exist")
+                return {'view': 2, 'username': self.input['username'], 'password': self.input['password']}
 
             #raise ValidateError("wrong password")
-            return {'view': 2, 'msg': 'wrong password'}
+            messages.success(self.request, "wrong password")
+            return {'view': 2, 'username': self.input['username'], 'password': self.input['password']}
         
         if 'register' in self.request.POST:
-            return {'view': 1}
+            self.check_input('username', 'password')
+            if User.objects.get(username=self.input['username']):
+                #raise ValidateError('The username has been occupied')
+                #return {'view': 5, 'msg': 'The username has been occupied'}
+                messages.success(self.request, "The username has been occupied")
+                return {'view': 2, 'username': self.input['username'], 'password': self.input['password']}
+            else:
+                user = User.objects.create_user(username=self.input['username'], password=self.input['password'])
+                if user is False:
+                    #raise ValidateError('register failed')
+                    #return {'view': 5, 'msg': 'register failed'}
+                    messages.success(self.request, "register failed")
+                    return {'view': 2, 'username': self.input['username'], 'password': self.input['password']}
+                else:
+                    #return {'view': 5, 'msg': 'registration success'}
+                    messages.success(self.request, "registration success")
+                    return {'view': 2, 'username': self.input['username'], 'password': self.input['password']}
 
 
 class Register(APIView):
@@ -69,7 +89,7 @@ class Register(APIView):
                 return {'view': 5, 'msg': 'registration success'}
             
         else:
-            return {'view': 4}
+            return {'view': 0}
 
 
 class Logout(APIView):
@@ -92,25 +112,13 @@ class ActivityList(APIView):
             output_list.append({
                 'activityId': i.id,
                 'name': i.name,
-                'startTime': i.start_time.timestamp(),
-                'endTime': i.end_time.timestamp(),
+                'startTime': i.start_time,
+                'endTime': i.end_time,
                 'place': i.place,
             })
         return {'view': 7, 'msg': output_list}
     
     def post(self):
-        if 'activity' in self.request.POST:
-            #return redirect('/a/activity/')
-            return {'view': 6}
-
-        if 'barrage' in self.request.POST:
-            #return redirect('/a/barrage/')
-            return {'view': 9}
-
-        if 'lottery' in self.request.POST:
-            #return redirect('/a/lottery/')
-            return {'view': 10}
-
         if 'create' in self.request.POST:
             #return redirect('/a/Activity/create/')
             return {'view': 11}
@@ -136,9 +144,9 @@ class ActivityDelete(APIView):
     def get(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
-        nid = self.get().get('nid')
-        Activity.objects.filter(activityId=nid)
-        return {'view': 6}
+        nid = self.request.GET.get('nid')
+        Activity.deleteActivity(nid)
+        return {'view': 27}
 
 
 class ActivityCreate(APIView):
@@ -153,17 +161,17 @@ class ActivityCreate(APIView):
             raise ValidateError("Please Login First!")
         if 'create' in self.request.POST:
             self.check_input("name", "place", "description", "picUrl", "bgPicUrl", "startTime",
-                             "endTime", "status", "organizer")
-            Activity.insertActivity(self.input['organizer'], self.input['description'], self.input['picUrl'],
-                                    self.input['startTime'], self.input['endTime'],
-                                    self.input['bgPicUrl'], self.input['status'], self.input['place'], self.input['name'])
-            if not Activity.objects.get(self.input['name']):
-                raise LogicError()
-            else:
-                return {'view': 25}
+                             "endTime")
+            Activity.insertActivity(self.request.user, self.input['description'], self.input['picUrl'],
+                                    self.input['startTime'], self.input['endTime'], self.input['bgPicUrl'],
+                                    0, self.input['place'], self.input['name'])
+            #if not Activity.objects.get(self.input['name']):
+                #raise LogicError()
+            #else:
+            return {'view': 27}
             
         if 'return' in self.request.POST:
-            return {'view': 25}
+            return {'view': 27}
 
 
 class ImageUpload(APIView):
@@ -194,13 +202,12 @@ class ImageUpload(APIView):
 
 
 class ActivityDetail(APIView):
-    
     def get(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         #self.check_input('activityId')
         #activity = Activity.selectById(self.input['activityId'])
-        nid = self.get().get('nid')
+        nid = self.request.GET.get('nid')
         activity = Activity.selectById(nid)
         if activity:
             data = {'name': activity.name,
@@ -214,10 +221,10 @@ class ActivityDetail(APIView):
                     'status': activity.status
                     }
             
-            return {'view': 13, 'Name': Activity.name, 'description': Activity.description,
-                           'startTime': Activity.start_timeime.timestamp(), 'endTime': Activity.end_time.timestamp(),
+            return {'view': 13, 'name': activity.name, 'description': activity.description,
+                           'startTime': activity.start_time, 'endTime': activity.end_time,
                            'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
-                           'organizer': activity.organizer, 'status': activity.status}
+                           'organizer': activity.organizer, 'status': activity.status, 'acitivityid': nid}
         else:
             raise InputError()
 
@@ -243,10 +250,10 @@ class ActivityDetail(APIView):
                 raise ValidateError('no such activity')
             activity.save()
             # return 0
-            return {'view': 25}
+            return {'view': 27}
         
         if 'return' in self.request.POST:
-            return {'view': 25}
+            return {'view': 27}
         
         if 'begin' in self.request.POST:
             Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
@@ -411,7 +418,7 @@ class LotteryList(APIView):
             raise ValidateError("Please login!")
         #self.check_input('activityId')
         #lottery_list = Lottery.objects.filter(activity__id=self.input['activityId'])
-        lottery_list = Lottery.objects.filter(activityid)
+        lottery_list = Lottery.objects.filter(self.request.COOKIES['activityId'])
         if not lottery_list:
             raise InputError('no such activity')
         list = []
@@ -448,9 +455,13 @@ class ProgrameList(APIView):
         #self.check_input('activityId')
         nid = self.request.GET.get('nid')
         if nid is not None:
-            activityid = nid
-        #program_list = Programe.selectByActivity(Activity.selectById(self.input['activityId']))
-        program_list = Programe.selectByActivity(Activity.selectById(activityid))
+            nid = self.request.GET.get('nid')
+            #program_list = Programe.selectByActivity(Activity.selectById(self.input['activityId']))
+            program_list = Programe.selectByActivity(Activity.selectById(nid))
+            activityId = nid
+        else:
+            program_list = Programe.selectByActivity(Activity.selectById(self.request.COOKIES['activityId']))
+            activityId = self.request.COOKIES['activityId']
         show_list = []
         for program in program_list:
             show_list.append(
@@ -461,7 +472,7 @@ class ProgrameList(APIView):
                 }
             )
         show_list = []
-        return {'view': 25, 'list': show_list}
+        return {'view': 25, 'list': show_list, 'activityId': activityId}
         
     def post(self):
         if 'activity' in self.request.POST:
