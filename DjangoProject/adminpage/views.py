@@ -58,7 +58,7 @@ class Logout(APIView):
 
 class ActivityList(APIView):
     def get(self):
-        if not self.request.user.is_authenticatedd():
+        if not self.request.user.is_authenticated():
             raise ValidateError("Please Login First!")
         list = Activity.selectByOrganizer(self.request.user.username)
         output_list = []

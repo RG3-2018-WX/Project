@@ -17,7 +17,7 @@ from django.utils import timezone
 
 from wechat.models import *
 
-
+from DjangoProject.settings import *
 __author__ = "Epsirom"
 
 
