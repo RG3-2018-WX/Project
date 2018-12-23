@@ -129,6 +129,7 @@ class APIView(BaseView):
         if result['view'] == 25:
             r = render(self.request, 'a/programe.html', {'list': result['list']})
             r.set_cookie('activityId', result['activityId'])
+            r.set_cookie('commentLinenumber', 5)
             return r
         if result['view'] == 14:
             return redirect('/a/Programe/create/')
@@ -160,7 +161,7 @@ class APIView(BaseView):
         
         #弹幕页面
         if result['view'] == 24:
-            return render(self.request, 'a/barrage.html', {'commentLinenumber': "", 'list': result['list'], 'list2': result['list2']})
+            return render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
         
         #弹幕墙页面
         if result['view'] == 30:

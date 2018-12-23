@@ -47,7 +47,7 @@ class Login(APIView):
         
         if 'register' in self.request.POST:
             self.check_input('username', 'password')
-            if User.objects.get(username=self.input['username']):
+            if User.objects.filter(username=self.input['username']):
                 #raise ValidateError('The username has been occupied')
                 #return {'view': 5, 'msg': 'The username has been occupied'}
                 messages.success(self.request, "The username has been occupied")
@@ -65,7 +65,7 @@ class Login(APIView):
                     return {'view': 2, 'username': self.input['username'], 'password': self.input['password']}
 
 
-class Register(APIView):
+'''class Register(APIView):
     def get(self):
         print("Login Get")
         if not self.request.user.is_authenticated():
@@ -89,7 +89,7 @@ class Register(APIView):
                 return {'view': 5, 'msg': 'registration success'}
             
         else:
-            return {'view': 0}
+            return {'view': 0}'''
 
 
 class Logout(APIView):
@@ -104,8 +104,9 @@ class Logout(APIView):
 
 class ActivityList(APIView):
     def get(self):
+        print("Activity Get")
         if not self.request.user.is_authenticated():
-            raise ValidateError("Please Login First!")
+            return {'view': 0}
         list = Activity.selectByOrganizer(self.request.user.username)
         output_list = []
         for i in list:
@@ -115,6 +116,7 @@ class ActivityList(APIView):
                 'startTime': i.start_time,
                 'endTime': i.end_time,
                 'place': i.place,
+                'status': i.status
             })
         return {'view': 7, 'msg': output_list}
     
@@ -229,6 +231,7 @@ class ActivityDetail(APIView):
             raise InputError()
 
     def post(self):
+        nid = self.request.GET.get('nid')
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         
@@ -241,7 +244,7 @@ class ActivityDetail(APIView):
                     Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
                                             self.input['picUrl'],
                                             self.input['startTime'], self.input['endTime'],
-                                            self.input['bgPicUrl'], self.input['status'], self.input['palce'],
+                                            self.input['bgPicUrl'], self.input['status'], self.input['place'],
                                             self.input['name'])
                 elif activity.status == 1:
                     raise InputError('the activity already start')
@@ -256,18 +259,18 @@ class ActivityDetail(APIView):
             return {'view': 27}
         
         if 'begin' in self.request.POST:
-            Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
+            Activity.updateActivity(nid, self.request.user, self.input['description'],
                                             self.input['picUrl'],
                                             self.input['startTime'], self.input['endTime'],
-                                            self.input['bgPicUrl'], 1, self.input['palce'],
+                                            self.input['bgPicUrl'], 1, self.input['place'],
                                             self.input['name'])
             return {'view': 18}
         
         if 'end' in self.request.POST:
-            Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
+            Activity.updateActivity(nid,self.request.user, self.input['description'],
                                             self.input['picUrl'],
                                             self.input['startTime'], self.input['endTime'],
-                                            self.input['bgPicUrl'], 2, self.input['palce'],
+                                            self.input['bgPicUrl'], 2, self.input['place'],
                                             self.input['name'])
             return {'view': 18}
         
@@ -468,7 +471,7 @@ class ProgrameList(APIView):
                 {
                     'name': program.name,
                     'sequence': program.sequence,
-                    'actor': program.actor
+                    #'actor': program.actor
                 }
             )
         show_list = []
@@ -517,14 +520,16 @@ class ProgrameCreate(APIView):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please Login First!")
         if 'create' in self.request.POST:
-            self.check_input('activityId', 'name', 'description', 'sequence', 'actors')
-            Programe.insertPrograme(Activity.selectById(self.input['activityId']), self.input['name'],
+            self.check_input('name', 'description', 'sequence', 'actors')
+            Programe.insertPrograme(Activity.selectById(self.request.COOKIES['activityId']), self.input['name'],
                                     self.input['description'], self.input['sequence'], self.input['actors'])
-            if not Activity.objects.get(self.input['name']):
+            '''if not Activity.objects.filter(self.input['name']):
                 raise LogicError('fail creat pragram')
             else:
-                return {'view': 6}
-             
+                return {'view': 6}'''
+            
+            return {'view': 6}
+        
         if 'return' in self.request.POST:
             return {'view': 6}
 
@@ -616,7 +621,7 @@ class SetComment(APIView):
                 #}
             #)
         #return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
-        return {'view': 24, 'commentLinenumber': "", 'list': show_list, 'list2': show_list2}
+        return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': show_list, 'list2': show_list2}
     
     def post(self):
         if 'activity' in self.request.POST:
@@ -633,7 +638,9 @@ class SetComment(APIView):
         
         if 'commentLinenumber' in self.request.POST:
             self.check_input('commentLinenumber')
-            return self.input['commentLinenumber']
+            self.request.COOKIES['commentLinenumber'] = self.input['ActivityID']
+            #return self.input['commentLinenumber']
+            return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': [], 'list2': []}
         
         if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')
@@ -692,7 +699,7 @@ class barrage_left_create(APIView):
 
 class barrage_right_detele(APIView):
     def get(self):
-        nid = self.GET.get('nid')
+        nid = self.request.GET.get('nid')
         Barrage.objects.filter(id=nid).delete()
         return {'view': 9}
 

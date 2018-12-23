@@ -22,6 +22,7 @@
                     <th style="background-color:#c3dde0; border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">开始时间</th>
                     <th style="background-color:#c3dde0; border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">结束时间</th>
                     <th style="background-color:#c3dde0; border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">活动地址</th>
+                    <th style="background-color:#c3dde0; border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">活动状态</th>
                     <th style="background-color:#c3dde0; border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
                         <input type="submit" value="添加新活动" name="create" style="background: #c3dde0; text-align: center; height: 50px; font-size: 20px;">
                     </th>
@@ -42,6 +43,20 @@
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
                         {{ a.place }}
+                    </td>
+                    <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
+                        {% if a.status == 3 %}
+                            删除
+                        {% endif %}
+                        {% if a.status == 0 %}
+                            准备
+                        {% endif %}
+                        {% if a.status == 1 %}
+                            进行
+                        {% endif %}
+                        {% if a.status == 2 %}
+                            结束
+                        {% endif %}
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
                         <a href="/a/Activity/edit/?nid={{ a.activityId }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">编辑</a>
