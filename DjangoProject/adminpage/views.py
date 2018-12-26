@@ -830,7 +830,7 @@ class Top(APIView):
             'incline': top1.incline,
             'underline': top1.underline
         }
-        return {'view': 31, 'result': top_comment}
+        return {'view': 33, 'result': top_comment}
         
 
 class Pic(APIView):
