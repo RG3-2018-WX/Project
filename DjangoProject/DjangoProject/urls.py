@@ -17,9 +17,8 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from adminpage import views
 from barragepage import views as views2
-
+from adminpage import views as u_views
 urlpatterns = [
-
     url(r'^a/login/', views.Login.as_view()),
     url(r'^a/logout/', views.Logout.as_view()),
     #url(r'^a/register/', views.Register.as_view()),
@@ -41,5 +40,9 @@ urlpatterns = [
     url(r'^a/Programe/down/', views.ProgrameDown.as_view()),
     url(r'^a/Programe/create/', views.ProgrameCreate.as_view()),
     url(r'^a/Programe/edit/', views.ProgrameDetail.as_view()),
-    url(r'^b/1/', views2.BarrierWall.as_view()),\
-]
+    url(r'^b/1/', views2.BarrierWall.as_view()),
+url(r'^api/u/activity/list', u_views.ActivityList.as_view()),
+url(r'^api/u/activity/detail',u_views.ActivityDetail.as_view()),
+url(r'api/u/activity/program',u_views.ProgrameDetail.as_view()),
+url(r'api/u/lottery/list',u_views.LotteryList.as_view()),
+url(r'api/u/activity/comment',u_views.SetComment.as_view())]
