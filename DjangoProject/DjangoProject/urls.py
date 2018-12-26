@@ -17,6 +17,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from adminpage import views
 from barragepage import views as views2
+from userpage import views as u_view
 from django.views.static import serve
 
 urlpatterns = [
@@ -49,4 +50,10 @@ urlpatterns = [
     url(r'^b/5/', views.add3.as_view()),
     url(r'^b/6/', views.add4.as_view()),
     url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
+    	url(r'^api/u/activity/list', u_view.ActivityList.as_view()),
+	url(r'^api/u/activity/detail',u_view.ActivityDetail.as_view()),
+	url(r'^api/u/activity/program',u_view.ProgramDetail.as_view()),
+	url(r'^api/u/lottery/list',u_view.LotteryInfo.as_view()),
+	url(r'^api/u/activity/comment',u_view.SetComment.as_view()),
+	url(r'^api/u/activity/picture',u_view.SetPicture.as_view()),
 ]
