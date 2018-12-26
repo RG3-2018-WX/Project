@@ -261,7 +261,24 @@ class ActivityDetail(APIView):
                                             self.input['startTime'], self.input['endTime'],
                                             self.input['bgPicUrl'], 1, self.input['place'],
                                             self.input['name'])
-            return {'view': 18}
+            activity = Activity.selectById(nid)
+            if activity:
+                data = {'name': activity.name,
+                    'description': activity.description,
+                    'startTime': activity.start_time.timestamp(),
+                    'endTime': activity.end_time.timestamp(),
+                    'place': activity.place,
+                    'picUrl': activity.pic_url,
+                    'bgPicUrl': activity.bg_pic_url,
+                    'organizer': activity.organizer,
+                    'status': activity.status
+                    }
+            
+                return {'view': 13, 'name': activity.name, 'description': activity.description,
+                           'startTime': activity.start_time, 'endTime': activity.end_time,
+                           'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
+                           'organizer': activity.organizer, 'status': activity.status, 'acitivityid': nid}
+            #return {'view': 18}
         
         if 'end' in self.request.POST:
             Activity.updateActivity(nid,self.request.user, self.input['description'],
@@ -269,7 +286,24 @@ class ActivityDetail(APIView):
                                             self.input['startTime'], self.input['endTime'],
                                             self.input['bgPicUrl'], 2, self.input['place'],
                                             self.input['name'])
-            return {'view': 18}
+            activity = Activity.selectById(nid)
+            if activity:
+                data = {'name': activity.name,
+                    'description': activity.description,
+                    'startTime': activity.start_time.timestamp(),
+                    'endTime': activity.end_time.timestamp(),
+                    'place': activity.place,
+                    'picUrl': activity.pic_url,
+                    'bgPicUrl': activity.bg_pic_url,
+                    'organizer': activity.organizer,
+                    'status': activity.status
+                    }
+            
+                return {'view': 13, 'name': activity.name, 'description': activity.description,
+                           'startTime': activity.start_time, 'endTime': activity.end_time,
+                           'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
+                           'organizer': activity.organizer, 'status': activity.status, 'acitivityid': nid}
+            #return {'view': 18}
         
         if 'detail' in self.request.POST:
             nid = self.get().get('nid')
@@ -289,25 +323,32 @@ class LotteryCreate(APIView):
             raise ValidateError("Please login!")
         if 'create' in self.request.POST:
             self.check_input("name", "description", "first",
-                            "second", "status", "speical", 'third')
+                            "second", "speical", 'third')
             Lottery.insertLottery(
-            
+                Activity.selectById(self.request.COOKIES['activityId']),
+                self.input['name'],
+                self.input['description'],
+                self.input['first'],
+                self.input['second'],
+                self.input['third'],
+                self.input['speical'],
+                0
             )
-            obj = Lottery(name=self.input['name'],
-                        activity=Activity.selectById(self.input['activityId']),
-                        description=self.input['description'],
-                        first=self.input['first'],
-                        status=self.input['status'],
-                        second=self.input['second'],
-                        third=self.input['third'],
-                        speical=self.input['speical'],
-                        )
-            obj.save()
+            #obj = Lottery(name=self.input['name'],
+                        #activity=Activity.selectById(self.input['activityId']),
+                        #description=self.input['description'],
+                        #first=self.input['first'],
+                        #status=self.input['status'],
+                        #second=self.input['second'],
+                        #third=self.input['third'],
+                        #speical=self.input['speical'],
+                        #)
+            #obj.save()
 
-            if not Lottery.objects.get(self.input['name']):
-                raise LogicError('lottery creat failed')
-            else:
-                return {'view': 10}
+            #if not Lottery.objects.get(self.input['name']):
+                #raise LogicError('lottery creat failed')
+            #else:
+            return {'view': 10}
             
         if 'return' in self.request.POST:
             return {'view': 10}
@@ -319,86 +360,87 @@ class LotteryDetail(APIView):
             raise ValidateError("Please login!")
         #self.check_input('id')
         #lottery = Lottery.objects.get(Lotter=self.input('id'))
-        nid = APIView.get().get('nid')
-        lottery = Lottery.objects.get(id=nid)
-        if lottery:
-            data = {'name': lottery.name,
-                    'description': lottery.description,
-                    'speical': lottery.special,
-                    'first': lottery.first,
-                    'second': lottery.second,
-                    'third': lottery.third,
-                    'status': lottery.status
-                    }
+        nid = self.request.GET.get('nid')
+        lottery = Lottery.objects.filter(id=nid)
+        lottery1 = lottery[0]
 
-            #return data
-            return {'view': 16, 'name': lottery.name,
-                           'description': lottery.description,
-                           'speical': lottery.special,
-                           'first': lottery.first,
-                           'second': lottery.second,
-                           'third': lottery.third,
-                           'status': lottery.status}
+        #return data
+        return {'view': 16, 'name': lottery1.name,
+                           'description': lottery1.description,
+                           'speical': lottery1.special,
+                           'first': lottery1.first,
+                           'second': lottery1.second,
+                           'third': lottery1.third,
+                           'status': lottery1.status}
                           
-        else:
-            raise InputError()
+        #else:
+            #raise InputError()
 
     def post(self):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         if 'edit' in self.request.POST:
-            self.check_input("name", "description", "activityId", "first",
-                         "second", "status", "speical", 'third', 'id')
-            lottery = Lottery.objects.get(id=self.input('id'))
-            old_lottery = lottery
-            if lottery:
-                if lottery.status == lottery.PREPARING:
-                    lottery.lottery.name = self.input['name'],
-                    lottery.activity = Activity.selectById(self.input['activityId']),
-                    lottery.description = self.input['description'],
-                    lottery.first = self.input['first'],
-                    lottery.status = self.input['status'],
-                    lottery.second = self.input['second'],
-                    lottery.third = self.input['third'],
-                    lottery.speical = self.input['speical'],
-                    lottery.id = self.input['id']
-                else:
-                    raise ValidateError('the lottery is runing or finished')
-            else:
-                raise ValidateError('no such lottery')
-
-            lottery.save()
+            self.check_input("name", "description", "first",
+                         "second", "speical", 'third')
+            nid = self.request.GET.get('nid')
+            lottery = Lottery.objects.filter(id=nid)
+            lottery1 = lottery[0]
+            lottery1.updateLottery(
+                lottery1.id,
+                self.input['name'],
+                self.input['description'],
+                self.input['first'],
+                self.input['second'],
+                self.input['third'],
+                self.input['speical'],
+                lottery1.status
+            )
             return {'view': 10}
         
         if 'return' in self.request.POST:
             return {'view': 10}
         
         if 'begin' in self.request.POST:
-            nid = self.get().get('nid')
-            Lottery.objects.filter(id=nid).update(Statue="1")
-            return {'view': 17}
+            nid = self.request.GET.get('nid')
+            Lottery.objects.filter(id=nid).update(status=1)
+            lottery = Lottery.objects.filter(id=nid)
+            lottery1 = lottery[0]
+
+            #return data
+            return {'view': 16, 'name': lottery1.name,
+                           'description': lottery1.description,
+                           'speical': lottery1.special,
+                           'first': lottery1.first,
+                           'second': lottery1.second,
+                           'third': lottery1.third,
+                           'status': lottery1.status}
         
         if 'end' in self.request.POST:
-            nid = self.get().get('nid')
-            Lottery.objects.filter(id=nid).update(Statue="2")
-            return {'view': 17}
+            nid = self.request.GET.get('nid')
+            Lottery.objects.filter(id=nid).update(status=2)
+            lottery = Lottery.objects.filter(id=nid)
+            lottery1 = lottery[0]
+
+            #return data
+            return {'view': 16, 'name': lottery1.name,
+                           'description': lottery1.description,
+                           'speical': lottery1.special,
+                           'first': lottery1.first,
+                           'second': lottery1.second,
+                           'third': lottery1.third,
+                           'status': lottery1.status}
         
         if 'detail' in self.request.POST:
-            nid = self.get().get('nid')
+            nid = self.request.GET.get('nid')
             Lottery.objects.filter(id=nid).delete()
             return {'view': 10}
 
 
 class LotteryDelete(APIView):
-    def post(self):
-        if not self.request.user.is_authenticated():
-            raise ValidateError("Please login!")
-        self.check_input('id')
-        lottery = Lottery.objects.get(id=self.input[id])
-        if lottery:
-            lottery.status = Lottery.DELETE
-        else:
-            raise LogicError('no such activity')
+    def get(self):
+        nid = self.request.GET.get('nid')
+        Lottery.objects.filter(id=nid).delete()
+        return {'view': 10}
 
 
 class LotteryStatus(APIView):
@@ -613,31 +655,33 @@ class SetTop(APIView):
 class SetComment(APIView):
     def get(self):
         #self.check_input('activityId', 'commentId')
-        show_list=[]
-        #comment_list = Comment.objects.filter(time__lt=timezone.now().time.second).filter(id__gt=self.input['commentId'])
-        #for comment in comment_list:
-            #show_list.append(
-                #{
-                    #'id': comment.id,
-                    #'content': comment.content,
-                    #'color': comment.color,
-                    #'bolt': comment.bolt,
-                    #'incline': comment.incline,
-                    #'underline': comment.underline
-                #}
-            #)
-            
         show_list2 = []
+        comment_list = Picture.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']))
+        #comment_list = Comment.objects.filter(time__lt=timezone.now().time.second).filter(id__gt=self.input['commentId'])
+        for comment in comment_list:
+            show_list2.append(
+                {
+                    'id': comment.id,
+                    'picUrl': comment.pic_url
+                }
+            )
+            
+        show_list = []
+        pic_list = Comment.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']))
         #pic_list = Comment.objects.filter(time__lt=timezone.now().time.second ).filter(id__gt=self.input['pictureId'])
-        #for pic in pic_list:
-            #show_list2.append(
-                #{
-                    #'id': pic.id,
-                    #'picUrl': pic.pic_url
-                #}
-            #)
+        for pic in pic_list:
+            show_list.append(
+                {
+                    'id': pic.id,
+                    'content': pic.content,
+                    'color': pic.color,
+                    'bolt': pic.bolt,
+                    'incline': pic.incline,
+                    'underline': pic.underline
+                }
+            )
         #return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
-        return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': show_list, 'list2': show_list2}
+        return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': show_list2, 'list2': show_list}
     
     def post(self):
         if 'activity' in self.request.POST:
@@ -663,11 +707,10 @@ class SetComment(APIView):
         
         if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')
-            old_top = Comment.objects.get(status=Barrage.TOP)
-            old_top.status = Barrage.NOT_OK
-            old_top.save()
-            Comment.insertComment(Activity.selectById(self.input['activityId']),self.request.user.username,self.input['color'],self.input['content'],
-                self.input['bolt'], self.input['underline'] ,self.input['incline'],timezone.now(),Barrage.TOP)
+            Comment.objects.filter(status=3).delete()
+            Comment.insertComment(Activity.selectById(self.request.COOKIES['activityId']), self.request.user, self.input['color'], self.input['content'],
+                self.input['bolt'], self.input['underline'], self.input['incline'], timezone.now(), 3)
+            return {'view': 24, 'commentLinenumber': self.input['ActivityID'], 'list': [], 'list2': []}
     
     
 class SetPicture(APIView):
@@ -703,8 +746,8 @@ class CommentStatus(APIView):
 
 class barrage_left_detele(APIView):
     def get(self):
-        nid = self.GET.get('nid')
-        Barrage.objects.filter(id=nid).delete()
+        nid = self.request.GET.get('nid')
+        Picture.objects.filter(id=nid).delete()
         return {'view': 9}
 
 
@@ -717,7 +760,7 @@ class barrage_left_create(APIView):
 class barrage_right_detele(APIView):
     def get(self):
         nid = self.request.GET.get('nid')
-        Barrage.objects.filter(id=nid).delete()
+        Comment.objects.filter(id=nid).delete()
         return {'view': 9}
 
 
@@ -779,13 +822,14 @@ class add4(APIView):
 
 class add(APIView):
     def get(self):
-        top = Comment.objects.get(activity=Activity.selectById(self.input['activityId'])).get(status=Barrage.TOP)
+        top = Comment.objects.filter(status=3)
+        top1 = top[0]
         top_comment = {
-            'content': top.content,
-            'color': top.color,
-            'bolt': top.bolt,
-            'incline': top.incline,
-            'underline': top.underline
+            'content': top1.content,
+            'color': top1.color,
+            'bolt': top1.bolt,
+            'incline': top1.incline,
+            'underline': top1.underline
         }
         return {'view': 31, 'result': top_comment}
         #return JsonResponse({'content': '11', 'bolt': 1, 'italic': 1, 'underline': 1, 'color': 1, 'bool': 0})
@@ -818,4 +862,6 @@ class add3(APIView):
             })
         return {'view': 31, 'result': result}
         #return JsonResponse([{'data': '11', 'bolt': 1, 'italic': 1, 'underline': 1}, {'data': '11', 'bolt': 0, 'italic': 0, 'underline': 0}], safe=False)
+    
+    
 # Create your views here

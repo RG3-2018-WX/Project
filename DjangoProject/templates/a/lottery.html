@@ -33,17 +33,29 @@
                     </th>
                 </tr>
                 {% for a in list %}
+                    {% if a.status != 3 %}
                 <tr style="background-color: #d4e3e5" onmousemove="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
                         {{ a.name }}
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
-                        {{ a.statue }}
+                        {% if a.status == 0 %}
+                            未开始
+                        {% endif %}
+                        {% if a.status == 1 %}
+                            正在进行
+                        {% endif %}
+                        {% if a.status == 2 %}
+                            结束
+                        {% endif %}
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
                         <a href="/a/Lottery/edit/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">详情</a>
+                        |
+                        <a href="/a/Lottery/delete/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">删除</a>
                     </td>
                 </tr>
+                    {% endif %}
                 {% endfor %}
             </table>
         </form>
