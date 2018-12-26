@@ -90,7 +90,7 @@
                         clearInterval(timer);
                         let newnode = document.createElement("div");
                         //newnode.setAttribute("id", "danmu")
-                        newnode.innerHTML = ret[i]["data"];
+                        newnode.innerHTML = ret[i]["content"];
                         let num = parseInt((Math.random() * 10) % linenumber);
                         let num2 = parseInt((document.getElementById("Tc").offsetHeight) / linenumber);
                         newnode.style.top = (num * num2) + "px";
