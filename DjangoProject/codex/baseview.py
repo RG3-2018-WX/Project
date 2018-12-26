@@ -185,6 +185,9 @@ class APIView(BaseView):
             if result['view'] == 32:
                 return JsonResponse(result['result'], safe=False)
         
+            if result['view'] == 33:
+                return JsonResponse(result['result'])
+        
             if result['view'] == 40:
                 return JsonResponse(result['list'], safe=False)
         
@@ -197,7 +200,7 @@ class APIView(BaseView):
             if result['view'] == 50:
                 return JsonResponse({'linenumber': int(result['number'])})
 
-        return JsonResponse(response)
+        return JsonResponse(response, content_type="application/json",safe=False)
 
     def check_input(self, *keys):
         for k in keys:

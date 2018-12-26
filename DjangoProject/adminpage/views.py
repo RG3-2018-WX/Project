@@ -751,7 +751,6 @@ class barrage_left_detele(APIView):
         return {'view': 9}
 
 
-#左右两个添加不知道怎么实现，就是审核可以放到弹幕墙上面的弹幕
 class barrage_left_create(APIView):
     def get(self):
         return {'view': 9}
@@ -815,12 +814,12 @@ class ProgrameDown(APIView):
         return {'view': 21}
     
     
-class add4(APIView):
+class Line(APIView):
     def get(self):
         return {'view': 50, 'number': self.request.COOKIES['commentLinenumber']}
     
 
-class add(APIView):
+class Top(APIView):
     def get(self):
         top = Comment.objects.filter(status=3)
         top1 = top[0]
@@ -831,11 +830,10 @@ class add(APIView):
             'incline': top1.incline,
             'underline': top1.underline
         }
-        return {'view': 31, 'result': top_comment}
-        #return JsonResponse({'content': '11', 'bolt': 1, 'italic': 1, 'underline': 1, 'color': 1, 'bool': 0})
+        return {'view': 33, 'result': top_comment}
         
 
-class add2(APIView):
+class Pic(APIView):
     def get(self):
         pic_list = Picture.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3))
         show_list = []
@@ -846,10 +844,9 @@ class add2(APIView):
                 }
             )
         return {'view': 32, 'result': show_list}
-        #return JsonResponse([{'picUrl': '/m/img/1.jpg'}], safe=False)
     
 
-class add3(APIView):
+class Barrier(APIView):
     def get(self):
         comment_list = Comment.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3))
         result = []
@@ -861,7 +858,5 @@ class add3(APIView):
                 'incline': i.incline
             })
         return {'view': 31, 'result': result}
-        #return JsonResponse([{'data': '11', 'bolt': 1, 'italic': 1, 'underline': 1}, {'data': '11', 'bolt': 0, 'italic': 0, 'underline': 0}], safe=False)
-    
-    
+        
 # Create your views here

@@ -10,27 +10,24 @@ from DjangoProject.models import ActivityUser, Activity, LotteryResult, Comment,
 from codex.baseerror import *
 from codex.baseview import APIView
 
-
-def ActivityList(request):
-	print("start")
-	show_list = Activity.objects.all()
-	print(show_list)
-	list = []
-	for activity in show_list:
-		list.append(
-			{
-				'name': activity.name,
-				'description': activity.description,
-				'startTime': activity.start_time,
-				'place': activity.place,
-				'endTime': activity.end_time
-			}
-		)
-	if list:
-		return JsonResponse(list, content_type="application/json",safe=False)
-		# return {'viewl': 40, 'list': list}
-	else:
-		raise InputError('the user attend no activity')
+class ActivityList(APIView):
+    def get(self):
+        show_list = Activity.objects.all()
+        list = []
+        for activity in show_list:
+            list.append(
+                {
+                    'name': activity.name,
+                    'description': activity.description,
+                    'startTime':activity.start_time,
+                    'place': activity.place,
+                    'endTime':activity.end_time
+                }
+            )
+        if list:
+            return {'viewl': 40, 'list': list}
+        else:
+            raise InputError('the user attend no activity')
 
 
 class ActivityDetail(APIView):
