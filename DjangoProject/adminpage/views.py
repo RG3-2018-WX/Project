@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.http import JsonResponse
 
 from DjangoProject import models
 from DjangoProject.models import Activity, Lottery, Programe, Barrage, Comment, Picture
@@ -107,7 +108,7 @@ class ActivityList(APIView):
         print("Activity Get")
         if not self.request.user.is_authenticated():
             return {'view': 0}
-        list = Activity.selectByOrganizer(self.request.user.username)
+        list = Activity.selectByOrganizer(self.request.user)
         output_list = []
         for i in list:
             output_list.append({
@@ -126,7 +127,7 @@ class ActivityList(APIView):
             return {'view': 11}
 
         if 'logout' in self.request.POST:
-            return {'view': 8}
+            return {'view': 111}
 
 
 class ActivityStatus(APIView):
@@ -236,22 +237,17 @@ class ActivityDetail(APIView):
             raise ValidateError("Please login!")
         
         if 'edit' in self.request.POST:
-            self.check_input('activityId')
-            activity = Activity.selectById['activityId']
+            activity = Activity.selectById(nid)
             old_activity = activity
             if activity:
-                if activity.status == 0:
-                    Activity.updateActivity(self.input['activityId'],self.input['organizer'], self.input['description'],
+                Activity.updateActivity(nid, self.request.user, self.input['description'],
                                             self.input['picUrl'],
                                             self.input['startTime'], self.input['endTime'],
-                                            self.input['bgPicUrl'], self.input['status'], self.input['place'],
+                                            self.input['bgPicUrl'], activity.status, self.input['place'],
                                             self.input['name'])
-                elif activity.status == 1:
-                    raise InputError('the activity already start')
 
             else:
                 raise ValidateError('no such activity')
-            activity.save()
             # return 0
             return {'view': 27}
         
@@ -291,8 +287,11 @@ class LotteryCreate(APIView):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         if 'create' in self.request.POST:
-            self.check_input("name", "description", "activityId", "first",
+            self.check_input("name", "description", "first",
                             "second", "status", "speical", 'third')
+            Lottery.insertLottery(
+            
+            )
             obj = Lottery(name=self.input['name'],
                         activity=Activity.selectById(self.input['activityId']),
                         description=self.input['description'],
@@ -301,7 +300,6 @@ class LotteryCreate(APIView):
                         second=self.input['second'],
                         third=self.input['third'],
                         speical=self.input['speical'],
-
                         )
             obj.save()
 
@@ -421,9 +419,9 @@ class LotteryList(APIView):
             raise ValidateError("Please login!")
         #self.check_input('activityId')
         #lottery_list = Lottery.objects.filter(activity__id=self.input['activityId'])
-        lottery_list = Lottery.objects.filter(self.request.COOKIES['activityId'])
-        if not lottery_list:
-            raise InputError('no such activity')
+        lottery_list = Lottery.selectByActivity(Activity.selectById(self.request.COOKIES['activityId']))
+        #if not lottery_list:
+            #raise InputError('no such activity')
         list = []
         for lottery in lottery_list:
             list.append({
@@ -451,6 +449,9 @@ class LotteryList(APIView):
 
         if 'logout' in self.request.POST:
             return {'view': 8}
+        
+        if 'return' in self.request.POST:
+            return {'view': 27}
     
     
 class ProgrameList(APIView):
@@ -463,19 +464,27 @@ class ProgrameList(APIView):
             program_list = Programe.selectByActivity(Activity.selectById(nid))
             activityId = nid
         else:
+            testtt = Activity.selectById(self.request.COOKIES['activityId'])
             program_list = Programe.selectByActivity(Activity.selectById(self.request.COOKIES['activityId']))
             activityId = self.request.COOKIES['activityId']
         show_list = []
+        num = 0
         for program in program_list:
+            num = num + 1
             show_list.append(
                 {
+                    'id' : program.id,
                     'name': program.name,
                     'sequence': program.sequence,
                     #'actor': program.actor
                 }
             )
-        show_list = []
-        return {'view': 25, 'list': show_list, 'activityId': activityId}
+        n = len(show_list)
+        for j in range(0, n - 1):
+            for i in range(0, n - 1- j):
+                if show_list[i]['sequence'] > show_list[i+1]['sequence']:
+                    show_list[i], show_list[i+1] = show_list[i+1], show_list[i]
+        return {'view': 25, 'list': show_list, 'activityId': activityId, 'num': num}
         
     def post(self):
         if 'activity' in self.request.POST:
@@ -489,6 +498,9 @@ class ProgrameList(APIView):
 
         if 'logout' in self.request.POST:
             return {'view': 8}
+        
+        if 'return' in self.request.POST:
+            return {'view': 27}
 
         if 'create' in self.request.POST:
             #return redirect('/a/Activity/create/')
@@ -497,7 +509,7 @@ class ProgrameList(APIView):
 
 class ProgrameDelete(APIView):
     def get(self):
-        nid = self.get().get('nid')
+        nid = self.request.GET.get('nid')
         Programe.objects.filter(id=nid).delete()
         #return redirect('/a/Activity/edit/')
         return {'view': 21}
@@ -520,9 +532,10 @@ class ProgrameCreate(APIView):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please Login First!")
         if 'create' in self.request.POST:
-            self.check_input('name', 'description', 'sequence', 'actors')
+            self.check_input('name', 'description', 'actors')
+            sequence = str(int(self.request.COOKIES['ProgrameNum']) + 1)
             Programe.insertPrograme(Activity.selectById(self.request.COOKIES['activityId']), self.input['name'],
-                                    self.input['description'], self.input['sequence'], self.input['actors'])
+                                    self.input['description'], sequence, self.input['actors'])
             '''if not Activity.objects.filter(self.input['name']):
                 raise LogicError('fail creat pragram')
             else:
@@ -539,7 +552,7 @@ class ProgrameDetail(APIView):
         if not self.request.user.is_authenticated():
             raise ValidateError("Please login!")
         #self.check_input('programId')
-        nid = self.get().get('nid')
+        nid = self.request.GET.get('nid')
         programe = Programe.selectById(nid)
         if programe:
             data = {'name': programe.name,
@@ -547,7 +560,7 @@ class ProgrameDetail(APIView):
                     'sequence': programe.sequence,
                     'actors': programe.actors
                     }
-            return {'view': 23, 'name': programe.name, 'description': programe.description, 'sequence': programe.sequence, 'actors': programe.actors}
+            return {'view': 23, 'name': data['name'], 'description': data['description'], 'actors': data['actors']}
         else:
             raise InputError('no such programe')
 
@@ -556,21 +569,23 @@ class ProgrameDetail(APIView):
             raise ValidateError("Please login!")
         #self.check_input('programId')
         if 'edit' in self.request.POST:
-            nid = self.get().get('nid')
-            programe = Programe.selectById[nid]
+            nid = self.request.GET.get('nid')
+            programe = Programe.selectById(nid)
             old_programe = programe
             if programe:
-                programe.updatePrograme(#self.input['programId'],
+                programe.updatePrograme(programe.id,
                                         self.input['name'],
-                                        self.input['description']
-                                        , self.input['actors'], self.input['sequence'])
-            else:
-                raise ValidateError('no such program')
-            programe.save()
-            if old_programe == programe:
-                raise InputError('no change!')
-            else:
-                return {'view': 21}
+                                        self.input['description'],
+                                        self.input['actors'],
+                                        programe.sequence)
+            #else:
+                #raise ValidateError('no such program')
+            #programe.save()
+            #if old_programe == programe:
+                #return {'view': 21}
+            #else:
+                #return {'view': 21}
+            return {'view': 21}
             
         if 'return' in self.request.POST:
                 return {'view': 21}
@@ -636,11 +651,14 @@ class SetComment(APIView):
         if 'logout' in self.request.POST:
             return {'view': 8}
         
+        if 'return' in self.request.POST:
+            return {'view': 27}
+        
         if 'commentLinenumber' in self.request.POST:
             self.check_input('commentLinenumber')
-            self.request.COOKIES['commentLinenumber'] = self.input['ActivityID']
+            #self.request.COOKIES['commentLinenumber'] = self.input['ActivityID']
             #return self.input['commentLinenumber']
-            return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': [], 'list2': []}
+            return {'view': 24, 'commentLinenumber': self.input['ActivityID'], 'list': [], 'list2': []}
         
         if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')
@@ -651,7 +669,6 @@ class SetComment(APIView):
                 self.input['bolt'], self.input['underline'] ,self.input['incline'],timezone.now(),Barrage.TOP)
     
     
-#这个get我在setcomment的那个class里面就直接同时两个一起加载了
 class SetPicture(APIView):
     def get(self):
         self.check_input('activityId', 'pictureId')
@@ -696,7 +713,6 @@ class barrage_left_create(APIView):
         return {'view': 9}
 
 
-
 class barrage_right_detele(APIView):
     def get(self):
         nid = self.request.GET.get('nid')
@@ -709,17 +725,53 @@ class barrage_right_create(APIView):
         return {'view': 9}
 
 
-# 实现一下点击节目顺序往上
 class ProgrameUp(APIView):
     def get(self):
+        nid = self.request.GET.get('nid')
+        programe = Programe.selectById(nid)
+        num = str(int(programe.sequence) - 1)
+        programe2 = Programe.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), sequence=num)
+        if len(programe2) == 0:
+            return {'view': 21}
+        programe3 = programe2[0]
+        if programe3:
+            programe.updatePrograme(programe.id,
+                                    programe.name,
+                                    programe.description,
+                                    programe.actors,
+                                    programe3.sequence)
+            programe.updatePrograme(programe3.id,
+                                    programe3.name,
+                                    programe3.description,
+                                    programe3.actors,
+                                    programe.sequence)
         return {'view': 21}
 
     
-
-# 实现一下点击节目顺序往下
 class ProgrameDown(APIView):
     def get(self):
+        nid = self.request.GET.get('nid')
+        programe = Programe.selectById(nid)
+        num = str(int(programe.sequence) + 1)
+        programe2 = Programe.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), sequence=num)
+        if len(programe2) == 0:
+            return {'view': 21}
+        programe3 = programe2[0]
+        if programe3:
+            programe.updatePrograme(programe.id,
+                                    programe.name,
+                                    programe.description,
+                                    programe.actors,
+                                    programe3.sequence)
+            programe.updatePrograme(programe3.id,
+                                    programe3.name,
+                                    programe3.description,
+                                    programe3.actors,
+                                    programe.sequence)
         return {'view': 21}
-
-
+    
+    
+class add4(APIView):
+    def get(self):
+        return {'view': 50, 'number': self.request.COOKIES['commentLinenumber']}
 # Create your views here

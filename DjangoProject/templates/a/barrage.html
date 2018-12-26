@@ -19,6 +19,7 @@
         <div class="leftTiyle" id="flTitle" style="font-size: 25px; padding-left: 30px; font-weight: 600; color: black; float: left;">弹幕信息管理</div>
         <form method="post">{% csrf_token %}
             <input type="submit" value="注销" name="logout" style="background: #b0cdff; text-align: center; height: 50px; font-size: 20px; float: right; margin-right: 30px;">
+            <input type="submit" value="返回" name="return" style="background: #b0cdff; text-align: center; height: 50px; font-size: 20px; float: right; margin-right: 30px;">
         </form>
     </div>
     <div class="content" style="float: right; width: 85%; height: 85%;background: white">
@@ -61,8 +62,8 @@
                         <img src="{{ a.picUrl }}">
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
-                        <a href="/a/Barrage/left_create/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">添加</a>
-                        |
+                        <!--<a href="/a/Barrage/left_create/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">添加</a>
+                        |-->
                         <a href="/a/Barrage/left/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">删除</a>
                     </td>
                 </tr>
@@ -81,8 +82,8 @@
                         {{ a.content }}
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
-                        <a href="/a/Barrage/right_create/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">添加</a>
-                        |
+                        <!--<a href="/a/Barrage/right_create/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">添加</a>
+                        |-->
                         <a href="/a/Barrage/right_detail/?nid={{ a.id }}" style="color: #01458a; font-weight: bold; cursor: hand; text-decoration: none; font-family: 幼圆"onmousemove="this.style.backgroundColor='blue'; this.style.color='white';" onmouseout="this.style.backgroundColor='#d4e3e5'; this.style.color='#01458a';">删除</a>
                     </td>
                 </tr>

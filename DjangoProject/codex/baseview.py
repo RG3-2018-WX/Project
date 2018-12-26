@@ -6,7 +6,7 @@ import logging
 from django.http import HttpResponse
 from django.views.generic import View
 from django.shortcuts import render, redirect
-
+from django.http import JsonResponse
 from codex.baseerror import BaseError, InputError
 
 
@@ -68,20 +68,20 @@ class APIView(BaseView):
             msg = str(e)
             self.logger.exception('Error occurred when requesting %s: %s', self.request.path, e)
         try:
-            response = json.dumps({
+            response = {
                 'code': code,
                 'msg': msg,
                 'data': result,
-            })
+            }
         except:
             self.logger.exception('JSON Serializing failed in requesting %s', self.request.path)
             code = -1
             msg = 'Internal Error'
-            response = json.dumps({
+            response = {
                 'code': code,
                 'msg': msg,
                 'data': None,
-            })
+            }
         #登入页面
         if result['view'] == 26:
             return render(self.request, 'a/login.html')
@@ -98,7 +98,7 @@ class APIView(BaseView):
         if result['view'] == 3:
             return render(self.request, 'a/register.html')
         if result['view'] == 4:
-            return redirect('/a/login/')
+            return redirect('/')
         if result['view'] == 5:
             return render(self.request, 'a/register.html', {'status': result['msg']})
         
@@ -130,6 +130,7 @@ class APIView(BaseView):
             r = render(self.request, 'a/programe.html', {'list': result['list']})
             r.set_cookie('activityId', result['activityId'])
             r.set_cookie('commentLinenumber', 5)
+            r.set_cookie('ProgrameNum', result['num'])
             return r
         if result['view'] == 14:
             return redirect('/a/Programe/create/')
@@ -138,7 +139,7 @@ class APIView(BaseView):
         if result['view'] == 22:
             return render(self.request, 'a/Programe/create.html')
         if result['view'] == 23:
-            return render(APIView, 'a/Programe/edit.html', {'name': result['name'], 'description': result['description'], 'sequence': result['sequence'], 'actors': result['actors']})
+            return render(self.request, 'a/Programe/edit.html', {'name': result['name'], 'description': result['description'], 'actors': result['actors']})
         
         
         #抽奖界面
@@ -161,13 +162,28 @@ class APIView(BaseView):
         
         #弹幕页面
         if result['view'] == 24:
-            return render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
+            r = render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
+            r.set_cookie('commentLinenumber', result['commentLinenumber'])
+            return r
+            #return render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
         
         #弹幕墙页面
         if result['view'] == 30:
-            return render(self.request, 'b/1.html')
+            return render(self.request, 'b/2.html')
+            #return JsonResponse({'con': "",
+                        #'picurl' : "",
+                        #'color' : "",
+                        #'bolt' : "",
+                        #'incline' : "",
+                        #'underline': ""})
         
-        return HttpResponse(response, content_type='application/json')
+        if result['view'] == 55:
+            return render(self.request, 'b/2.html')
+        
+        if result['view'] == 50:
+            return JsonResponse({'linenumber': int(result['number'])})
+
+        return JsonResponse(response)
 
     def check_input(self, *keys):
         for k in keys:

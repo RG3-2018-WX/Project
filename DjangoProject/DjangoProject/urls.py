@@ -17,9 +17,10 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from adminpage import views
 from barragepage import views as views2
-from adminpage import views as u_views
+from django.views.static import serve
+
 urlpatterns = [
-    url(r'^a/login/', views.Login.as_view()),
+    url(r'^$', views.Login.as_view()),
     url(r'^a/logout/', views.Logout.as_view()),
     #url(r'^a/register/', views.Register.as_view()),
     url(r'^a/activity/', views.ActivityList.as_view()),
@@ -32,17 +33,19 @@ urlpatterns = [
     url(r'^a/Activity/edit/', views.ActivityDetail.as_view()),
     url(r'^a/Activity/delete/', views.ActivityDelete.as_view()),
     url(r'^a/Barrage/left/', views.barrage_left_detele.as_view()),
-    url(r'^a/Barrage/left_create/', views.barrage_left_create.as_view()),
+    #url(r'^a/Barrage/left_create/', views.barrage_left_create.as_view()),
     url(r'^a/Barrage/right_detail/', views.barrage_right_detele.as_view()),
-    url(r'^a/Barrage/right_create/', views.barrage_right_create.as_view()),
+    #url(r'^a/Barrage/right_create/', views.barrage_right_create.as_view()),
     url(r'^a/Programe/delete/', views.ProgrameDelete.as_view()),
     url(r'^a/Programe/up/', views.ProgrameUp.as_view()),
     url(r'^a/Programe/down/', views.ProgrameDown.as_view()),
     url(r'^a/Programe/create/', views.ProgrameCreate.as_view()),
     url(r'^a/Programe/edit/', views.ProgrameDetail.as_view()),
-    url(r'^b/1/', views2.BarrierWall.as_view()),
-url(r'^api/u/activity/list', u_views.ActivityList.as_view()),
-url(r'^api/u/activity/detail',u_views.ActivityDetail.as_view()),
-url(r'api/u/activity/program',u_views.ProgrameDetail.as_view()),
-url(r'api/u/lottery/list',u_views.LotteryList.as_view()),
-url(r'api/u/activity/comment',u_views.SetComment.as_view())]
+    #url(r'^b/1/', views2.BarrierWall.as_view()),
+    url(r'^BarrierWall/', views2.BarrierWall.as_view()),
+    url(r'^b/3/', views2.add),
+    url(r'^b/4/', views2.add2),
+    url(r'^b/5/', views2.add3),
+    url(r'^b/6/', views.add4.as_view()),
+    url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
+]

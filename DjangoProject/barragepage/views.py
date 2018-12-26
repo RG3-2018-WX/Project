@@ -4,10 +4,12 @@ from codex.baseview import APIView
 from django.contrib.auth.models import User
 
 from django.contrib.auth import authenticate
+from django.http import JsonResponse
 
 from DjangoProject import models
 from DjangoProject.models import Activity, Lottery, Programe, Barrage, Comment, Picture
 from django.utils import timezone
+from django.utils.timezone import now, timedelta
 from wechat.views import CustomWeChatView
 import uuid
 #from WeChatTicket import settings
@@ -17,6 +19,18 @@ import os
 class BarrierWall(APIView):
     def get(self):
         return {'view': 30}
+    
+
+def add(request):
+    return JsonResponse({'content': '11', 'bolt': 1, 'italic': 1, 'underline': 1, 'color': 1, 'bool': 0})
+    
+
+def add2(request):
+    return JsonResponse([{'picUrl': '/m/img/1.jpg'}], safe=False)
+    
+
+def add3(request):
+    return JsonResponse([{'data': '11', 'bolt': 1, 'italic': 1, 'underline': 1}, {'data': '11', 'bolt': 0, 'italic': 0, 'underline': 0}], safe=False)
 
 
 class CommentLinenumber(APIView):
@@ -57,7 +71,7 @@ class SetComment(APIView):
     def get(self):
         self.check_input('activityId', 'commentId')
         show_list=[]
-        comment_list = Comment.objects.filter(time__lt=timezone.now().time.second-3).filter(id__gt=self.input['commentId'])
+        comment_list = Comment.objects.filter(time__lt=timezone.now().time()+timedelta(seconds=-3)).filter(id__gt=self.input['commentId'])
         for comment in comment_list:
             show_list.append(
                 {

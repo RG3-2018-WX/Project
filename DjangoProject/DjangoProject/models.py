@@ -71,7 +71,6 @@ class Activity(models.Model):
 		activity.place = place
 		activity.name = name
 		activity.save()
-		
 		return True
 
 
@@ -91,7 +90,7 @@ class Programe(models.Model):
 	@staticmethod
 	def selectById(id):
 		try:
-			pro = Programe.objects.get(id)
+			pro = Programe.objects.get(id=id)
 		except Exception as e:
 			logging.error(e)
 			return None
@@ -130,9 +129,10 @@ class Programe(models.Model):
 			pro.name = name
 		if description != '':
 			pro.description = description
-		if sequence != -1:
+		if sequence != '-1':
 			pro.sequence = sequence
 		pro.actors = actors
+		pro.save()
 		return True
 
 

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="/m/css/styles.css">
+<body>
+    <img src="/m/img/0.png" style="width:100%; height:100%">
+    <div class="app" id="app">
+        <div id="tt">
+            <p id = "contents"></p>
+        </div>
+        <div id="Tc">
+            <div id="tc">
+
+            </div>
+        </div>
+    </div>
+        <!--<div id="input">
+            <form method="post">{% csrf_token %}
+            <input type="text" id="text" v-model="newPerson.content" placeholder="">
+            <input type="submit" id="createPerson" @click="createPerson" name="top">
+            <input type="submit" id="danmu" @click="danmu" >
+            <input type="submit" id="picture" @click="picture" >
+            </form>
+        </div>-->
+
+    <!--<form action="/add/" method="get">
+        a: <input type="text" id="a" name="a"> <br>
+        b: <input type="text" id="b" name="b"> <br>
+        <p>result: <span id='result'></span></p>
+        <p>result: <span id='result2'></span></p>
+        <p>result: <span id='result3'></span></p>
+        <button type="button" id='sum'>提交</button>
+    </form>-->
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/m/js/vue.js"></script>
+    <script src="/m/js/vue-resource.common.js"></script>
+
+    <script>
+        let timer = null;
+        let timer2 = null;
+        let linenumber = 5;
+        let aaaa = 0;
+        let pic = [];
+
+        $(document).ready(function(){
+            function refresh() {
+                var a = $("#a").val();
+                var b = $("#b").val();
+
+                $.get("/b/6/", {}, function (ret) {
+                    linenumber = ret['linenumber']
+                });
+
+                $.get("/b/3/", {}, function (ret) {
+                    if (ret['bool'] == 1)
+                    {
+                        let contents = document.getElementById("contents");
+                        contents.innerHTML = ret['content'];
+                        document.getElementById("tt").style.display = "block";
+                        contents.style.color = "white";
+                        if (ret['bolt'] == 1) {
+                            contents.style.fontWeight = "900";
+                        }
+                        if (ret['italic'] == 1) {
+                            contents.style.fontStyle = "italic";
+                        }
+                        if (ret['underline'] == 1) {
+                            contents.style.textDecoration = "underline";
+                        }
+                    }
+                });
+
+                $.get("/b/4/", {}, function (ret) {
+                    for (let i = ret.length - 1; i >= 0; i--){
+                        let newarr = [];
+                        clearInterval(timer2);
+                        let newnode = document.createElement("img");
+                        let num = parseInt((Math.random() * 10) % linenumber);
+                        let num2 = parseInt((document.getElementById("Tc").offsetHeight) / linenumber);
+                        newnode.style.top = (num * num2) + "px";
+                        newnode.style.height = num2 + "px";
+                        newnode.style.left = "100%";
+                        newnode.src = ret[i]["picUrl"];
+                        newnode.style.position = "absolute";
+                        document.getElementById("tc").appendChild(newnode);
+                        pic.push(newnode.offsetLeft);
+                        timer2 = setInterval(move2, 0.05);
+                    }
+                });
+
+                $.get("/b/5/", {}, function (ret) {
+                    for (let i = ret.length - 1; i >= 0; i--){
+                        let newarr = [];
+                        clearInterval(timer);
+                        let newnode = document.createElement("div");
+                        //newnode.setAttribute("id", "danmu")
+                        newnode.innerHTML = ret[i]["data"];
+                        let num = parseInt((Math.random() * 10) % linenumber);
+                        let num2 = parseInt((document.getElementById("Tc").offsetHeight) / linenumber);
+                        newnode.style.top = (num * num2) + "px";
+                        newnode.style.height = num2 + "px";
+                        newnode.style.textAlign = "center";
+                        newnode.style.fontSize = num2 + "px";
+                        newnode.style.lineHeight = "100%";
+                        newnode.style.left = "100%";
+                        newnode.style.display = "flex";
+                        if (ret[i]["bolt"] == 1) {
+                            newnode.style.fontWeight = "900";
+                        }
+                        if (ret[i]["italic"] == 1) {
+                            newnode.style.fontStyle = "italic";
+                        }
+                        if (ret[i]["underline"] == 1) {
+                            newnode.style.textDecoration = "underline";
+                        }
+                        newnode.style.background = "#" + randomColor();
+                        newnode.style.color = "#" + randomColor();
+                        document.getElementById("tc").appendChild(newnode);
+                        pic.push(newnode.offsetLeft);
+                        timer = setInterval(move, 0.05);
+                    }
+                });
+
+                function move2() {
+                    let arr = document.getElementById("tc").getElementsByTagName("img");
+                    for (let i = 0; i < arr.length; i++)
+                    {
+                        pic[i] = pic[i] - 1;
+                        arr[i].style.left = pic[i] + "px";
+                        if (pic[i] < -arr[i]. offsetWidth){
+                            document.getElementById("tc").removeChild(arr[i]);
+                            pic.shift();
+                        }
+                    }
+                }
+
+                function move() {
+                    let arr = document.getElementById("tc").getElementsByTagName("div");
+                    for (let i = 0; i < arr.length; i++)
+                    {
+                        let num2 = (((document.getElementById("tc").offsetWidth) + (2 * arr[i].offsetWidth)) / 2000);
+                        if (num2 <= 1)
+                            num2 = 1;
+                        let num = arr[i].offsetLeft - num2;
+                        arr[i].style.left = num + "px";
+                        if (num < -arr[i].offsetWidth) {
+                            document.getElementById("tc").removeChild(arr[i]);
+                        }
+                    }
+                }
+                
+                function randomColor() {
+                    let color = Math.ceil(Math.random() * 16777215).toString(16);
+                    while (color.length < 6) {
+                        color = "0" + color;
+                    }
+                    return color;
+                }
+            }
+
+            setInterval(refresh, 1000)
+        });
+    </script>
+</body>
+</html>
+
