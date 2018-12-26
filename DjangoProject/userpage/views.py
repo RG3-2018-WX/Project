@@ -9,7 +9,9 @@ import re
 
 class ActivityList(APIView):
     def get(self):
-        show_list = ActivityUser.activitySelcetedByUser(self.input['openId'])
+        #show_list = ActivityUser.activitySelcetedByUser(self.input['openId'])
+        self.check_input('openId')
+        show_list = Activity.objects.all()
         list = []
         for activity in show_list:
             list.append(
