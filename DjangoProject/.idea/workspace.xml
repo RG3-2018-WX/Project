@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="968af23f-3739-45b3-b9c2-e930d2a4834c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DjangoProject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/DjangoProject/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adminpage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/adminpage/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/codex/baseview.py" beforeDir="false" afterPath="$PROJECT_DIR$/codex/baseview.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/a/Lottery/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/a/Lottery/edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/b/2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/b/2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userpage/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/userpage/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../新建文件夹 (2).lnk" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +21,11 @@
           <entry key="Python" value="2" />
         </counts>
       </usages-collector>
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+        </counts>
+      </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
@@ -43,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/userpage/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-494">
-              <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+            <state relative-caret-position="-171">
+              <caret line="54" column="89" selection-start-line="54" selection-start-column="84" selection-end-line="54" selection-end-column="89" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -96,7 +95,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-190" />
     <option name="y" value="121" />
     <option name="width" value="1287" />
@@ -212,14 +211,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31013617" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31692308" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31692308" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.295302" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -271,8 +269,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/userpage/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-494">
-          <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+        <state relative-caret-position="-171">
+          <caret line="54" column="89" selection-start-line="54" selection-start-column="84" selection-end-line="54" selection-end-column="89" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

@@ -17,6 +17,7 @@ class ActivityList(APIView):
         for activity in show_list:
             list.append(
                 {
+					'activityId':activity.id,
                     'name': activity.name,
                     'description': activity.description,
                     'startTime':activity.start_time,
