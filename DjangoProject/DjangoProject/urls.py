@@ -17,6 +17,7 @@ from django.conf.urls import url,include
 from django.contrib import admin
 from adminpage import views
 from barragepage import views as views2
+from userpage import views as u_view
 from django.views.static import serve
 
 urlpatterns = [
@@ -43,9 +44,15 @@ urlpatterns = [
     url(r'^a/Programe/edit/', views.ProgrameDetail.as_view()),
     #url(r'^b/1/', views2.BarrierWall.as_view()),
     url(r'^BarrierWall/', views2.BarrierWall.as_view()),
-    url(r'^b/3/', views.add.as_view()),
-    url(r'^b/4/', views.add2.as_view()),
-    url(r'^b/5/', views.add3.as_view()),
+    url(r'^b/3/', views2.add),
+    url(r'^b/4/', views2.add2),
+    url(r'^b/5/', views2.add3),
     url(r'^b/6/', views.add4.as_view()),
     url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
+    url(r'api/u/activity/list',u_view.ActivityList.as_view()),
+    url(r'api/u/activity/detail',u_view.ActivityDetail.as_view()),
+    url(r'api/u/activity/program',u_view.ProgramDetail.as_view()),
+    url(r'api/u/lottery/list',u_view.LotteryInfo.as_view()),
+    url(r'api/u/activity/comment',u_view.SetComment.as_view()),
+    url(r'api/u/activity/picture',u_view.SetPicture.as_view()),
 ]
