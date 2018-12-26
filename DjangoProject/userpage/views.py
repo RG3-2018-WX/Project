@@ -2,7 +2,7 @@ from django.shortcuts import render
 from codex.baseerror import *
 from codex.baseview import APIView
 from django.utils import timezone
-from DjangoProject.models import ActivityUser,Activity,LotteryResult,Comment, Barrage, Picture
+from DjangoProject.models import ActivityUser,Activity,LotteryResult,Comment, Barrage, Picture,Programe
 import json
 import datetime
 import re
@@ -22,9 +22,10 @@ class ActivityList(APIView):
                 }
             )
         if list:
-            return list
+            return {'viewl': 40, 'list': list}
         else:
             raise InputError('the user attend no activity')
+
 
 class ActivityDetail(APIView):
     def get(self):
@@ -41,11 +42,14 @@ class ActivityDetail(APIView):
                     'actor': program.actor
                 }
             )
-        return show_list
+        return {'viewl': 40, 'list': show_list}
+        #return show_list
+    
+    
 class ProgramDetail(APIView):
     def get(self):
         self.check_input('sequence','activityId')
-        program = Program.objects.get(activity__id=input(['activityId']),sequence=input(['sequence']))
+        program = Programe.objects.get(activity__id=input(['activityId']),sequence=input(['sequence']))
         if not program:
             raise InputError('no such program')
         show = {
@@ -53,19 +57,25 @@ class ProgramDetail(APIView):
             'description':program.description,
             'actor':program.actor
         }
-        return show
+        return {'view': 41, 'show': show}
+        #return show
+    
+    
 class LotteryInfo(APIView):
     def get(self):
         self.check_input('openId','activityId')
         lottery_result = LotteryResult.objects.filter(open_id=self.input['openId'],lottery__activity__id=self.input['activityId'])
+        show_list = []
         if lottery_result :
-            show_list = []
             for i in lottery_result:
                 show_list.append({
                     'name': i.lottery.name,
                     'prize':i.prize
                 })
-        return show_list
+        return {'viewl': 40, 'list': show_list}
+        #return show_list
+    
+    
 class SetComment(APIView):
     def post(self):
         self.check_input('openId')

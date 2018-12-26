@@ -19,18 +19,6 @@ import os
 class BarrierWall(APIView):
     def get(self):
         return {'view': 30}
-    
-
-def add(request):
-    return JsonResponse({'content': '11', 'bolt': 1, 'italic': 1, 'underline': 1, 'color': 1, 'bool': 0})
-    
-
-def add2(request):
-    return JsonResponse([{'picUrl': '/m/img/1.jpg'}], safe=False)
-    
-
-def add3(request):
-    return JsonResponse([{'data': '11', 'bolt': 1, 'italic': 1, 'underline': 1}, {'data': '11', 'bolt': 0, 'italic': 0, 'underline': 0}], safe=False)
 
 
 class CommentLinenumber(APIView):

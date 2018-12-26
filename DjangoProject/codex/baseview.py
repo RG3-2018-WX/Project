@@ -82,106 +82,120 @@ class APIView(BaseView):
                 'msg': msg,
                 'data': None,
             }
+            
         #登入页面
-        if result['view'] == 26:
-            return render(self.request, 'a/login.html')
-        if result['view'] == 1:
-            return redirect('/a/register/')
-        if result['view'] == 2:
-            return render(self.request, 'a/login.html', {'username': result['username'], 'password': result['password']})
-        if result['view'] == 27:
-            return redirect('/a/activity/')
-        if result['view'] == 0:
-            return redirect('/a/login/')
+        if 'view' in result:
+            if result['view'] == 26:
+                return render(self.request, 'a/login.html')
+            if result['view'] == 1:
+                return redirect('/a/register/')
+            if result['view'] == 2:
+                return render(self.request, 'a/login.html', {'username': result['username'], 'password': result['password']})
+            if result['view'] == 27:
+                return redirect('/a/activity/')
+            if result['view'] == 0:
+                return redirect('/a/login/')
         
-        #注册页面
-        if result['view'] == 3:
-            return render(self.request, 'a/register.html')
-        if result['view'] == 4:
-            return redirect('/')
-        if result['view'] == 5:
-            return render(self.request, 'a/register.html', {'status': result['msg']})
+            #注册页面
+            if result['view'] == 3:
+                return render(self.request, 'a/register.html')
+            if result['view'] == 4:
+                return redirect('/')
+            if result['view'] == 5:
+                return render(self.request, 'a/register.html', {'status': result['msg']})
         
-        #活动界面
-        if result['view'] == 6:
-            return redirect('/a/programe/')
-        if result['view'] == 7:
-            return render(self.request, 'a/activity.html', {'list': result['msg']})
-        if result['view'] == 8:
-            return redirect('/a/logout/')
-        if result['view'] == 9:
-            return redirect('/a/barrage/')
-        if result['view'] == 10:
-            return redirect('/a/lottery/')
-        if result['view'] == 11:
-            return redirect('/a/Activity/create/')
-        if result['view'] == 12:
-            return render(self.request, 'a/Activity/create.html')
-        if result['view'] == 13:
-            return render(self.request, 'a/Activity/edit.html', {'name': result['name'], 'description': result['description'],
+            #活动界面
+            if result['view'] == 6:
+                return redirect('/a/programe/')
+            if result['view'] == 7:
+                return render(self.request, 'a/activity.html', {'list': result['msg']})
+            if result['view'] == 8:
+                return redirect('/a/logout/')
+            if result['view'] == 9:
+                return redirect('/a/barrage/')
+            if result['view'] == 10:
+                return redirect('/a/lottery/')
+            if result['view'] == 11:
+                return redirect('/a/Activity/create/')
+            if result['view'] == 12:
+                return render(self.request, 'a/Activity/create.html')
+            if result['view'] == 13:
+                return render(self.request, 'a/Activity/edit.html', {'name': result['name'], 'description': result['description'],
                            'startTime': result['startTime'], 'endTime': result['endTime'],
                            'place': result['place'], 'picUrl': result['picUrl'], 'bgPicUrl': result['bgPicUrl'],
                            'status': result['status']})
-        if result['view'] == 18:
-            return render(self.request, 'a/Activity/edit.html')
+            if result['view'] == 18:
+                return render(self.request, 'a/Activity/edit.html')
         
-        #节目界面
-        if result['view'] == 25:
-            r = render(self.request, 'a/programe.html', {'list': result['list']})
-            r.set_cookie('activityId', result['activityId'])
-            r.set_cookie('commentLinenumber', 5)
-            r.set_cookie('ProgrameNum', result['num'])
-            return r
-        if result['view'] == 14:
-            return redirect('/a/Programe/create/')
-        if result['view'] == 21:
-            return redirect('/a/programe/')
-        if result['view'] == 22:
-            return render(self.request, 'a/Programe/create.html')
-        if result['view'] == 23:
-            return render(self.request, 'a/Programe/edit.html', {'name': result['name'], 'description': result['description'], 'actors': result['actors']})
+            #节目界面
+            if result['view'] == 25:
+                r = render(self.request, 'a/programe.html', {'list': result['list']})
+                r.set_cookie('activityId', result['activityId'])
+                r.set_cookie('commentLinenumber', 5)
+                r.set_cookie('ProgrameNum', result['num'])
+                return r
+            if result['view'] == 14:
+                return redirect('/a/Programe/create/')
+            if result['view'] == 21:
+                return redirect('/a/programe/')
+            if result['view'] == 22:
+                return render(self.request, 'a/Programe/create.html')
+            if result['view'] == 23:
+                return render(self.request, 'a/Programe/edit.html', {'name': result['name'], 'description': result['description'], 'actors': result['actors']})
         
         
-        #抽奖界面
-        if result['view'] == 15:
-            return render(self.request, 'a/Lottery/create.html')
-        if result['view'] == 16:
-            return render(self.request, 'a/Lottery/edit.html',{'name': result['name'],
+            #抽奖界面
+            if result['view'] == 15:
+                return render(self.request, 'a/Lottery/create.html')
+            if result['view'] == 16:
+                return render(self.request, 'a/Lottery/edit.html',{'name': result['name'],
                            'description': result['description'],
                            'speical': result['speical'],
                            'first': result['first'],
                            'second': result['second'],
                            'third': result['third'],
                            'status': result['status']})
-        if result['view'] == 17:
-            return render(self.request, 'a/Lottery/edit.html')
-        if result['view'] == 19:
-            return render(self.request, 'a/lottery.html', {'list': result['list']})
-        if result['view'] == 20:
-            return redirect('/a/Lottery/create/')
+            if result['view'] == 17:
+                return render(self.request, 'a/Lottery/edit.html')
+            if result['view'] == 19:
+                return render(self.request, 'a/lottery.html', {'list': result['list']})
+            if result['view'] == 20:
+                return redirect('/a/Lottery/create/')
         
-        #弹幕页面
-        if result['view'] == 24:
-            r = render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
-            r.set_cookie('commentLinenumber', result['commentLinenumber'])
-            return r
-            #return render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
+            #弹幕页面
+            if result['view'] == 24:
+                r = render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
+                r.set_cookie('commentLinenumber', result['commentLinenumber'])
+                return r
+                #return render(self.request, 'a/barrage.html', {'commentLinenumber': result['commentLinenumber'], 'list': result['list'], 'list2': result['list2']})
         
-        #弹幕墙页面
-        if result['view'] == 30:
-            return render(self.request, 'b/2.html')
-            #return JsonResponse({'con': "",
+            #弹幕墙页面
+            if result['view'] == 30:
+                return render(self.request, 'b/2.html')
+                #return JsonResponse({'con': "",
                         #'picurl' : "",
                         #'color' : "",
                         #'bolt' : "",
                         #'incline' : "",
                         #'underline': ""})
         
-        if result['view'] == 55:
-            return render(self.request, 'b/2.html')
+            if result['view'] == 31:
+                return JsonResponse(result['result'], safe=False)
         
-        if result['view'] == 50:
-            return JsonResponse({'linenumber': int(result['number'])})
+            if result['view'] == 32:
+                return JsonResponse(result['result'], safe=False)
+        
+            if result['view'] == 40:
+                return JsonResponse(result['list'], safe=False)
+        
+            if result['view'] == 41:
+                return JsonResponse(result['show'])
+        
+            if result['view'] == 55:
+                return render(self.request, 'b/2.html')
+        
+            if result['view'] == 50:
+                return JsonResponse({'linenumber': int(result['number'])})
 
         return JsonResponse(response)
 

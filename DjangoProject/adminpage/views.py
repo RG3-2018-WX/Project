@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
 from django.shortcuts import render, redirect, HttpResponse
+from django.utils.timezone import now, timedelta
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
@@ -774,4 +775,47 @@ class ProgrameDown(APIView):
 class add4(APIView):
     def get(self):
         return {'view': 50, 'number': self.request.COOKIES['commentLinenumber']}
+    
+
+class add(APIView):
+    def get(self):
+        top = Comment.objects.get(activity=Activity.selectById(self.input['activityId'])).get(status=Barrage.TOP)
+        top_comment = {
+            'content': top.content,
+            'color': top.color,
+            'bolt': top.bolt,
+            'incline': top.incline,
+            'underline': top.underline
+        }
+        return {'view': 31, 'result': top_comment}
+        #return JsonResponse({'content': '11', 'bolt': 1, 'italic': 1, 'underline': 1, 'color': 1, 'bool': 0})
+        
+
+class add2(APIView):
+    def get(self):
+        pic_list = Picture.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3))
+        show_list = []
+        for pic in pic_list:
+            show_list.append(
+                {
+                    'picUrl': pic.pic_url
+                }
+            )
+        return {'view': 32, 'result': show_list}
+        #return JsonResponse([{'picUrl': '/m/img/1.jpg'}], safe=False)
+    
+
+class add3(APIView):
+    def get(self):
+        comment_list = Comment.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3))
+        result = []
+        for i in comment_list:
+            result.append({
+                'content': i.content,
+                'bolt': i.bolt,
+                'underline': i.underline,
+                'incline': i.incline
+            })
+        return {'view': 31, 'result': result}
+        #return JsonResponse([{'data': '11', 'bolt': 1, 'italic': 1, 'underline': 1}, {'data': '11', 'bolt': 0, 'italic': 0, 'underline': 0}], safe=False)
 # Create your views here

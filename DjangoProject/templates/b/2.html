@@ -51,21 +51,18 @@
                 });
 
                 $.get("/b/3/", {}, function (ret) {
-                    if (ret['bool'] == 1)
-                    {
-                        let contents = document.getElementById("contents");
-                        contents.innerHTML = ret['content'];
-                        document.getElementById("tt").style.display = "block";
-                        contents.style.color = "white";
-                        if (ret['bolt'] == 1) {
-                            contents.style.fontWeight = "900";
-                        }
-                        if (ret['italic'] == 1) {
-                            contents.style.fontStyle = "italic";
-                        }
-                        if (ret['underline'] == 1) {
-                            contents.style.textDecoration = "underline";
-                        }
+                    let contents = document.getElementById("contents");
+                    contents.innerHTML = ret['content'];
+                    document.getElementById("tt").style.display = "block";
+                    contents.style.color = "white";
+                    if (ret['bolt'] == True) {
+                        contents.style.fontWeight = "900";
+                    }
+                    if (ret['italic'] == True) {
+                        contents.style.fontStyle = "italic";
+                    }
+                    if (ret['underline'] == True) {
+                        contents.style.textDecoration = "underline";
                     }
                 });
 
@@ -103,16 +100,17 @@
                         newnode.style.lineHeight = "100%";
                         newnode.style.left = "100%";
                         newnode.style.display = "flex";
-                        if (ret[i]["bolt"] == 1) {
+                        if (ret[i]["bolt"] == True) {
                             newnode.style.fontWeight = "900";
                         }
-                        if (ret[i]["italic"] == 1) {
+                        if (ret[i]["italic"] == True) {
                             newnode.style.fontStyle = "italic";
                         }
-                        if (ret[i]["underline"] == 1) {
+                        if (ret[i]["underline"] == True) {
                             newnode.style.textDecoration = "underline";
                         }
                         newnode.style.background = "#" + randomColor();
+                        newnode.style.position = "absolute";
                         newnode.style.color = "#" + randomColor();
                         document.getElementById("tc").appendChild(newnode);
                         pic.push(newnode.offsetLeft);
