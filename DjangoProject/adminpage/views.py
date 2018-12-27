@@ -708,7 +708,7 @@ class SetComment(APIView):
         if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')
             Comment.objects.filter(status=3).delete()
-            Comment.insertComment(Activity.selectById(self.request.COOKIES['activityId']), self.request.user, self.input['color'], self.input['content'],
+            Comment.insertComment(Activity.selectById(self.request.COOKIES['activityId']), self.request.user, self.input['content'], self.input['color'],
                 self.input['bolt'], self.input['underline'], self.input['incline'], timezone.now(), 3)
             return {'view': 24, 'commentLinenumber': self.input['ActivityID'], 'list': [], 'list2': []}
     
