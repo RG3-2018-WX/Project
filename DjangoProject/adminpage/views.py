@@ -848,15 +848,19 @@ class Pic(APIView):
 
 class Barrier(APIView):
     def get(self):
-        comment_list = Comment.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3))
+        comment_list = Comment.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3), status=1)
+        #comment_list = Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3))
         result = []
+        Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3), status=1).delete()
         for i in comment_list:
-            result.append({
-                'content': i.content,
-                'bolt': i.bolt,
-                'underline': i.underline,
-                'incline': i.incline
-            })
+            if i.status != 3:
+                result.append({
+                    'content': i.content,
+                    'bolt': i.bolt,
+                    'underline': i.underline,
+                    'incline': i.incline
+                })
+                id = i.id,
         return {'view': 31, 'result': result}
         
 # Create your views here
