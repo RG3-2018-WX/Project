@@ -851,16 +851,14 @@ class Barrier(APIView):
         comment_list = Comment.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3), status=1)
         #comment_list = Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3))
         result = []
-        Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3), status=1).delete()
         for i in comment_list:
-            if i.status != 3:
-                result.append({
-                    'content': i.content,
-                    'bolt': i.bolt,
-                    'underline': i.underline,
-                    'incline': i.incline
-                })
-                id = i.id,
+            result.append({
+                'content': i.content,
+                'bolt': i.bolt,
+                'underline': i.underline,
+                'incline': i.incline
+            })
+        Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3), status=1).delete()
         return {'view': 31, 'result': result}
         
 # Create your views here
