@@ -656,7 +656,7 @@ class SetComment(APIView):
     def get(self):
         #self.check_input('activityId', 'commentId')
         show_list2 = []
-        comment_list = Picture.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']))
+        comment_list = Picture.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), status=1)
         #comment_list = Comment.objects.filter(time__lt=timezone.now().time.second).filter(id__gt=self.input['commentId'])
         for comment in comment_list:
             show_list2.append(
