@@ -1,0 +1,9 @@
+<view class="container">
+  <view class="formTitle">当前节目</view>
+  <image class="user-avatar" src="{{detailData.picUrl}}"></image>
+  <text class="user-name">{{detailData.name}}</text>
+  <view>
+    <text class="moto">表演者：{{detailData.actor}}\n</text>
+    <text class="moto">{{detailData.desc}}</text>
+  </view>
+</view>

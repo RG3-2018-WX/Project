@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: space-between;
+} 
+.space
+{
+    width: 100%;
+}
+.label
+{
+  flex-direction:row;
+  margin-top: 400px;
+  margin-left: 20px;
+}
+.checkboxGroup{
+  width: 520rpx;
+  padding: 20rpx;
+  margin: 8px;
+}
+
+button {
+  border: 1px solid black;
+  width: 160rpx;
+  height: 80rpx;
+  background: #fff;
+  line-height: 40px;
+  font-size: 14px;
+}
+
+.r{
+    flex-direction:row;
+    
+}
+.moto{
+    font-size: 22rpx;
+    font-weight: bold;
+    line-height: 80rpx;
+    color: #405f80;
+}
+.submit
+{
+  padding: 20rpx;
+}

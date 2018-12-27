@@ -1,0 +1,155 @@
+.tab {
+  padding: 20rpx 20rpx 40rpx 50rpx;
+  height: 10%;
+  text-align: center;
+  background-color: white;
+}
+.notice-container
+{
+  background-color: lightyellow
+}
+ 
+.time {
+  text-align: center;
+  padding: 5rpx 20rpx 5rpx 20rpx;
+  width: 200rpx;
+  font-size: 26rpx;
+  background-color: #E8E8E8;
+}
+
+.news {
+  margin-top: 30rpx;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+ .rightView{
+   text-align: left;
+   float: right;
+   position: relative;
+   right: 30rpx;
+   width: 300rpx;
+   border: solid 1px  gray;
+   padding: 5px;
+   border-radius: 6px;
+   background-color: lawngreen;
+ }
+
+ .rightMsg{
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+ }
+
+  .leftView{
+   text-align: left;
+   float: left;
+   position: relative;
+   left: 20rpx;
+   width: 300rpx;
+   border: solid 1px  gray;
+   padding: 5px;
+   border-radius: 6px;
+   background-color: snow;
+ }
+
+ .leftMsg{
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+ }
+ 
+.sendmessage {
+  background-color: white;
+  width: 100%;
+  position: fixed;
+  bottom: 0rpx;
+  display: flex;
+  flex-direction: row;
+}
+ 
+.sendmessage input{
+  width: 60%;
+  height: 40px;
+  background-color: white;
+  line-height: 40px;
+  font-size: 14px;
+  border: 1px solid #d0d0d0;
+  padding-left: 10px;
+}
+ 
+.sendmessage button {
+  border: 1px solid white;
+  width: 20%;
+  height: 80rpx;
+  background: #fff;
+  color: #000;
+  line-height: 80rpx;
+  font-size: 28rpx;
+}
+ 
+.historycon {
+  height: 90%;
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+  margin-top: 10rpx;
+  border-top: 0rpx;
+}
+
+.button{
+  margin-top: 100rpx;
+  height: 20rpx;
+  margin-bottom: 400rpx;
+}
+
+.selectImg{
+display: inline-block;
+width: 150rpx;
+height: 150rpx;
+}
+
+.blackGround{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+}
+.boxContainer{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80%;
+  max-width: 600rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 10rpx;
+  box-sizing: bordre-box;
+  transform: translate(-50%, -50%); 
+  overflow: hidden;
+  background: #fff;
+}
+.setTitle{
+  width: 100%;
+  padding: 20rpx;
+  text-align: center;
+  font-size: 40rpx;
+  border-bottom: 2rpx solid red;
+}
+
+.space
+{
+    width: 100%;
+}
+.label
+{
+  flex-direction:row;
+  margin-top: 400px;
+  margin-left: 20px;
+}
+.checkboxGroup{
+  width: 520rpx;
+  padding: 20rpx;
+  margin: 8px;
+}

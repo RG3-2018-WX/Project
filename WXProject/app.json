@@ -1,12 +1,38 @@
 {
   "pages":[
+    "pages/welcome/welcome",
+    "pages/setting/setting",
+    "pages/barrage/barrage",
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/toDo/toDo",
+    "pages/programDetail/programDetail",
+    "pages/playbill/playbill"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "智会",
+    "navigationBarTextStyle": "black"
+  },
+   "tabBar": {
+    "color": "#000000",
+    "borderStyle": "#000",
+    "selectedColor": "#ff9999",
+    "position": "top",
+    "list": [
+      {
+        "pagePath": "pages/playbill/playbill",
+        "text": "节目单"
+      },
+      {
+        "pagePath": "pages/programDetail/programDetail",
+        "text": "当前节目"
+      },
+      {
+        "pagePath": "pages/barrage/barrage",
+        "text": "发弹幕"
+      }
+    ]
   }
 }

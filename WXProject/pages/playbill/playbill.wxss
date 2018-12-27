@@ -39,10 +39,10 @@
   text-align: center;
 }
 .leftWidth {
-  width: 50%;
+  width: 50%
 }
 .rightWidth {
-  width: 65%;
+  width: 65%
 }
 .bg-title{
   background-color: hsl(270, 60%, 80%);

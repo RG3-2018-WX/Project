@@ -1,0 +1,13 @@
+
+<view class="container">
+  <image class="user-avatar" src="{{logged ? userInfo.avatarUrl : '../../image/user-unlogin.png'}}" background-size="cover"></image>
+  <view class="moto-container" bintap="bindPlayBillTap">
+    <text class="moto">节目单</text>
+  </view>
+  <view class="moto-container" bindtap="bindProgramDetailTap">
+    <text class="moto">当前节目</text>
+  </view>
+  <view class="moto-container" bindtap="bindBarrgeTap">
+    <text class="moto">发单弹幕</text>
+  </view>
+</view>

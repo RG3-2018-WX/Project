@@ -1,0 +1,12 @@
+<!--welcome.wxml-->
+
+<view class="container">
+  <image class="user-avatar" src="{{logged ? userInfo.avatarUrl : '../../image/user-unlogin.png'}}" background-size="cover"></image>
+  <view class="userinfo-view">
+    <button class="user-nickname, login-button" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="login">点击登录</button>
+    <text class="user-nickname" style='padding: 14px' wx:else>{{userInfo.nickName}}</text>
+    <view class="moto-container" wx:if="{{logged}}">
+      <text class="moto" bindtap='onTap'>enter</text>
+    </view>
+  </view>
+</view>

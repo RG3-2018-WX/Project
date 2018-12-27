@@ -1,0 +1,61 @@
+<view class='tab'>
+  <text>发弹幕</text>
+</view>
+<view class='news'>
+  <view class="historycon">
+    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" class="history" wx:for="{{listData}}">
+      <view>
+        <text class='time'>{{item.time}}</text>
+      </view>
+      <block wx:if="{{item.type=='image'}}">
+        <view class="rightView">
+          <view class="rightMsg">
+            <image class="selectImg" src="{{item.content}}" data-src="{{item.content}}" lazy-load="true" bindtap="previewImg"></image>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view wx:if="{{item.isUser}}">
+          <view class="rightView">
+            <view class="rightMsg">
+              <text>{{item.content}}</text>
+            </view>
+          </view>
+        </view>
+        <view wx:else>
+          <view class="leftView">
+            <view class="leftMsg">
+              <text>{{item.content}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+    <view class="space" id="botton"></view>
+  </view>
+</view>
+<block wx:if="{{showModal}}">
+  <view class="blackGround"></view>
+  <view class="boxContainer">
+    <view class="setTitle">设置</view>
+    <view class="boxContent">
+    <checkbox-group class="checkboxGroup" name="style">
+    <label wx:for="{{style}}" wx:key="">
+      <checkbox style="margin-bottom:12px;margin-right:5px;" value="{{style[index].name}}" checked='{{style[index].checked}}'bindtap='select'data-index='{{index}}'/>{{style[index].name}}
+      <view class="space"></view>
+    </label>
+  </checkbox-group>
+  <view class="r">  
+    <block class="r" wx:for="{{color}}" wx:key="" wx:for-index="i">
+      <button style="background:{{color[i]}}" bindtap="bindColorTap" data-index='{{i}}'></button>
+    </block>
+  </view>
+    </view>
+  </view>
+</block>
+<view class="sendmessage">
+  <input type="text" bindinput="bindChange" confirm-type="send" value='{{inputValue}}' bindconfirm="sentmsg"/>
+  <button catchtap="sentmsg">发送</button>
+  <button catchtap="sentpic">图片</button>
+  <button catchtap="setting">设置</button>
+</view>

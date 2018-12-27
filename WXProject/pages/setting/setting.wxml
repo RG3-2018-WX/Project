@@ -1,0 +1,14 @@
+<view class="container">
+  <checkbox-group class="checkboxGroup" name="style">
+    <label wx:for="{{style}}" wx:key="">
+      <checkbox style="margin-bottom:12px;margin-right:5px;" value="{{style[index].name}}" checked='{{style[index].checked}}'bindtap='select'data-index='{{index}}'/>{{style[index].name}}
+      <view class="space"></view>
+    </label>
+  </checkbox-group>
+  <view class="r">  
+    <block class="r" wx:for="{{color}}" wx:key="" wx:for-index="i">
+      <button style="background:{{color[i]}}" bindtap="bindColorTap" data-index='{{i}}'></button>
+    </block>
+  </view>
+  <view class="submit"><button type="primary" form-type="submit" bindtap="save">确认</button></view>
+</view>
