@@ -166,8 +166,9 @@ class ActivityCreate(APIView):
         if 'create' in self.request.POST:
             self.check_input("name", "place", "description", "picUrl", "bgPicUrl", "startTime",
                              "endTime")
-            Activity.insertActivity(self.request.user, self.input['description'], self.input['picUrl'],
-                                    self.input['startTime'], self.input['endTime'], self.input['bgPicUrl'],
+            #img = self.request.FILES.get('picUrl')
+            Activity.insertActivity(self.request.user, self.input['description'], self.input['picUrl'][0],
+                                    self.input['startTime'], self.input['endTime'], self.input['bgPicUrl'][0],
                                     0, self.input['place'], self.input['name'])
             #if not Activity.objects.get(self.input['name']):
                 #raise LogicError()
@@ -216,8 +217,8 @@ class ActivityDetail(APIView):
         if activity:
             data = {'name': activity.name,
                     'description': activity.description,
-                    'startTime': activity.start_time.timestamp(),
-                    'endTime': activity.end_time.timestamp(),
+                    'startTime': activity.start_time,
+                    'endTime': activity.end_time,
                     'place': activity.place,
                     'picUrl': activity.pic_url,
                     'bgPicUrl': activity.bg_pic_url,
@@ -242,9 +243,9 @@ class ActivityDetail(APIView):
             old_activity = activity
             if activity:
                 Activity.updateActivity(nid, self.request.user, self.input['description'],
-                                            self.input['picUrl'],
+                                            self.input['picUrl'][0],
                                             self.input['startTime'], self.input['endTime'],
-                                            self.input['bgPicUrl'], activity.status, self.input['place'],
+                                            self.input['bgPicUrl'][0], activity.status, self.input['place'],
                                             self.input['name'])
 
             else:
@@ -667,7 +668,7 @@ class SetComment(APIView):
             )
             
         show_list = []
-        pic_list = Comment.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']))
+        pic_list = Comment.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), status=1)
         #pic_list = Comment.objects.filter(time__lt=timezone.now().time.second ).filter(id__gt=self.input['pictureId'])
         for pic in pic_list:
             show_list.append(
@@ -703,14 +704,66 @@ class SetComment(APIView):
             self.check_input('commentLinenumber')
             #self.request.COOKIES['commentLinenumber'] = self.input['ActivityID']
             #return self.input['commentLinenumber']
-            return {'view': 24, 'commentLinenumber': self.input['ActivityID'], 'list': [], 'list2': []}
+            show_list2 = []
+            comment_list = Picture.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), status=1)
+            #comment_list = Comment.objects.filter(time__lt=timezone.now().time.second).filter(id__gt=self.input['commentId'])
+            for comment in comment_list:
+                show_list2.append(
+                    {
+                        'id': comment.id,
+                        'picUrl': comment.pic_url
+                    }
+                )
+            
+            show_list = []
+            pic_list = Comment.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), status=1)
+            #pic_list = Comment.objects.filter(time__lt=timezone.now().time.second ).filter(id__gt=self.input['pictureId'])
+            for pic in pic_list:
+                show_list.append(
+                    {
+                        'id': pic.id,
+                        'content': pic.content,
+                        'color': pic.color,
+                        'bolt': pic.bolt,
+                        'incline': pic.incline,
+                        'underline': pic.underline
+                    }
+                )
+            #return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
+            return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': show_list2, 'list2': show_list}
         
         if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')
             Comment.objects.filter(status=3).delete()
             Comment.insertComment(Activity.selectById(self.request.COOKIES['activityId']), self.request.user, self.input['content'], self.input['color'],
                 self.input['bolt'], self.input['underline'], self.input['incline'], timezone.now(), 3)
-            return {'view': 24, 'commentLinenumber': self.input['ActivityID'], 'list': [], 'list2': []}
+            show_list2 = []
+            comment_list = Picture.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), status=1)
+            #comment_list = Comment.objects.filter(time__lt=timezone.now().time.second).filter(id__gt=self.input['commentId'])
+            for comment in comment_list:
+                show_list2.append(
+                    {
+                        'id': comment.id,
+                        'picUrl': comment.pic_url
+                    }
+                )
+            
+            show_list = []
+            pic_list = Comment.objects.filter(activity=Activity.selectById(self.request.COOKIES['activityId']), status=1)
+            #pic_list = Comment.objects.filter(time__lt=timezone.now().time.second ).filter(id__gt=self.input['pictureId'])
+            for pic in pic_list:
+                show_list.append(
+                    {
+                        'id': pic.id,
+                        'content': pic.content,
+                        'color': pic.color,
+                        'bolt': pic.bolt,
+                        'incline': pic.incline,
+                        'underline': pic.underline
+                    }
+                )
+            #return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
+            return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': show_list2, 'list2': show_list}
     
     
 class SetPicture(APIView):
@@ -821,21 +874,21 @@ class Line(APIView):
 
 class Top(APIView):
     def get(self):
-        top = Comment.objects.filter(status=3)
-        top1 = top[0]
-        top_comment = {
-            'content': top1.content,
-            'color': top1.color,
-            'bolt': top1.bolt,
-            'incline': top1.incline,
-            'underline': top1.underline
-        }
-        return {'view': 33, 'result': top_comment}
+        try:
+            top = Comment.objects.get(status=3, activity=Activity.selectById(self.request.COOKIES['activityId']))
+            return {'view': 33, 'result': top}
+        except:
+            return {'view': 33, 'result': {
+                'content': '当前无置顶弹幕',
+                'color': '1',
+                'bolt': False,
+                'incline': False,
+                'underline': False}}
         
 
 class Pic(APIView):
     def get(self):
-        pic_list = Picture.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3))
+        pic_list = Picture.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3), status=1, activity=Activity.selectById(self.request.COOKIES['activityId']))
         show_list = []
         for pic in pic_list:
             show_list.append(
@@ -848,7 +901,7 @@ class Pic(APIView):
 
 class Barrier(APIView):
     def get(self):
-        comment_list = Comment.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3), status=1)
+        comment_list = Comment.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3), status=1, activity=Activity.selectById(self.request.COOKIES['activityId']))
         #comment_list = Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3))
         result = []
         for i in comment_list:

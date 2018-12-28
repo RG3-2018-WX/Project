@@ -37,10 +37,10 @@
                         {{ a.name }}
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
-                        {{ a.startTime }}
+                        {{ a.startTime | date:"Y-m-d H:i:s" }}
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
-                        {{ a.endTime }}
+                        {{ a.endTime | date:"Y-m-d H:i:s" }}
                     </td>
                     <td style="border-width: 1px; padding: 8px; border-style: solid; border-color: #a9c6c9;">
                         {{ a.place }}
