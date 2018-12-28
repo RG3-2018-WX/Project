@@ -26,7 +26,7 @@ class ActivityList(APIView):
                 }
             )
         if list:
-            return {'viewl': 40, 'list': list}
+            return {'view': 40, 'list': list}
         else:
             raise InputError('the user attend no activity')
 
@@ -46,7 +46,7 @@ class ActivityDetail(APIView):
 					'actor': program.actor
 				}
 			)
-		return {'viewl': 40, 'list': show_list}
+		return {'view': 40, 'list': show_list}
 		# return show_list
 
 
@@ -77,7 +77,7 @@ class LotteryInfo(APIView):
 					'name': i.lottery.name,
 					'prize': i.prize
 				})
-		return {'viewl': 40, 'list': show_list}
+		return {'view': 40, 'list': show_list}
 		# return show_list
 
 
