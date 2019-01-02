@@ -43,7 +43,7 @@ class ActivityDetail(APIView):
 				{
 					'name': program.name,
 					'sequence': program.sequence,
-					'actor': program.actor
+					'actor': program.actors
 				}
 			)
 		return {'view': 40, 'list': show_list}
@@ -59,7 +59,7 @@ class ProgramDetail(APIView):
 		show = {
 			'name': program.name,
 			'description': program.description,
-			'actor': program.actor
+			'actor': program.actors
 		}
 		return {'view': 41, 'show': show}
 		# return show
