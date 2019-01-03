@@ -128,7 +128,7 @@ class ActivityList(APIView):
             return {'view': 11}
 
         if 'logout' in self.request.POST:
-            return {'view': 111}
+            return {'view': 0}
 
 
 class ActivityStatus(APIView):
@@ -227,7 +227,7 @@ class ActivityDetail(APIView):
                     }
             
             return {'view': 13, 'name': activity.name, 'description': activity.description,
-                           'startTime': activity.start_time, 'endTime': activity.end_time,
+                           'startTime': activity.start_time.isoformat()[:-6], 'endTime': activity.end_time.isoformat()[:-6],
                            'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
                            'organizer': activity.organizer, 'status': activity.status, 'acitivityid': nid}
         else:
@@ -730,7 +730,7 @@ class SetComment(APIView):
                     }
                 )
             #return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
-            return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': show_list2, 'list2': show_list}
+            return {'view': 24, 'commentLinenumber': self.input['ActivityID'], 'list': show_list2, 'list2': show_list}
         
         if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')

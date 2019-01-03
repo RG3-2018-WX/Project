@@ -96,7 +96,7 @@ class APIView(BaseView):
             if result['view'] == 27:
                 return redirect('/a/activity/')
             if result['view'] == 0:
-                return redirect('/a/login/')
+                return redirect('/')
         
             #注册页面
             if result['view'] == 3:
@@ -125,7 +125,7 @@ class APIView(BaseView):
                 return render(self.request, 'a/Activity/edit.html', {'name': result['name'], 'description': result['description'],
                            'startTime': result['startTime'], 'endTime': result['endTime'],
                            'place': result['place'], 'picUrl': result['picUrl'], 'bgPicUrl': result['bgPicUrl'],
-                           'status': result['status']})
+                           'status': result['status'], 'id': result['acitivityid']})
             if result['view'] == 18:
                 return render(self.request, 'a/Activity/edit.html')
         
