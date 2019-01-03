@@ -43,7 +43,7 @@ class ActivityDetail(APIView):
 				{
 					'name': program.name,
 					'sequence': program.sequence,
-					'actor': program.actor
+					'actors': program.actors
 				}
 			)
 		return {'view': 40, 'list': show_list}
@@ -53,15 +53,15 @@ class ActivityDetail(APIView):
 class ProgramDetail(APIView):
 	def get(self):
 		self.check_input('sequence', 'activityId')
-		program = Programe.objects.get(activity__id=input(['activityId']), sequence=input(['sequence']))
+		program = Programe.objects.get(activity__id=input(['activityId']), sequence=self.request.COOKIES['sequence'])
 		if not program:
 			raise InputError('no such program')
 		show = {
 			'name': program.name,
 			'description': program.description,
-			'actor': program.actor
+			'actors': program.actors
 		}
-		return {'view': 41, 'show': show}
+		return {'view': 42, 'show': show, 'sequence': self.request.COOKIES['sequence']}
 		# return show
 
 
