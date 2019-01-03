@@ -191,13 +191,13 @@ class APIView(BaseView):
                 return JsonResponse(result['result'])
         
             if result['view'] == 40:
-                return JsonResponse(result['list'], safe=False)
+                return JsonResponse(response)
         
             if result['view'] == 41:
-                return JsonResponse(result['show'])
+                return JsonResponse(response)
         
             if result['view'] == 42:
-                J = JsonResponse(result['show'])
+                J = JsonResponse(response)
                 J.set_cookie('sequence', result['sequence'])
                 return J
         
