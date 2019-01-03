@@ -26,9 +26,9 @@ from DjangoProject import settings
 urlpatterns = [
 	url(r'^a/',include('adminpage.urls') ),
 	url(r'^b/',include('adminpage.urls') ),
-    url(r'^$', views.Login.as_view()),
-    url(r'^BarrierWall/', views2.BarrierWall.as_view()),
-    url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
+    	url(r'^$', views.Login.as_view()),
+    	url(r'^BarrierWall/', views2.BarrierWall.as_view()),
+   	url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
 	url(r'^api/u/',include('userpage.urls') ),
    
 ]
