@@ -29,6 +29,6 @@ urlpatterns = [
     	url(r'^$', views.Login.as_view()),
     	url(r'^BarrierWall/', views2.BarrierWall.as_view()),
    	url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
-	url(r'^api/u/',include('userpage.urls') ),
+	url(r'^api/u/',include('userpage.urls') )
    
 ]
