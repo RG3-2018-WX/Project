@@ -12,7 +12,8 @@ from codex.baseview import APIView
 
 class ActivityList(APIView):
     def get(self):
-        show_list = Activity.objects.all()
+        self.check_input('openId')
+        show_list = ActivityUser.activitySelectedByUser(self.input['openId'])
         list = []
         for activity in show_list:
             list.append(
