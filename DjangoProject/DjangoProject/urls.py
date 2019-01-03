@@ -55,5 +55,5 @@ urlpatterns = [
     url(r'^api/u/lottery/list',u_view.LotteryInfo.as_view()),
     url(r'^api/u/activity/comment',u_view.SetComment.as_view()),
     url(r'^api/u/activity/picture',u_view.SetPicture.as_view()),
-    url(r'^api/u/activity/user',u_view.ActivityUser.as_view())
+    url(r'^api/u/activity/user',u_view.InsertActivityUser.as_view())
 ]

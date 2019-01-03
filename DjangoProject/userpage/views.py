@@ -101,7 +101,7 @@ class SetPicture(APIView):
 		                      Barrage.OK)
 		return []
 
-class ActivityUser(APIView):
+class InsertActivityUser(APIView):
 	def post(self):
 		self.check_input('openId', 'activityId')
 		open_id = self.input['openId']
