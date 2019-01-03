@@ -888,12 +888,12 @@ class Top(APIView):
             )
             return {'view': 33, 'result': show_list}
         except:
-            return {'view': 33, 'result': {
+            return {'view': 33, 'result': [{
                 'content': '当前无置顶弹幕',
                 'color': '1',
                 'bolt': False,
                 'incline': False,
-                'underline': False}}
+                'underline': False}]}
         
 
 class Pic(APIView):
