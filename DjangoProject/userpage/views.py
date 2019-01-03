@@ -106,5 +106,8 @@ class InsertActivityUser(APIView):
 		self.check_input('openId', 'activityId')
 		open_id = self.input['openId']
 		act_id = self.input['activityId']
-		actvity = Activity.selectById(act_id)
-		ActivityUser.insertActivityUser(open_id, activity)
+		activity = Activity.selectById(act_id)
+		if activity is not None:
+			ActivityUser.insertActivityUser(open_id, activity)
+		else
+			raise InputError('the user attend no activity')
