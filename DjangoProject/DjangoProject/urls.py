@@ -24,7 +24,6 @@ from django.conf.urls.static import static
 from DjangoProject import settings
 
 urlpatterns = [
-    urlpatterns = [
 	url(r'^a/',include('adminpage.urls') ),
 	url(r'^b/',include('adminpage.urls') ),
     url(r'^$', views.Login.as_view()),
@@ -32,5 +31,4 @@ urlpatterns = [
     url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
 	url(r'^api/u/',include('userpage.urls') ),
    
-]
 ]
