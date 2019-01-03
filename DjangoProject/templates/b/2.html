@@ -53,7 +53,12 @@
                 $.get("/b/Top/", {}, function (ret) {
                     let contents = document.getElementById("contents");
                     contents.innerHTML = ret['content'];
-                    document.getElementById("tt").style.display = "block";
+                    if (ret.hasOwnProperty("content")){
+                        document.getElementById("tt").style.display = "block";
+                    }
+                    else{
+                        document.getElementById("tt").style.display = "none";
+                    }
                     contents.style.color = "white";
                     if (ret['bolt'] == true) {
                         contents.style.fontWeight = "900";

@@ -20,6 +20,8 @@ from barragepage import views as views2
 from userpage import views as u_view
 from django.views.static import serve
 from userpage import views as u_view
+from django.conf.urls.static import static
+from DjangoProject import settings
 
 urlpatterns = [
     url(r'^$', views.Login.as_view()),
@@ -47,11 +49,11 @@ urlpatterns = [
     url(r'^b/Pic/', views.Pic.as_view()),
     url(r'^b/Barrier/', views.Barrier.as_view()),
     url(r'^m/(?P<path>.*)$', serve, {'document_root': 'static/'}),
-
     url(r'^api/u/activity/list', u_view.ActivityList.as_view()),
     url(r'^api/u/activity/detail',u_view.ActivityDetail.as_view()),
     url(r'^api/u/activity/program',u_view.ProgramDetail.as_view()),
     url(r'^api/u/lottery/list',u_view.LotteryInfo.as_view()),
     url(r'^api/u/activity/comment',u_view.SetComment.as_view()),
     url(r'^api/u/activity/picture',u_view.SetPicture.as_view()),
+    url(r'^api/u/activity/user',u_view.ActivityUser.as_view())
 ]

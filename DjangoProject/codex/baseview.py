@@ -84,6 +84,8 @@ class APIView(BaseView):
             }
             
         #登入页面
+        if result is None:
+            return JsonResponse(response)
         if 'view' in result:
             if result['view'] == 26:
                 return render(self.request, 'a/login.html')
@@ -189,10 +191,15 @@ class APIView(BaseView):
                 return JsonResponse(result['result'])
         
             if result['view'] == 40:
-                return JsonResponse(result['list'], safe=False)
+                return JsonResponse(response)
         
             if result['view'] == 41:
-                return JsonResponse(result['show'])
+                return JsonResponse(response)
+        
+            if result['view'] == 42:
+                J = JsonResponse(response)
+                J.set_cookie('sequence', result['sequence'])
+                return J
         
             if result['view'] == 55:
                 return render(self.request, 'b/2.html')
