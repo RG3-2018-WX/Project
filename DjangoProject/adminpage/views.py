@@ -876,7 +876,17 @@ class Top(APIView):
     def get(self):
         try:
             top = Comment.objects.get(status=3, activity=Activity.selectById(self.request.COOKIES['activityId']))
-            return {'view': 33, 'result': top}
+            show_list = []
+            show_list.append(
+                {
+                    'content': top.content,
+                    'bolt': top.bolt,
+                    'incline': top.incline,
+                    'color': top.color,
+                    'underline': top.underline
+                }
+            )
+            return {'view': 33, 'result': show_list}
         except:
             return {'view': 33, 'result': {
                 'content': '当前无置顶弹幕',

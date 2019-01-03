@@ -188,7 +188,7 @@ class APIView(BaseView):
                 return JsonResponse(result['result'], safe=False)
         
             if result['view'] == 33:
-                return JsonResponse(result['result'])
+                return JsonResponse(result['result'], safe=False)
         
             if result['view'] == 40:
                 return JsonResponse(response)
