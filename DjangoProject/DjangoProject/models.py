@@ -144,6 +144,17 @@ class ActivityUser(models.Model):
 	FOLLOW = 2
 	SIGN = 3
 	
+	
+	@staticmethod
+	def selectActivityUser(open_id,activity_id):
+		activity = Activity.selectById(activity_id)
+		if activity is None:
+			return  None
+		result = ActivityUser.objects.filter(open_id = open_id,activity = activity)
+		if not len(result):
+			return None
+		return result[0]
+	
 	@staticmethod
 	def insertActivityUser(open_id, activity):
 		if activity is None:

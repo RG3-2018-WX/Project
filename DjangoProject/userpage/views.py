@@ -10,6 +10,16 @@ from DjangoProject.models import ActivityUser, Activity, LotteryResult, Comment,
 from codex.baseerror import *
 from codex.baseview import APIView
 
+
+class UserSign(APIView):
+	def post(self):
+		self.check_input('openId','acticityId')
+		actuser = ActivityUser.selectActivityUser(self.input['openId'],self.input['acticityId'])
+		if actuser is None:
+			raise InputError("No Such user join this activity")
+		return {'view':40}
+	
+
 class ActivityList(APIView):
     def get(self):
         self.check_input('openId')
