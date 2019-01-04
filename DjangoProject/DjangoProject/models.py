@@ -164,8 +164,10 @@ class ActivityUser(models.Model):
 			return True
 		else:
 			return False
+		
+		
 	@staticmethod
-	def activitySelcetedByUser(open_id):
+	def activitySelectedByUser(open_id):
 		list = ActivityUser.objects.filter(open_id=open_id)
 		showlist = []
 		for i in list:

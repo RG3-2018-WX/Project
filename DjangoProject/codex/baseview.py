@@ -84,6 +84,8 @@ class APIView(BaseView):
             }
             
         #登入页面
+        if result is None:
+            return JsonResponse(response)
         if 'view' in result:
             if result['view'] == 26:
                 return render(self.request, 'a/login.html')
@@ -94,7 +96,7 @@ class APIView(BaseView):
             if result['view'] == 27:
                 return redirect('/a/activity/')
             if result['view'] == 0:
-                return redirect('/a/login/')
+                return redirect('/')
         
             #注册页面
             if result['view'] == 3:
@@ -123,7 +125,7 @@ class APIView(BaseView):
                 return render(self.request, 'a/Activity/edit.html', {'name': result['name'], 'description': result['description'],
                            'startTime': result['startTime'], 'endTime': result['endTime'],
                            'place': result['place'], 'picUrl': result['picUrl'], 'bgPicUrl': result['bgPicUrl'],
-                           'status': result['status']})
+                           'status': result['status'], 'id': result['acitivityid']})
             if result['view'] == 18:
                 return render(self.request, 'a/Activity/edit.html')
         
@@ -171,7 +173,7 @@ class APIView(BaseView):
         
             #弹幕墙页面
             if result['view'] == 30:
-                return render(self.request, 'b/2.html')
+                return render(self.request, 'b/2.html', {'value': result['r']})
                 #return JsonResponse({'con': "",
                         #'picurl' : "",
                         #'color' : "",
@@ -186,13 +188,18 @@ class APIView(BaseView):
                 return JsonResponse(result['result'], safe=False)
         
             if result['view'] == 33:
-                return JsonResponse(result['result'])
+                return JsonResponse(result['result'], safe=False)
         
             if result['view'] == 40:
-                return JsonResponse(result['list'], safe=False)
+                return JsonResponse(response)
         
             if result['view'] == 41:
-                return JsonResponse(result['show'])
+                return JsonResponse(response)
+        
+            if result['view'] == 42:
+                J = JsonResponse(response)
+                J.set_cookie('sequence', result['sequence'])
+                return J
         
             if result['view'] == 55:
                 return render(self.request, 'b/2.html')

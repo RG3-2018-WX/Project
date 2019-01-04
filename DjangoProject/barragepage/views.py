@@ -18,7 +18,10 @@ import os
 
 class BarrierWall(APIView):
     def get(self):
-        return {'view': 30}
+        activity = self.request.COOKIES['activityId']
+        result = Activity.selectById(activity)
+        r = result.bg_pic_url.name[2:]
+        return {'view': 30, 'r': r}
 
 
 class CommentLinenumber(APIView):

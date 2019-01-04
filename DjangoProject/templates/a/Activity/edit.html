@@ -1,3 +1,5 @@
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
 <div id="main" style="font-family: 'Source Sans Pro',sans-serif;
                         color:white;
                         font-weight: 300;
@@ -10,7 +12,7 @@
                         width: 100%;
                         height: 100%;
                         overflow: hidden;">
-    <form method="post" style="top: 5%; position: relative">
+    <form method="post" style="top: 5%; position: relative" enctype="multipart/form-data">
         {% csrf_token %}
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -22,8 +24,9 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">活动名称：</label>
-            <input class="vTextField" id="id_Name" maxlength="30" name="name" type="text" value="{{ name }}" style="font-size: 20px;height: 100%; width: 50%"/>
+            <label style="font-size: 20px; right: 56%; position: absolute;">活动名称：</label>
+            <input class="vTextField" id="id_Name" maxlength="30" name="name" type="text" value="{{ name }}"
+                   style="left: 10%;position: relative;font-size: 20px;height: 100%; width: 50%"/>
         </div>
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -35,8 +38,9 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">活动地点：</label>
-            <input class="vTextField" id="id_Organnizer" maxlength="100" name="place" type="text" value="{{ place }}" style="font-size: 20px;height: 100%; width: 50%"/>
+            <label style="font-size: 20px; right: 56%; position: absolute;">活动地点：</label>
+            <input class="vTextField" id="id_Organnizer" maxlength="100" name="place" type="text" value="{{ place }}"
+                   style="left: 10%;position: relative;font-size: 20px;height: 100%; width: 50%"/>
         </div>
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -48,8 +52,9 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">活动详情：</label>
-            <input class="vTextField" id="id_Description" maxlength="100" name="description" type="text" value="{{ description }}" style="font-size: 20px;height: 100%; width: 50%"/>
+            <label style="font-size: 20px; right: 56%; position: absolute;">活动详情：</label>
+            <input class="vTextField" id="id_Description" maxlength="100" name="description" type="text"
+                   value="{{ description }}" style="left: 10%;position: relative;font-size: 20px;height: 100%; width: 50%"/>
         </div>
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -61,8 +66,9 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">活动图片：</label>
-            <input accept = "image/*" class="vTextField" id="id_PirUrl" name="picUrl" type="file" value="{{ picUrl }}" style="font-size: 20px;height: 100%; width: 50%"/>
+            <label style="font-size: 20px; right: 56%; position: absolute;">活动图片：</label>
+            <input accept="image/*" class="vTextField" id="id_PirUrl" name="picUrl" type="file" value="{{ picUrl }}"
+                   style="left: 10%;position: relative;font-size: 20px;height: 100%; width: 50%"/>
         </div>
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -74,8 +80,9 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">弹幕墙背景图片：</label>
-            <input accept = "image/*" class="vTextField" id="id_BgPicUrl" name="bgPicUrl" type="file" value="{{ bgPicUrl }}" style="font-size: 20px;height: 100%; width: 50%"/>
+            <label style="font-size: 20px; right: 56%; position: absolute;">弹幕墙背景图片：</label>
+            <input accept="image/*" class="vTextField" id="id_BgPicUrl" name="bgPicUrl" type="file"
+                   value="{{ bgPicUrl }}" style="left: 10%;position: relative;font-size: 20px;height: 100%; width: 50%"/>
         </div>
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -87,8 +94,9 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">开始时间：</label>
-            <input class="vTextField" id="id_Description" maxlength="100" name="startTime" type="text" value="{{ startTime }}" style="font-size: 20px;height: 100%; width: 50%"/>
+            <label style="font-size: 20px; right: 56%; position: absolute;">开始时间：</label>
+            <input class="vTextField" id="id_Description" maxlength="100" name="startTime" type="datetime-local"
+                   value="{{ startTime }}" style="left: 10%;position: relative;font-size: 20px;height: 100%; width: 50%"/>
         </div>
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -100,8 +108,9 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">结束时间：</label>
-            <input class="vTextField" id="id_Description" maxlength="100" name="endTime" type="text" value="{{ endTime }}" style="font-size: 20px;height: 100%; width: 50%"/>
+            <label style="font-size: 20px; right: 56%; position: absolute;">结束时间：</label>
+            <input class="vTextField" id="id_Description" maxlength="100" name="endTime" type="datetime-local"
+                   value="{{ endTime }}" style="left: 10%;position: relative;font-size: 20px;height: 100%; width: 50%"/>
         </div>
         <div style="border: 1px solid rgba(255, 255, 255, 0.4);
                     background-color: rgba(255, 255, 255, 0.2);
@@ -113,38 +122,121 @@
                     text-align: center;
                     color: black;
                     font-weight: 300;">
-            <label style="font-size: 20px">状态：</label>
+            <label style="font-size: 20px; ">状态：</label>
             <label name="Statue" style="font-size: 20px">
-                        {% if status == 0 %}
-                            准备
-                        {% endif %}
-                        {% if status == 1 %}
-                            进行
-                        {% endif %}
-                        {% if status == 2 %}
-                            结束
-                        {% endif %}
-          </label>
+                {% if status == 0 %}
+                    准备
+                {% endif %}
+                {% if status == 1 %}
+                    进行
+                {% endif %}
+                {% if status == 2 %}
+                    结束
+                {% endif %}
+            </label>
         </div>
-        <div style="border: 1px solid rgba(255, 255, 255, 0.4);
-                    background-color: rgba(255, 255, 255, 0.2);
-                    margin:0px 40% 0px 40%;
-                    border: 0;
-                    color: #53e3a6;
-                    border-radius: 3px;
-                    width: 20%;
-                    cursor: pointer;
-                    -webkit-transition-duration: 0.25s;
-                    transition-duration: 0.25s;">
+        <div>
             {% if status == 0 %}
-            <input type="submit" value="开始" style="position: relative; left: 40%; font-size: 20px; height: 30px; width: 20%" name="begin">
+        <button type="submit" name="begin" style="position: absolute; left: 33%; font-size: 24px; margin-right: 30px;
+	display: inline-block;
+	color: black;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	cursor: pointer">开始</button>
             {% endif %}
             {% if status == 1 %}
-            <input type="submit" value="结束" style="position: relative; left: 40%; font-size: 20px; height: 30px; width: 20%" name="end">
-            {% endif %}<br/><br/>
-            <input type="submit" value="删除" style="position: relative; left: 10%; font-size: 20px; height: 30px; width: 20%" name="detail">
-            <input type="submit" value="修改" style="position: relative; left: 18%; font-size: 20px; height: 30px; width: 20%" name="edit">
-            <input type="submit" value="返回" style="position: relative; left: 28%; font-size: 20px; height: 30px; width: 20%" name="return">
+        <button type="submit" name="end" style="position: absolute; left: 33%; font-size: 24px; margin-right: 30px;
+	display: inline-block;
+	color: black;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	cursor: pointer">结束</button>
+            {% endif %}
+        <button type="submit" name="detail" style="position: absolute; left: 43%; font-size: 24px; margin-right: 30px;
+	display: inline-block;
+	color: black;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	cursor: pointer">删除</button>
+        <button type="submit" name="edit" style="position: absolute; left: 53%; font-size: 24px; margin-right: 30px;
+	display: inline-block;
+	color: black;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	cursor: pointer">修改</button>
+        <button type="submit" name="return" style="position: absolute; left: 63%; font-size: 24px; margin-right: 30px;
+	display: inline-block;
+	color: black;
+	text-decoration: none;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	cursor: pointer">返回</button>
         </div>
+
+        <input id="text" type="text" value="https://668855.iterator-traits.com/a/Activity/edit/?nid={{ id }}"
+               style="width:80%; display: none">
+        <input id="text2" type="text" value="{{ id }}" style="width:80%; display: none">
     </form>
+            <div id="qrcode" style="width:100px; height:100px; margin-top:15px; left: 30%; position: absolute;top: 60%"></div>
+        <div id="qrcode2" style="width:100px; height:100px; margin-top:15px; left: 59%; position: absolute;top: 60%"></div>
 </div>
+
+<script type="text/javascript">
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        width: 200,
+        height: 200
+    });
+
+    var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+        width: 200,
+        height: 200
+    });
+
+    function makeCode() {
+        var elText = document.getElementById("text");
+
+        if (!elText.value) {
+            alert("Input a text");
+            elText.focus();
+            return;
+        }
+
+        qrcode.makeCode(elText.value);
+
+        var elText2 = document.getElementById("text2");
+
+        if (!elText2.value) {
+            alert("Input a text");
+            elText2.focus();
+            return;
+        }
+
+        qrcode2.makeCode(elText2.value);
+    }
+
+    makeCode();
+</script>

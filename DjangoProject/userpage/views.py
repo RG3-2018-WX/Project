@@ -12,7 +12,8 @@ from codex.baseview import APIView
 
 class ActivityList(APIView):
     def get(self):
-        show_list = Activity.objects.all()
+        self.check_input('openId')
+        show_list = ActivityUser.activitySelectedByUser(self.input['openId'])
         list = []
         for activity in show_list:
             list.append(
@@ -26,7 +27,7 @@ class ActivityList(APIView):
                 }
             )
         if list:
-            return {'viewl': 40, 'list': list}
+            return {'view': 40, 'list': list}
         else:
             raise InputError('the user attend no activity')
 
@@ -43,25 +44,25 @@ class ActivityDetail(APIView):
 				{
 					'name': program.name,
 					'sequence': program.sequence,
-					'actor': program.actor
+					'actors': program.actors
 				}
 			)
-		return {'viewl': 40, 'list': show_list}
+		return {'view': 40, 'list': show_list}
 		# return show_list
 
 
 class ProgramDetail(APIView):
 	def get(self):
 		self.check_input('sequence', 'activityId')
-		program = Programe.objects.get(activity__id=input(['activityId']), sequence=input(['sequence']))
+		program = Programe.objects.get(activity__id=input(['activityId']), sequence=self.request.COOKIES['sequence'])
 		if not program:
 			raise InputError('no such program')
 		show = {
 			'name': program.name,
 			'description': program.description,
-			'actor': program.actor
+			'actors': program.actors
 		}
-		return {'view': 41, 'show': show}
+		return {'view': 42, 'show': show, 'sequence': self.request.COOKIES['sequence']}
 		# return show
 
 
@@ -77,17 +78,19 @@ class LotteryInfo(APIView):
 					'name': i.lottery.name,
 					'prize': i.prize
 				})
-		return {'viewl': 40, 'list': show_list}
+		return {'view': 40, 'list': show_list}
 		# return show_list
 
 
 class SetComment(APIView):
-	def post(self):
+	def get(self):
+		print(self.input)
 		self.check_input('openId')
 		Comment.insertComment(Activity.selectById(self.input['activityId']), self.input['openId'],
 		                      self.input['color'], self.input['content'],
 		                      self.input['bolt'], self.input['underline'], self.input['incline'], timezone.now(),
 		                      Barrage.OK)
+		return {'viewl': 40}
 
 
 class SetPicture(APIView):
@@ -96,12 +99,15 @@ class SetPicture(APIView):
 		Picture.insertComment(Activity.selectById(self.input['activityId']), self.input['openId'], self.input['picUrl'],
 		                      timezone.now(),
 		                      Barrage.OK)
+		return []
 
-
-class ActivityUser(APIView):
+class InsertActivityUser(APIView):
 	def post(self):
 		self.check_input('openId', 'activityId')
-		open_id = self.input['openId']
-		act_id = self.input['activityId']
-		actvity = Activity.selectById(act_id)
-		ActivityUser.insertActivityUser(open_id, activity)
+		openid = self.input['openId']
+		actid = self.input['activityId']
+		Activity = Activity.selectById(actid)
+		if activity is not None:
+			ActivityUser.insertActivityUser(openid, Activity)
+		else:
+			raise InputError('the user attend no activity')
