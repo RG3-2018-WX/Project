@@ -174,8 +174,8 @@ class ActivityUser(models.Model):
 					'name': i.activity.name,
 					'description': i.activity.description,
 					'place': i.activity.place,
-					'startTime': i.activity.startTime,
-					'endTime': i.activity.endTime
+					'startTime': i.activity.start_time,
+					'endTime': i.activity.end_time
 
 				}
 			)
