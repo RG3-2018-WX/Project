@@ -18,9 +18,8 @@ class UserSign(APIView):
 		if actuser is None:
 			raise InputError("No Such user join this activity")
 		if actuser.onSign():
-			
 			return {'view':40}
-		else
+		else:
 			raise LogicError("You Are Not Allowed To Speak")
 	
 
