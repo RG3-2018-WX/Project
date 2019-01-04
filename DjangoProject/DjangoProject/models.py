@@ -152,7 +152,7 @@ class ActivityUser(models.Model):
 		if len(t):
 			return False
 		actuser = ActivityUser(open_id=open_id, activity=activity)
-		actuser = ActivityUser.FOLLOW
+		actuser.status = ActivityUser.FOLLOW
 		actuser.save()
 		return True
 	
