@@ -2,7 +2,7 @@
 <html>
 <link rel="stylesheet" type="text/css" href="/m/css/styles.css">
 <body>
-    <img src="/m/img/0.png" style="width:100%; height:100%">
+    <img src="/m/img/{{ value }}" style="width:100%; height:100%">
     <div class="app" id="app">
         <div id="tt">
             <p id = "contents"></p>
@@ -52,21 +52,21 @@
 
                 $.get("/b/Top/", {}, function (ret) {
                     let contents = document.getElementById("contents");
-                    contents.innerHTML = ret['content'];
-                    if (ret.hasOwnProperty("content")){
+                    contents.innerHTML = ret[0]["content"];
+                    if (ret[0].hasOwnProperty("content")){
                         document.getElementById("tt").style.display = "block";
                     }
                     else{
                         document.getElementById("tt").style.display = "none";
                     }
                     contents.style.color = "white";
-                    if (ret['bolt'] == true) {
+                    if (ret[0]["bolt"] == true) {
                         contents.style.fontWeight = "900";
                     }
-                    if (ret['incline'] == true) {
+                    if (ret[0]["incline"] == true) {
                         contents.style.fontStyle = "italic";
                     }
-                    if (ret['underline'] == true) {
+                    if (ret[0]["underline"] == true) {
                         contents.style.textDecoration = "underline";
                     }
                 });
@@ -81,7 +81,8 @@
                         newnode.style.top = (num * num2) + "px";
                         newnode.style.height = num2 + "px";
                         newnode.style.left = "100%";
-                        newnode.src = ret[i]["picUrl"];
+                        res = ret[i]["picUrl"].slice(2);
+                        newnode.src ="/m/img/" + res;
                         newnode.style.position = "absolute";
                         document.getElementById("tc").appendChild(newnode);
                         pic.push(newnode.offsetLeft);
@@ -160,7 +161,7 @@
                 }
             }
 
-            setInterval(refresh, 1000)
+            setInterval(refresh, 300)
         });
     </script>
 </body>

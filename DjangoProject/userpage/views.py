@@ -104,7 +104,10 @@ class SetPicture(APIView):
 class InsertActivityUser(APIView):
 	def post(self):
 		self.check_input('openId', 'activityId')
-		open_id = self.input['openId']
-		act_id = self.input['activityId']
-		actvity = Activity.selectById(act_id)
-		ActivityUser.insertActivityUser(open_id, activity)
+		openid = self.input['openId']
+		actid = self.input['activityId']
+		activityId = Activity.selectById(actid)
+		if activityId is not None:
+			ActivityUser.insertActivityUser(openid, activityId)
+		else:
+			raise InputError('the user attend no activity')

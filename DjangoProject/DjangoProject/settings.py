@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['*']
 
 #MEDIA_ROOT = os.getcwd()
 #MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img').replace('\\', '/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img/').replace('\\', '/')
 MEDIA_URL = 'static/'
 # Application definition
 

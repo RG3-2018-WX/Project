@@ -1,0 +1,18 @@
+<view class="table">
+  <view class="formTitle">节目单</view>
+  <view class="gap"></view>
+
+  <view class='bg-detail'>
+    <view class="tableRow bg-title">
+      <view class="tableKey leftWidth">节目名称</view>
+      <view class="tableKey rightWidth">表演者</view>
+    </view>
+    <block wx:for="{{listData}}">
+      <view class="tableRow bg-detail">
+        <view class="detail leftWidth" >{{item.name}}</view>
+        <view class="detail rightWidth">{{item.actor}}</view>
+      </view>
+      <view class="line">——————————————————</view>
+    </block>
+  </view>
+</view>

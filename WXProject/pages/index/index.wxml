@@ -1,0 +1,19 @@
+<view class="table">
+  <view class="formTitle">已加入活动列表</view>
+  <view class="gap"></view>
+  <view class="descs">↓点击活动名称查看详情↓</view>
+
+  <view class='bg-detail'>
+    <view class="tableRow bg-title">
+      <view class="tableKey leftWidth">活动名称</view>
+      <view class="tableKey rightWidth">开始时间</view>
+    </view>
+    <block wx:for="{{listData}}" wx:key="" wx:for-index="i">
+      <view class="tableRow bg-detail">
+        <view class="detail leftWidth" bindtap='bindNameTap' data-index='{{i}}'>{{listData[i].name}}</view>
+        <view class="detail rightWidth">{{listData[i].startTime}}</view>
+      </view>
+      <view class="line">——————————————————</view>
+    </block>
+  </view>
+</view>

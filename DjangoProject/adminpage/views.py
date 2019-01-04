@@ -128,7 +128,7 @@ class ActivityList(APIView):
             return {'view': 11}
 
         if 'logout' in self.request.POST:
-            return {'view': 111}
+            return {'view': 0}
 
 
 class ActivityStatus(APIView):
@@ -227,7 +227,7 @@ class ActivityDetail(APIView):
                     }
             
             return {'view': 13, 'name': activity.name, 'description': activity.description,
-                           'startTime': activity.start_time, 'endTime': activity.end_time,
+                           'startTime': activity.start_time.isoformat()[:-6], 'endTime': activity.end_time.isoformat()[:-6],
                            'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
                            'organizer': activity.organizer, 'status': activity.status, 'acitivityid': nid}
         else:
@@ -730,7 +730,7 @@ class SetComment(APIView):
                     }
                 )
             #return render(APIView, 'a/barrage.html', {'commentLinenumber': "", 'list': show_list, 'list2': show_list2})
-            return {'view': 24, 'commentLinenumber': self.request.COOKIES['commentLinenumber'], 'list': show_list2, 'list2': show_list}
+            return {'view': 24, 'commentLinenumber': self.input['ActivityID'], 'list': show_list2, 'list2': show_list}
         
         if 'settop' in self.request.POST:
             self.check_input('content', 'color', 'bolt', 'incline', 'underline')
@@ -876,14 +876,24 @@ class Top(APIView):
     def get(self):
         try:
             top = Comment.objects.get(status=3, activity=Activity.selectById(self.request.COOKIES['activityId']))
-            return {'view': 33, 'result': top}
+            show_list = []
+            show_list.append(
+                {
+                    'content': top.content,
+                    'bolt': top.bolt,
+                    'incline': top.incline,
+                    'color': top.color,
+                    'underline': top.underline
+                }
+            )
+            return {'view': 33, 'result': show_list}
         except:
-            return {'view': 33, 'result': {
+            return {'view': 33, 'result': [{
                 'content': '当前无置顶弹幕',
                 'color': '1',
                 'bolt': False,
                 'incline': False,
-                'underline': False}}
+                'underline': False}]}
         
 
 class Pic(APIView):
@@ -893,9 +903,10 @@ class Pic(APIView):
         for pic in pic_list:
             show_list.append(
                 {
-                    'picUrl': pic.pic_url
+                    'picUrl': pic.pic_url.name
                 }
             )
+        pic_list = Picture.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3), status=1, activity=Activity.selectById(self.request.COOKIES['activityId'])).delete()
         return {'view': 32, 'result': show_list}
     
 
@@ -911,7 +922,7 @@ class Barrier(APIView):
                 'underline': i.underline,
                 'incline': i.incline
             })
-        Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3), status=1).delete()
+        Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3), status=1, activity=Activity.selectById(self.request.COOKIES['activityId'])).delete()
         return {'view': 31, 'result': result}
         
 # Create your views here
