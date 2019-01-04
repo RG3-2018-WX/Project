@@ -169,16 +169,7 @@ class ActivityUser(models.Model):
 		list = ActivityUser.objects.filter(open_id=open_id)
 		showlist = []
 		for i in list:
-			showlist.append(
-				{
-					'name': i.activity.name,
-					'description': i.activity.description,
-					'place': i.activity.place,
-					'startTime': i.activity.start_time,
-					'endTime': i.activity.end_time
-
-				}
-			)
+			showlist.append(i.activity)
 		return showlist
 
 
