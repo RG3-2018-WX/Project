@@ -169,7 +169,7 @@ class ActivityUser(models.Model):
 		list = ActivityUser.objects.filter(open_id=open_id)
 		showlist = []
 		for i in list:
-			show_list.append(
+			showlist.append(
 				{
 					'name': i.activity.name,
 					'description': i.activity.description,
