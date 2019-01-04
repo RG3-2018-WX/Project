@@ -173,7 +173,7 @@ class APIView(BaseView):
         
             #弹幕墙页面
             if result['view'] == 30:
-                return render(self.request, 'b/2.html')
+                return render(self.request, 'b/2.html', {'value': result['r']})
                 #return JsonResponse({'con': "",
                         #'picurl' : "",
                         #'color' : "",
