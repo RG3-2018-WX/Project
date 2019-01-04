@@ -903,9 +903,10 @@ class Pic(APIView):
         for pic in pic_list:
             show_list.append(
                 {
-                    'picUrl': pic.pic_url
+                    'picUrl': pic.pic_url.name
                 }
             )
+        pic_list = Picture.objects.filter(time__lt=timezone.now()+timedelta(seconds=-3), status=1, activity=Activity.selectById(self.request.COOKIES['activityId'])).delete()
         return {'view': 32, 'result': show_list}
     
 
@@ -921,7 +922,7 @@ class Barrier(APIView):
                 'underline': i.underline,
                 'incline': i.incline
             })
-        Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3), status=1).delete()
+        Comment.objects.filter(time__lt=timezone.now() + timedelta(seconds=-3), status=1, activity=Activity.selectById(self.request.COOKIES['activityId'])).delete()
         return {'view': 31, 'result': result}
         
 # Create your views here
