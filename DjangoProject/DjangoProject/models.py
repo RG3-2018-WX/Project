@@ -144,9 +144,6 @@ class ActivityUser(models.Model):
 	FOLLOW = 2
 	SIGN = 3
 	
-	def __init__(self):
-		self.status = self.FOLLOW
-	
 	@staticmethod
 	def insertActivityUser(open_id, activity):
 		if activity is None:
@@ -155,6 +152,7 @@ class ActivityUser(models.Model):
 		if len(t):
 			return False
 		actuser = ActivityUser(open_id=open_id, activity=activity)
+		actuser = ActivityUser.FOLLOW
 		actuser.save()
 		return True
 	
