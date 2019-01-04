@@ -96,14 +96,13 @@ class LotteryInfo(APIView):
 
 
 class SetComment(APIView):
-	def get(self):
-		print(self.input)
-		self.check_input('openId')
+	def post(self):
+		self.check_input('openId','activityId','color','content','bolt','underline','incline')
 		Comment.insertComment(Activity.selectById(self.input['activityId']), self.input['openId'],
 		                      self.input['color'], self.input['content'],
 		                      self.input['bolt'], self.input['underline'], self.input['incline'], timezone.now(),
 		                      Barrage.OK)
-		return {'viewl': 40}
+		return {'view': 40}
 
 
 class SetPicture(APIView):
