@@ -15,13 +15,10 @@ from codex.baseview import APIView
 class UserSign(APIView):
 	def post(self):
 		self.check_input('openId','activityId')
-		actuser = ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId'])
-		if actuser is None:
-			raise InputError("No Such user join this activity")
-		if actuser.onSign():
+		if ActivityUser.onSign(self.input['openId'],self.input['activityId']):
 			return {'view':40}
 		else:
-			raise LogicError("You Are Not Allowed To Speak")
+			raise LogicError("You Have Not Followed.")
 	
 
 class ActivityList(APIView):
