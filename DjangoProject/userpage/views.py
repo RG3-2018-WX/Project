@@ -14,8 +14,8 @@ from codex.baseview import APIView
 
 class UserSign(APIView):
 	def post(self):
-		self.check_input('openId','acticityId')
-		actuser = ActivityUser.selectActivityUser(self.input['openId'],self.input['acticityId'])
+		self.check_input('openId','activityId')
+		actuser = ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId'])
 		if actuser is None:
 			raise InputError("No Such user join this activity")
 		if actuser.onSign():
