@@ -100,7 +100,10 @@ class LotteryInfo(APIView):
 class SetComment(APIView):
 	def post(self):
 		self.check_input('openId','activityId','color','content','bolt','underline','incline')
-		if ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId']) is None:
+		usr = ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId'])
+		if usr is None:
+			raise LogicError("Not Joined yet!")
+		if usr.status != ActivityUser.SIGN:
 			raise LogicError("Not Signed yet!")
 		Comment.insertComment(activity = Activity.selectById(self.input['activityId']), open_id = self.input['openId'],
 		                      color = self.input['color'], content = self.input['content'],
