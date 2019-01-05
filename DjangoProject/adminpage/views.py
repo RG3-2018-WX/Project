@@ -890,7 +890,7 @@ class Top(APIView):
         except:
             return {'view': 33, 'result': [{
                 'content': '当前无置顶弹幕',
-                'color': '1',
+                'color': '16777215',
                 'bolt': False,
                 'incline': False,
                 'underline': False}]}
@@ -919,6 +919,7 @@ class Barrier(APIView):
             result.append({
                 'content': i.content,
                 'bolt': i.bolt,
+                'color': i.color,
                 'underline': i.underline,
                 'incline': i.incline
             })
