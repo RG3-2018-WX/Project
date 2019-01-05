@@ -388,7 +388,7 @@ class WechatTest(TestCase):
     @before_test
     def test_program_list_get(self):
         c = Client()
-        d = c.get('/api/a/program/list', {'activityId': '12'})
+        d = c.get('/api/a/program/list', {'activityId': '1'})
         if d.status_code == 404:
             return
         json_text = json.loads(d.content.decode('utf-8'))
