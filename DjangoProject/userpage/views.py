@@ -12,7 +12,7 @@ from codex.baseerror import *
 from codex.baseview import APIView
 
 class UserSign(APIView):
-    def post(self):
+    def get(self):
         self.check_input('openId','activityId')
         print("status before",ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
         if ActivityUser.onSign(self.input['openId'],self.input['activityId']):
@@ -97,19 +97,18 @@ class LotteryInfo(APIView):
 
 
 class SetComment(APIView):
-	def post(self):
+	def get(self):
 		self.check_input('openId','activityId','color','content','bolt','underline','incline')
 		usr = ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId'])
 		if usr is None:
 			raise LogicError("Not Joined yet!")
-		if usr.status != ActivityUser.SIGN:
-			raise LogicError("Not Signed yet!")
+		#if usr.status != ActivityUser.SIGN:
+		#	raise LogicError("Not Signed yet!")
 		Comment.insertComment(activity = Activity.selectById(self.input['activityId']), open_id = self.input['openId'],
 		                      color = self.input['color'], content = self.input['content'],
 		                      bolt = self.input['bolt'], underline = self.input['underline'], incline = self.input['incline'],time = timezone.now(),
 							  status = Barrage.OK)
 		return {'view': 40}
-
 
 class SetPicture(APIView):
 	def post(self):
