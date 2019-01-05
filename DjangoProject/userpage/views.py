@@ -12,7 +12,7 @@ from codex.baseerror import *
 from codex.baseview import APIView
 
 class UserSign(APIView):
-    def get(self):
+    def post(self):
         self.check_input('openId','activityId')
         print("status before",ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
         if ActivityUser.onSign(self.input['openId'],self.input['activityId']):
@@ -97,7 +97,7 @@ class LotteryInfo(APIView):
 
 
 class SetComment(APIView):
-	def get(self):
+	def post(self):
 		self.check_input('openId','activityId','color','content','bolt','underline','incline')
 		usr = ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId'])
 		if usr is None:
