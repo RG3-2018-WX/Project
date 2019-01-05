@@ -1,3 +1,4 @@
+
 import datetime
 import json
 import re
@@ -36,7 +37,8 @@ class ActivityList(APIView):
                     'description': activity.description,
                     'startTime':activity.start_time,
                     'place': activity.place,
-                    'endTime':activity.end_time
+                    'endTime':activity.end_time,
+					'sign':activity.sign
                 }
             )
         if list:
@@ -98,6 +100,8 @@ class LotteryInfo(APIView):
 class SetComment(APIView):
 	def post(self):
 		self.check_input('openId','activityId','color','content','bolt','underline','incline')
+		if ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId']) is None:
+			raise LogicError("Not Signed yet!")
 		Comment.insertComment(activity = Activity.selectById(self.input['activityId']), open_id = self.input['openId'],
 		                      color = self.input['color'], content = self.input['content'],
 		                      bolt = self.input['bolt'], underline = self.input['underline'], incline = self.input['incline'],time = timezone.now(),

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 import random, string
 from django.contrib.auth.models import User
@@ -199,7 +200,7 @@ class Barrage(models.Model):
 
 
 class Comment(Barrage):
-	content = models.CharField(max_length=100)
+	content = models.CharField(max_length=300)
 	color = models.IntegerField()
 	bolt = models.BooleanField()
 	underline = models.BooleanField()
