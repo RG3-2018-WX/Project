@@ -242,10 +242,18 @@ class ActivityDetail(APIView):
             activity = Activity.selectById(nid)
             old_activity = activity
             if activity:
+                if self.input['picUrl'] == "":
+                    picUrl = activity.pic_url
+                else:
+                    picUrl = self.input['picUrl'][0]
+                if self.input['bgPicUrl'] == "":
+                    bgPicUrl = activity.bg_pic_url
+                else:
+                    bgPicUrl = self.input['bgPicUrl'][0]
                 Activity.updateActivity(nid, self.request.user, self.input['description'],
-                                            self.input['picUrl'][0],
+                                        picUrl,
                                             self.input['startTime'], self.input['endTime'],
-                                            self.input['bgPicUrl'][0], activity.status, self.input['place'],
+                                        bgPicUrl, activity.status, self.input['place'],
                                             self.input['name'])
 
             else:
