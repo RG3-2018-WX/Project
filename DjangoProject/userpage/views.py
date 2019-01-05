@@ -11,15 +11,20 @@ from DjangoProject.models import ActivityUser, Activity, LotteryResult, Comment,
 from codex.baseerror import *
 from codex.baseview import APIView
 
-
 class UserSign(APIView):
-	def post(self):
-		self.check_input('openId','activityId')
-		if ActivityUser.onSign(self.input['openId'],self.input['activityId']):
-			return {'view':40}
-		else:
-			raise LogicError("You Have Not Followed.")
-	
+    def post(self):
+        self.check_input('openId','activityId')
+        f = open('/var/log/django.log','w')
+        f.write("status before",ActiivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
+        if ActivityUser.onSign(self.input['openId'],self.input['activityId']):
+            f.write("status",ActiivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
+            f.close()
+            return {'view':40}
+        else:
+            f.close()
+            raise LogicError("You Have Not Followed.")
+
+
 
 class ActivityList(APIView):
     def get(self):
