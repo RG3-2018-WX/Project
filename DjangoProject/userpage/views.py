@@ -12,16 +12,13 @@ from codex.baseerror import *
 from codex.baseview import APIView
 
 class UserSign(APIView):
-    def post(self):
+    def get(self):
         self.check_input('openId','activityId')
-        f = open('/var/log/django.log','w')
-        f.write("status before",ActiivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
+        print("status before",ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
         if ActivityUser.onSign(self.input['openId'],self.input['activityId']):
-            f.write("status",ActiivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
-            f.close()
+            print("status after",ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId']).status)
             return {'view':40}
         else:
-            f.close()
             raise LogicError("You Have Not Followed.")
 
 
@@ -100,7 +97,7 @@ class LotteryInfo(APIView):
 
 
 class SetComment(APIView):
-	def post(self):
+	def get(self):
 		self.check_input('openId','activityId','color','content','bolt','underline','incline')
 		usr = ActivityUser.selectActivityUser(self.input['openId'],self.input['activityId'])
 		if usr is None:
