@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^Top/', Top.as_view()),
     url(r'^Pic/', Pic.as_view()),
     url(r'^Barrier/', Barrier.as_view()),
+    url(r'^Activitys/', Activitys.as_view()),
 ]

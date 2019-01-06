@@ -206,6 +206,12 @@ class APIView(BaseView):
         
             if result['view'] == 50:
                 return JsonResponse({'linenumber': int(result['number'])})
+            
+            if result['view'] == 51:
+                return render(self.request, 'a/Activitys.html', {'name': result['name'], 'description': result['description'],
+                           'startTime': result['startTime'], 'endTime': result['endTime'],
+                           'place': result['place'], 'picUrl': result['picUrl'], 'bgPicUrl': result['bgPicUrl'],
+                           'status': result['status'], 'id': result['acitivityid']})
 
         return JsonResponse(response, content_type="application/json",safe=False)
 

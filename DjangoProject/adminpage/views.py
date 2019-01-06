@@ -320,6 +320,32 @@ class ActivityDetail(APIView):
             return {'view': 25}
 
 
+class Activitys(APIView):
+    def get(self):
+        #self.check_input('activityId')
+        #activity = Activity.selectById(self.input['activityId'])
+        nid = self.request.GET.get('nid')
+        activity = Activity.selectById(nid)
+        if activity:
+            data = {'name': activity.name,
+                    'description': activity.description,
+                    'startTime': activity.start_time,
+                    'endTime': activity.end_time,
+                    'place': activity.place,
+                    'picUrl': activity.pic_url,
+                    'bgPicUrl': activity.bg_pic_url,
+                    'organizer': activity.organizer,
+                    'status': activity.status
+                    }
+            
+            return {'view': 51, 'name': activity.name, 'description': activity.description,
+                           'startTime': activity.start_time.isoformat()[:-6], 'endTime': activity.end_time.isoformat()[:-6],
+                           'place': activity.place, 'picUrl': activity.pic_url, 'bgPicUrl': activity.bg_pic_url,
+                           'organizer': activity.organizer, 'status': activity.status, 'acitivityid': nid}
+        else:
+            raise InputError()
+
+
 class LotteryCreate(APIView):
     def get(self):
         print("Activity Create Get")
