@@ -16,4 +16,5 @@
       <view class="line">——————————————————</view>
     </block>
   </view>
+  <button bindtap='addActivity'>扫码加入活动</button>
 </view>

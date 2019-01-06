@@ -13,7 +13,8 @@ Page({
           {name: '斜体字', value: '2',checked: false},
           {name: '下划线', value: '3',checked: false}
     ],
-    color:['red','blue','yellow','green','black','#00FFFF'],
+    color:['#000000','#00FFFF','#0000FF','#FFFF00','#00FF00','#FF0000','#FF00FF'],
+    shendColor:['0','65535','255','16776960','65280','16711680','16711935'],
     letterColor:''
   },
 
@@ -47,7 +48,7 @@ Page({
     let that = this;
     let index = event.target.dataset.index
     console.log(index);
-    let color = that.data.color[index]
+    let color = that.data.shendColor[index]
     console.log(color);
     that.setData({
       letterColor:color

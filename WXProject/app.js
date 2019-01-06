@@ -2,10 +2,10 @@ App({
     globalData:
     {
         userInfo:{nickName:'',OpenId:''},
-        activityID:'',
+        activityInfo:{activityID:'',activityName:'',signNum:''},
         hasSignIn:false,
         letter: {
-            color:'black',
+            color:'0',
             bolt:false,
             incline:false,
             underline:false

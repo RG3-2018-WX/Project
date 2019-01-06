@@ -5,34 +5,52 @@ Page({
    * 页面的初始数据
    */
   data: {
-    detailData:{}
+    detailData:{},
+    activityId:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let activityID = app.globalData.activityID;
+    let activityID = app.globalData.activityInfo.activityID;
     this.setData({
-      activityID:activityID
+      activityId:activityID
     })
     let that = this;
     wx.request({
-      url:'https://668855.iterator-traits.com/api/u/activity/program?id='+activityID,
+      url:'https://668855.iterator-traits.com/api/u/activity/program?id='+that.data.activityId,
       method:'GET',
       header:"",
       data:{
-        activityId:activityID
+        activityId:that.data.activityId
       },
       success:function(res)
       {
+        console.log(res)
+        if(res.data.code != 0)
+        {
+          console.log("啊啊啊啊")
+          that.showNoActivity(res.data.msg)
+        }
+        else
+        {
         that.getInfo(res)
+        }
       },
       fail:function(err)
       {
         console.log('fail')
         console.log(err)
       }
+    })
+  },
+  showNoActivity: function(wrongMsg) {
+    let that = this
+    wx.showModal({
+      title: '无法获取当前节目',
+      content: wrongMsg,
+      showCancel: false,
     })
   },
   getInfo:function(info)
