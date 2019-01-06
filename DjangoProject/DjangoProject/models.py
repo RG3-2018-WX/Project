@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 import random, string
 from django.contrib.auth.models import User
@@ -144,6 +145,17 @@ class ActivityUser(models.Model):
 	FOLLOW = 2
 	SIGN = 3
 	
+	
+	@staticmethod
+	def selectActivityUser(open_id,activity_id):
+		activity = Activity.selectById(activity_id)
+		if activity is None:
+			return  None
+		result = ActivityUser.objects.filter(open_id = open_id,activity = activity)
+		if not len(result):
+			return None
+		return result[0]
+	
 	@staticmethod
 	def insertActivityUser(open_id, activity):
 		if activity is None:
@@ -156,12 +168,14 @@ class ActivityUser(models.Model):
 		actuser.save()
 		return True
 	
-	def onSign(self):
-		if self.status != self.NO_SPEAKING:
-			self.status = self.SIGN
-			return True
-		else:
+	@staticmethod
+	def onSign(open_id,activity_id):
+		actusr = ActivityUser.selectActivityUser(open_id,activity_id)
+		if actusr is None:
 			return False
+		actusr.status = ActivityUser.SIGN
+		actusr.save()
+		return True
 		
 		
 	@staticmethod
@@ -188,7 +202,7 @@ class Barrage(models.Model):
 
 
 class Comment(Barrage):
-	content = models.CharField(max_length=100)
+	content = models.CharField(max_length=300)
 	color = models.IntegerField()
 	bolt = models.BooleanField()
 	underline = models.BooleanField()

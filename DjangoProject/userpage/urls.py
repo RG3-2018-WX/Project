@@ -15,5 +15,7 @@ urlpatterns = [
     url(r'^lottery/list/?$', LotteryInfo.as_view()),
     url(r'^activity/comment/?$', SetComment.as_view()),
     url(r'^activity/picture/?$', SetPicture.as_view()),
-    url(r'^activity/user/?$',InsertActivityUser.as_view())
+    url(r'^activity/user/?$',InsertActivityUser.as_view()),
+    url(r'^activity/sign/?$',UserSign.as_view()),
+	
 ]

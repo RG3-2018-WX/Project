@@ -59,7 +59,10 @@
                     else{
                         document.getElementById("tt").style.display = "none";
                     }
-                    contents.style.color = "white";
+                    color = parseInt(ret[0]["color"]);
+                    color = color.toString(16);
+                    color = "#" + color;
+                    contents.style.color = color;
                     if (ret[0]["bolt"] == true) {
                         contents.style.fontWeight = "900";
                     }
@@ -117,7 +120,10 @@
                         }
                         newnode.style.background = "#" + randomColor();
                         newnode.style.position = "absolute";
-                        newnode.style.color = "#" + randomColor();
+                        color = parseInt(ret[i]["color"]);
+                        color = color.toString(16);
+                        color = "#" + color;
+                        newnode.style.color = color;
                         document.getElementById("tc").appendChild(newnode);
                         pic.push(newnode.offsetLeft);
                         timer = setInterval(move, 0.05);
