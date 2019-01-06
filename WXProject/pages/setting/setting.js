@@ -13,8 +13,8 @@ Page({
           {name: '斜体字', value: '2',checked: false},
           {name: '下划线', value: '3',checked: false}
     ],
-    color:['#000000','#00FFFF','#0000FF','#FFFF00','#00FF00','#FF0000','#FF00FF'],
-    shendColor:['0','65535','255','16776960','65280','16711680','16711935'],
+    color:['#000000','#00FFFF','#4169E1','#FFFF00','#00FF00','#FF0000','#FF00FF'],
+    shendColor:['0','65535','4286945','16776960','65280','16711680','16711935'],
     letterColor:''
   },
 
@@ -53,6 +53,7 @@ Page({
     that.setData({
       letterColor:color
     })
+    util.showSuccess('已选颜色')
   },
 
   save:function(event)
