@@ -53,7 +53,7 @@ Page({
     that.setData({
       letterColor:color
     })
-    util.showSuccess('已选颜色')
+    util.showSuccess('选中颜色')
   },
 
   save:function(event)
@@ -73,7 +73,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
   },
 
   /**
