@@ -19,7 +19,7 @@ Page({
     console.log(activityID)
     let that = this;
     wx.request({
-      url: 'https://668855.iterator-traits.com/api/u/activity/detail?id=' + activityID,
+      url: 'https://tsinghuarg3.xyz/api/u/activity/detail?id=' + activityID,
       method: 'GET',
       header: "",
       data: {

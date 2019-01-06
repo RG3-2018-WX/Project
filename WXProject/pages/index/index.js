@@ -69,7 +69,7 @@ Page({
         console.log(activityID)
         let OpenId = that.data.userInfo.OpenId
         wx.request({
-          url: 'https://668855.iterator-traits.com/api/u/activity/user',
+          url: 'https://tsinghuarg3.xyz/api/u/activity/user',
           method: 'POST',
           data: {
             openId: OpenId,
@@ -106,7 +106,7 @@ Page({
   getdata: function() {
     let that = this
     wx.request({
-      url: 'https://668855.iterator-traits.com/api/u/activity/list',
+      url: 'https://tsinghuarg3.xyz/api/u/activity/list',
       method: 'GET',
       header: "",
       data: {

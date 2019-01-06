@@ -66,7 +66,7 @@ Page({
         that.sign();
       } else if (that.data.msg.content == '抽奖情况') {
         wx.request({
-          url: 'https://668855.iterator-traits.com/api/u/lottery/list',
+          url: 'https://tsinghuarg3.xyz/api/u/lottery/list',
           method: 'GET',
           data: {
             activityId: that.data.activityID,
@@ -87,7 +87,7 @@ Page({
         })
       } else {
         wx.request({
-          url: 'https://668855.iterator-traits.com/api/u/activity/comment',
+          url: 'https://tsinghuarg3.xyz/api/u/activity/comment',
           method: 'POST',
           data: {
             content: that.data.msg.content,
@@ -117,7 +117,7 @@ Page({
   sign: function() {
     let that = this
     wx.request({
-      url: 'https://668855.iterator-traits.com/api/u/activity/sign',
+      url: 'https://tsinghuarg3.xyz/api/u/activity/sign',
       method: 'POST',
       data: {
         activityId: that.data.activityID,
@@ -180,10 +180,10 @@ Page({
         })
         that.bottom();
         wx.request({
-          url: 'https://668855.iterator-traits.com/api/u/activity/comment',
+          url: 'https://tsinghuarg3.xyz/api/u/activity/picture',
           method: 'POST',
           data: {
-            content: pic,
+            picUrl: pic,
             activityId: that.data.activityID,
             openId: app.globalData.userInfo.OpenId,
           },

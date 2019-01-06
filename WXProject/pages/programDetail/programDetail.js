@@ -19,7 +19,7 @@ Page({
     })
     let that = this;
     wx.request({
-      url:'https://668855.iterator-traits.com/api/u/activity/program?id='+that.data.activityId,
+      url:'https://tsinghuarg3.xyz/api/u/activity/program?id='+that.data.activityId,
       method:'GET',
       header:"",
       data:{
